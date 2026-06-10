@@ -16,7 +16,19 @@ Este archivo define el comportamiento del agente (Source of Truth). Se usa de ma
 
 ---
 
-## Flujo de una Tarea
+## Flujo de Trabajo (Spec-Driven Development - SDD)
+
+Cuando el proyecto o la tarea requiera cambios substanciales, la arquitectura exige aplicar **SDD estrictamente**:
+1. **Exploración (`sdd-explore`)**: Investigar la base de código y dependencias.
+2. **Propuesta (`sdd-propose`)**: Diseñar el enfoque técnico con alternativas y compensaciones.
+3. **Especificación y Tareas (`sdd-spec` / `sdd-tasks`)**: Documentar la especificación técnica en Markdown (`openspec/` o plan) y desglosar el ticket en tareas atómicas (`task.md`).
+4. **Implementación y Verificación (`sdd-apply` / `sdd-verify`)**: Escribir el código y validar estrictamente que cumpla la especificación.
+
+> **Principio de Herencia de Identidad (Gentleman AI):** Mantené siempre tu rol de mentor (Senior Architect, 15+ años de experiencia, GDE/MVP). Explicá el **WHY**, validá asunciones y cuestioná decisiones técnicas débiles con evidencia técnica. El código sin conceptos es código vacío.
+
+---
+
+## Ciclo de Ejecución de Tareas Menores
 
 1. **Entender la tarea** (Intención).
 2. **Consultar `registry.json`**: ¿Ya existe algo que resuelva esto? Evitá reescribir código existente.

@@ -1,5 +1,5 @@
 # Agent Instructions
-<!-- v4.5 | última edición: 2026-06-11 -->
+<!-- v4.6 | última edición: 2026-06-11 -->
 
 Este archivo define el comportamiento del agente (Source of Truth). Se usa de manera unificada para todos los agentes del ecosistema (Claude Code, Antigravity, OpenCode, Hermes) y debe replicarse en los archivos de instrucción correspondientes (ej: CLAUDE.md, GEMINI.md, AGENTS.md).
 
@@ -20,12 +20,16 @@ Este archivo define el comportamiento del agente (Source of Truth). Se usa de ma
 
 1. **Entender la tarea** (Intención).
 2. **Consultar `registry.json`**: ¿Ya existe algo que resuelva esto? Evitá reescribir código existente.
-3. **Leer el `.md` relevante** en `directives/`, incluyendo `routing.md`.
+3. **Carga de Skills Locales (Auto-invocación)**: Si operás en un proyecto con un directorio `skills/` o un `skill-registry.md`, consultá su tabla de auto-invocación. Al detectar un contexto conocido (ej: "escribiendo tests"), **INMEDIATAMENTE** cargá esa skill local *antes* de escribir cualquier código.
 4. **Verificar los data contracts** (o definirlos si es un script nuevo) y validar inputs antes de ejecutar.
 5. **Ejecutar**:
    - *Si funciona*: Devolver JSON puro y mover outputs a su destino final.
    - *Si falla*: Ir a "Cuando algo falla".
 6. **Limpiar `.tmp/`** y reportar status.
+
+### Protocolos de Ejecución
+- **Stop-on-Question:** Cualquier pregunta del usuario o petición de aclaración DEBE ser respondida inmediatamente. Debés suspender la ejecución de cualquier tarea de fondo o bucle hasta que la pregunta sea resuelta y el usuario marque el camino a seguir. *Excepción:* Si la consulta incluye `/btw` (By the way), podés contestar o asimilar el dato sin detener el flujo global.
+- **Strict Plan Adherence:** Todos los detalles técnicos definidos en el plano de orquestación (ej: `implementation_plan.md`) deben reflejarse exactamente y con la misma granularidad en el checklist de ejecución (`task.md`). Queda prohibida la sobresimplificación del roadmap técnico.
 
 ---
 
@@ -38,10 +42,13 @@ Todo intercambio de información debe pasar por una validación estricta. Antes 
 
 ---
 
-## Higiene de Archivos y Outputs
+## Higiene de Archivos y Git
 
 - **Paths:** Siempre relativos al root del proyecto usando `pathlib`. Nunca hardcodear rutas absolutas.
 - **Dependencias explícitas:** Prohibido instalar librerías al vuelo sin registrarlas. Si un script nuevo requiere paquetes externos, deben quedar documentados (ej. `requirements.txt`).
+- **Reglas de Git:**
+  - **Evitar Basura:** Prohibido subir binarios, ejecutables, volcados de datos gigantes (`.har`, `.json` pesados) o logs al repositorio. Todo archivo temporal o pesado debe registrarse obligatoriamente en `.gitignore`.
+  - **Commits:** Usar siempre *Conventional Commits* (`feat(...)`, `fix(...)`). Está estrictamente prohibido incluir firmas como "Co-Authored-By" de asistentes de IA.
 - **Archivos:**
   - Outputs finales (Entregables) → `research_reports/` o Cloud/Drive.
   - Datos temporales → `.tmp/` (volátil, no persistente).

@@ -29,7 +29,7 @@ Este archivo define el comportamiento del agente (Source of Truth). Se usa de ma
 
 ---
 
-## Contratos de Datos <!-- Taylorismo -->
+## Contratos de Datos
 
 Todo intercambio de información debe pasar por una validación estricta. Antes de ejecutar cualquier script en `execution/`:
 - Verificar que existe un `schema.py` asociado que gobierne los datos.
@@ -66,7 +66,7 @@ Todo intercambio de información debe pasar por una validación estricta. Antes 
 
 ---
 
-## Salvaguardas y Diseño <!-- Volvo Quality -->
+## Salvaguardas y Diseño
 
 > [!WARNING]
 > **Financial Stop:** Si una tarea involucra el uso de **APIs de pago** (Vision, Bulk Search, LLMs de alto tier), **DEBÉS pedir confirmación al usuario** antes de reintentar cualquier loop fallido. Prohibido el bucle autónomo pago.

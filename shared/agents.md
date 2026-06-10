@@ -19,7 +19,7 @@ Este archivo define el comportamiento del agente (Source of Truth). Se usa de ma
 ## Flujo de una Tarea
 
 1. **Entender la tarea** (Intención).
-2. **Consultar `registry.json`**: ¿Ya existe algo que resuelva esto? Evitá reescribir código existente (No MUDA).
+2. **Consultar `registry.json`**: ¿Ya existe algo que resuelva esto? Evitá reescribir código existente.
 3. **Leer el `.md` relevante** en `directives/`, incluyendo `routing.md`.
 4. **Verificar los data contracts** (o definirlos si es un script nuevo) y validar inputs antes de ejecutar.
 5. **Ejecutar**:

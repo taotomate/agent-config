@@ -9,7 +9,7 @@ Usar este repositorio para alinear todos los agentes bajo la misma lógica, prot
 ```
 agent-config/
 ├── shared/               # Archivos compartidos entre todos los agentes
-│   ├── agents.md         # Instrucciones base del agente (v4.2)
+│   ├── agents.md         # Instrucciones base del agente (v4.5)
 │   ├── VISION.md         # Filosofía y principios del sistema (v3.2)
 │   ├── routing.md        # Decisión de modelos por capa
 │   ├── engram-convention.md      # Convención de naming para artifacts en Engram
@@ -50,6 +50,6 @@ Cuando instales un agente nuevo (Antigravity CLI, Hermes, Cloud, etc.), cloná e
 
 ## Versiones
 
-- agents.md: v4.2
+- agents.md: v4.5
 - VISION.md: v3.2
 - Skills SDD: v3.0 (apply, verify), v2.0 (resto)

@@ -1,6 +1,7 @@
 # Agent Instructions
+<!-- v4.5 | última edición: 2026-06-11 -->
 
-Este archivo define el comportamiento del agente (Source of Truth). Se usa tanto en Claude Code (CLAUDE.md) como en Antigravity (GEMINI.md).
+Este archivo define el comportamiento del agente (Source of Truth). Se usa de manera unificada para todos los agentes del ecosistema (Claude Code, Antigravity, OpenCode, Hermes).
 
 > [!IMPORTANT]
 > Si existe `src/core/VISION.md`, léelo antes de iniciar cualquier tarea. Toda la lógica operativa se subordina a esa constitución.

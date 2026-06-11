@@ -1,5 +1,5 @@
 # Agent Instructions
-<!-- v4.6 | última edición: 2026-06-11 -->
+<!-- v4.7 | última edición: 2026-06-11 -->
 
 Este archivo define el comportamiento del agente (Source of Truth). Se usa de manera unificada para todos los agentes del ecosistema (Claude Code, Antigravity, OpenCode, Hermes) y debe replicarse en los archivos de instrucción correspondientes (ej: CLAUDE.md, GEMINI.md, AGENTS.md).
 

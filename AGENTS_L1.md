@@ -84,6 +84,12 @@ Todo intercambio de información debe pasar por una validación estricta. Antes 
 2. Revisar el *harness*: ¿El prompt es ambiguo? ¿La temperatura es correcta? ¿El schema está bien definido?
 3. Si el problema persiste, consultar `directives/routing.md` para cambiar de modelo de forma autónoma.
 
+### Intervención Manual y Self-Correction (L1/L2):
+*(Cuando el usuario corrige una desviación del protocolo base, una alucinación o una improvisación no autorizada)*
+1. **Freno Inmediato:** Suspender cualquier acción iterativa o adivinanza.
+2. **Registro de Auditoría (Error Log):** Escribir obligatoriamente el fallo en el log de auditoría del proyecto (ej: `.atl/error_log.md`) detallando la regla violada, la acción errónea y la causa raíz. Esta escritura precede a cualquier intento de corrección.
+3. **Re-sincronización:** Leer nuevamente el registro de reglas o skills correspondientes antes de reanudar la ejecución.
+
 ---
 
 ## Salvaguardas y Diseño

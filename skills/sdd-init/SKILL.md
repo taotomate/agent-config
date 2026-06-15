@@ -5,7 +5,11 @@ description: >
   Trigger: When user wants to initialize SDD in a project, or says "sdd init", "iniciar sdd", "openspec init".
 license: MIT
 metadata:
-  author: gentleman-programming
+  author: TaoTomate
+  generator_model: gemini-1.5-pro
+  upstream_source: local_custom_skill
+  upstream_date: N/A
+  local_sync_date: 2026-06-15
   version: "3.0"
 ---
 
@@ -352,6 +356,3 @@ Ready for /sdd-explore <topic> or /sdd-new <change-name>.
 - ALWAYS persist testing capabilities as a separate observation/section — downstream phases depend on it
 - If Strict TDD Mode is requested but no test runner exists, set strict_tdd: false and explain why
 - Return a structured envelope with: `status`, `executive_summary`, `detailed_report` (optional), `artifacts`, `next_recommended`, and `risks`
-
-
-<!-- youtube-scraper: processed -->

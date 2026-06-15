@@ -5,7 +5,11 @@ description: >
   Trigger: When the orchestrator launches you to create or update a proposal for a change.
 license: MIT
 metadata:
-  author: gentleman-programming
+  author: TaoTomate
+  generator_model: gemini-1.5-pro
+  upstream_source: local_custom_skill
+  upstream_date: N/A
+  local_sync_date: 2026-06-15
   version: "2.0"
 ---
 
@@ -168,6 +172,3 @@ Ready for specs (sdd-spec) or design (sdd-design).
 - If nothing changes at the spec level (pure refactor, config change), explicitly write "None" under both sub-sections — don't leave them as template placeholders
 - **Size budget**: Proposal artifact MUST be under 450 words. Use bullet points and tables over prose. Headers organize, not explain.
 - Return envelope per **Section D** from `skills/_shared/sdd-phase-common.md`.
-
-
-<!-- youtube-scraper: processed -->

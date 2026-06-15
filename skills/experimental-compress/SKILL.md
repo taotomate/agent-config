@@ -6,6 +6,11 @@ description: >
   inyectar el SOTA Sync Point en el hilo actual).
   Trigger: "prueba compress", "distill experimental", "telemetria de destilacion".
 metadata:
+  author: TaoTomate
+  generator_model: gemini-1.5-pro
+  upstream_source: local_custom_skill
+  upstream_date: N/A
+  local_sync_date: 2026-06-15
   version: "3.0"
 ---
 
@@ -30,6 +35,3 @@ Si el usuario pide ejecutar la destilación, el punto de sincronización, o dice
 3. El script de python en modo `reduce` leerá el archivo de estado actualizado (`distill_state_<id>.json`), llamará al modelo (Fase Reduce) y te devolverá un JSON por stdout.
 4. **UX Sync**: Parseá ese JSON y agarrá el campo `summary`.
 5. DEBES escupir el contenido exacto de ese `summary` en el chat. No lo resumas ni lo escondas en un artefacto. Esto servirá como el ancla de memoria (SOTA Sync Point) para el LLM y el usuario.
-
-
-<!-- youtube-scraper: processed -->

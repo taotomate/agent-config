@@ -5,7 +5,11 @@ description: >
   Trigger: When writing Go tests, using teatest, or adding test coverage.
 license: Apache-2.0
 metadata:
-  author: gentleman-programming
+  author: TaoTomate
+  generator_model: gemini-1.5-pro
+  upstream_source: local_custom_skill
+  upstream_date: N/A
+  local_sync_date: 2026-06-15
   version: "1.0"
 ---
 
@@ -353,6 +357,3 @@ go test -short ./...                    # Skip integration tests
 - **System Tests**: See `installer/internal/system/*_test.go`
 - **Golden Files**: See `installer/internal/tui/testdata/`
 - **Teatest Docs**: https://github.com/charmbracelet/bubbletea/tree/master/teatest
-
-
-<!-- youtube-scraper: processed -->

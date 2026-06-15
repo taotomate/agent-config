@@ -6,6 +6,11 @@ description: >
   solo las decisiones finales y su justificación arquitectónica.
   Trigger: "destilar hilo", "destilación técnica", "extraer contexto", "crear dossier".
 metadata:
+  author: TaoTomate
+  generator_model: gemini-1.5-pro
+  upstream_source: local_custom_skill
+  upstream_date: N/A
+  local_sync_date: 2026-06-15
   version: "2.0"
 ---
 
@@ -27,7 +32,3 @@ metadata:
 - **Identity**: Start with `Distilled by: Cloud LLM via Antigravity`.
 - **Absolute Paths**: Mandatory for all file references.
 - **Mermaid Diagrams**: Required for architecture visualization.
-
-
-
-<!-- youtube-scraper: processed -->

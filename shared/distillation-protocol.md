@@ -43,6 +43,3 @@ Si algo está mal, decilo con fundamentos.
 4. **Sin placeholders**: Si algo no está claro en el contexto, marcalo como pregunta
    abierta. Nunca inventar ni diferir.
 5. **Action Stream como Verdad (Full Harness)**: Para la destilación, el texto del chat es intención, las herramientas son ejecución. Si el log muestra un `TOOL_CALL` (ej. escritura de archivo) pero no muestra el `TOOL_RESPONSE` (confirmación del OS), asumí asimetría de estado y reportá el gap. La acción validada es el único estado real.
-
-
-<!-- youtube-scraper: processed -->

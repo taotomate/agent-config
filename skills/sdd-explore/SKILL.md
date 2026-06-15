@@ -5,7 +5,11 @@ description: >
   Trigger: When the orchestrator launches you to think through a feature, investigate the codebase, or clarify requirements.
 license: MIT
 metadata:
-  author: gentleman-programming
+  author: TaoTomate
+  generator_model: gemini-1.5-pro
+  upstream_source: local_custom_skill
+  upstream_date: N/A
+  local_sync_date: 2026-06-15
   version: "2.0"
 ---
 
@@ -127,6 +131,3 @@ Return EXACTLY this format to the orchestrator (and write the same content to `e
 - If you can't find enough information, say so clearly
 - If the request is too vague to explore, say what clarification is needed
 - Return envelope per **Section D** from `skills/_shared/sdd-phase-common.md`.
-
-
-<!-- youtube-scraper: processed -->

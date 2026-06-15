@@ -5,7 +5,11 @@ description: >
   Trigger: When the orchestrator launches you to archive a change after implementation and verification.
 license: MIT
 metadata:
-  author: gentleman-programming
+  author: TaoTomate
+  generator_model: gemini-1.5-pro
+  upstream_source: local_custom_skill
+  upstream_date: N/A
+  local_sync_date: 2026-06-15
   version: "2.0"
 ---
 
@@ -144,6 +148,3 @@ Ready for the next change.
 - If `openspec/changes/archive/` doesn't exist, create it
 - Apply any `rules.archive` from `openspec/config.yaml`
 - Return envelope per **Section D** from `skills/_shared/sdd-phase-common.md`.
-
-
-<!-- youtube-scraper: processed -->

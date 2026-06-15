@@ -5,7 +5,11 @@ description: >
   Trigger: When user asks to create a new skill, add service instructions, or document patterns for AI.
 license: Apache-2.0
 metadata:
-  author: gentleman-programming
+  author: TaoTomate
+  generator_model: gemini-1.5-pro
+  upstream_source: local_custom_skill
+  upstream_date: N/A
+  local_sync_date: 2026-06-15
   version: "1.0"
 allowed-tools: Read, Edit, Write, Glob, Grep, Bash, WebFetch, WebSearch, Task
 ---
@@ -157,6 +161,3 @@ After creating the skill, add it to `CONSTITUTION.md`:
 ## Resources
 
 - **Templates**: See [assets/](assets/) for SKILL.md template
-
-
-<!-- youtube-scraper: processed -->

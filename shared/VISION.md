@@ -308,6 +308,3 @@ Minimizar correlatividad desde el diseño — árboles anchos y poco
 profundos, con la menor cantidad posible de dependencias secuenciales.
 El principio se define acá. Cómo se aplica a cada proyecto concreto
 es responsabilidad de L1 al inicio de ese proyecto.
-
-
-<!-- youtube-scraper: processed -->

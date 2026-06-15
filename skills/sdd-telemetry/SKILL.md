@@ -5,7 +5,11 @@ description: >
   Trigger: End of every turn or when asking for "telemetría".
 license: MIT
 metadata:
-  author: gentleman-programming
+  author: TaoTomate
+  generator_model: gemini-1.5-pro
+  upstream_source: local_custom_skill
+  upstream_date: N/A
+  local_sync_date: 2026-06-15
   version: "1.0"
 ---
 
@@ -35,6 +39,3 @@ Provide the user with real-time feedback on resource consumption and efficiency 
 
 4. **Persistence**:
    - Append the JSON entry to `C:\Users\user\.gemini\antigravity\scratch\telemetry_log.json`.
-
-
-<!-- youtube-scraper: processed -->

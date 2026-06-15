@@ -5,7 +5,11 @@ description: >
   Trigger: When the orchestrator launches you to implement one or more tasks from a change.
 license: MIT
 metadata:
-  author: gentleman-programming
+  author: TaoTomate
+  generator_model: gemini-1.5-pro
+  upstream_source: local_custom_skill
+  upstream_date: N/A
+  local_sync_date: 2026-06-15
   version: "3.0"
 ---
 
@@ -183,6 +187,3 @@ If none, say "None."}
 - If Strict TDD Mode is active (Step 3), load `strict-tdd.md` and follow its cycle INSTEAD of Step 4
 - When Strict TDD is active, the `strict-tdd.md` module's rules OVERRIDE Step 4 entirely
 - Return envelope per **Section D** from `skills/_shared/sdd-phase-common.md`.
-
-
-<!-- youtube-scraper: processed -->

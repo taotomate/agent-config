@@ -5,7 +5,11 @@ description: >
   Trigger: When the orchestrator launches you to verify a completed (or partially completed) change.
 license: MIT
 metadata:
-  author: gentleman-programming
+  author: TaoTomate
+  generator_model: gemini-1.5-pro
+  upstream_source: local_custom_skill
+  upstream_date: N/A
+  local_sync_date: 2026-06-15
   version: "3.0"
 ---
 
@@ -342,6 +346,3 @@ Return to the orchestrator the same content you wrote to `verify-report.md`:
 - If Strict TDD is NOT active, NEVER load `strict-tdd-verify.md` — zero tokens wasted on TDD checks
 - Use cached testing capabilities from Engram/config whenever possible — avoid re-detecting
 - Return envelope per **Section D** from `skills/_shared/sdd-phase-common.md`.
-
-
-<!-- youtube-scraper: processed -->

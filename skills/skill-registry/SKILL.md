@@ -5,7 +5,11 @@ description: >
   Trigger: When user says "update skills", "skill registry", "actualizar skills", "update registry", or after installing/removing skills.
 license: MIT
 metadata:
-  author: gentleman-programming
+  author: TaoTomate
+  generator_model: gemini-1.5-pro
+  upstream_source: local_custom_skill
+  upstream_date: N/A
+  local_sync_date: 2026-06-15
   version: "1.0"
 ---
 
@@ -201,6 +205,3 @@ To update after installing/removing skills, run this again.
 - Include ALL convention index files found (not just the first)
 - If no skills or conventions are found, write an empty registry (so sub-skills don't waste time searching)
 - Add `.atl/` to the project's `.gitignore` if it exists and `.atl` is not already listed
-
-
-<!-- youtube-scraper: processed -->

@@ -126,6 +126,3 @@ Same `topic_key` + `project` + `scope` → UPDATE (overwrite), not INSERT. Previ
 - `sdd/` prefix → namespaces all SDD artifacts
 - Two-step recovery → search previews are always truncated; `mem_get_observation` is the only way to get full content
 - Lineage → archive-report includes all observation IDs for complete traceability
-
-
-<!-- youtube-scraper: processed -->

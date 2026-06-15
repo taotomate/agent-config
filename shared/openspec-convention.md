@@ -101,6 +101,3 @@ openspec/changes/archive/YYYY-MM-DD-{change-name}/
 ```
 
 Use today's date in ISO format. The archive is an AUDIT TRAIL — never delete or modify archived changes.
-
-
-<!-- youtube-scraper: processed -->

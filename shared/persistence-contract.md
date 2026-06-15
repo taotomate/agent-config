@@ -142,6 +142,3 @@ sub-skill skill loading: check for a `## Project Standards (auto-resolved)` bloc
 ## Detail Level
 
 The orchestrator may pass `detail_level`: `concise | standard | deep`. This controls output verbosity but does NOT affect what gets persisted — always persist the full artifact.
-
-
-<!-- youtube-scraper: processed -->

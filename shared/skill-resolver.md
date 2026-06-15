@@ -112,6 +112,3 @@ This prevents silent degradation where the orchestrator forgets skills after com
 - **double-blind-review**: follows this protocol before launching Auditor A, Auditor B, and Fix Skill
 - **pr-review**: already has internal skill loading — should migrate to this protocol for consistency
 - **Any future skill that delegates**: MUST reference this protocol
-
-
-<!-- youtube-scraper: processed -->

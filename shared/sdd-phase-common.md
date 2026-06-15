@@ -87,6 +87,3 @@ Example:
 **Skill Resolution**: injected — 3 skills (react-19, typescript, tailwind-4)
 (other values: `fallback-registry`, `fallback-path`, or `none — no registry found`)
 ```
-
-
-<!-- youtube-scraper: processed -->

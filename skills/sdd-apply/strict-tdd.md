@@ -362,6 +362,3 @@ expect(screen.getByRole("button")).toBeDisabled();
 - Prefer pure functions — but don't force it where it doesn't fit (e.g., React components with state)
 - For refactoring tasks, ALWAYS write approval tests before touching code
 - Run ONLY the relevant test file during the cycle, not the full suite
-
-
-<!-- youtube-scraper: processed -->

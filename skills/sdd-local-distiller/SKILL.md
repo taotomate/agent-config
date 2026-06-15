@@ -5,7 +5,11 @@ description: >
   Trigger: "destilar local", "compresión local", "local distiller".
 license: MIT
 metadata:
-  author: gentleman-programming
+  author: TaoTomate
+  generator_model: gemini-1.5-pro
+  upstream_source: local_custom_skill
+  upstream_date: N/A
+  local_sync_date: 2026-06-15
   version: "1.0"
 ---
 
@@ -23,7 +27,3 @@ Speed up the distillation process and ensure privacy by using local compute inst
 - **Identity**: Start with `Distilled by: Local LLM via Antigravity`.
 - **Absolute Paths**: Mandatory for all file references.
 - **Mermaid Diagrams**: Required for architecture visualization.
-
-
-
-<!-- youtube-scraper: processed -->

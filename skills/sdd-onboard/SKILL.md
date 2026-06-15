@@ -5,7 +5,11 @@ description: >
   Trigger: When the orchestrator launches you to onboard a user through the full SDD cycle.
 license: MIT
 metadata:
-  author: gentleman-programming
+  author: TaoTomate
+  generator_model: gemini-1.5-pro
+  upstream_source: local_custom_skill
+  upstream_date: N/A
+  local_sync_date: 2026-06-15
   version: "1.0"
 ---
 
@@ -211,6 +215,3 @@ Small tweaks? Just code. Features, APIs, architecture decisions? SDD first.
 - Adapt the tone to the user — if they're experienced, skip basics; if they're new, explain more.
 - Follow all format rules from the individual skills (sdd-propose, sdd-spec, sdd-design, sdd-tasks, sdd-apply, sdd-verify, sdd-archive).
 - Return envelope per **Section D** from `skills/_shared/sdd-phase-common.md`.
-
-
-<!-- youtube-scraper: processed -->

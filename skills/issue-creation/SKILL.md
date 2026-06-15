@@ -1,183 +1,157 @@
 ---
-name: issue-creation
-description: >
-  Issue creation workflow for Agent Teams Lite following the issue-first enforcement system.
-  Trigger: When creating a GitHub issue, reporting a bug, or requesting a feature.
+name: gentle-ai-issue-creation
+description: "Create Gentle AI issues with issue-first checks. Trigger: creating GitHub issues, bug reports, or feature requests."
 license: Apache-2.0
 metadata:
-  author: gentleman-programming
+  author: TaoTomate
+  generator_model: gemini-1.5-pro
+  upstream_source: Gentleman-Programming/gentle-ai/skills/issue-creation
+  upstream_date: 2026-05-07
+  local_sync_date: 2026-06-15
   version: "1.0"
 ---
 
+# Gentle AI — Issue Creation Skill
+
 ## When to Use
 
-Use this skill when:
-- Creating a GitHub issue (bug report or feature request)
-- Helping a contributor file an issue
-- Triaging or approving issues as a maintainer
-
----
+Load this skill whenever you need to:
+- Report a bug in `gga`
+- Request a new feature or enhancement
+- Open any GitHub issue on the [Gentleman-Programming/gentle-ai](https://github.com/Gentleman-Programming/gentle-ai) repository
 
 ## Critical Rules
 
-1. **Blank issues are disabled** — MUST use a template (bug report or feature request)
-2. **Every issue gets `status:needs-review` automatically** on creation
-3. **A maintainer MUST add `status:approved`** before any PR can be opened
-4. **Questions go to [Discussions](https://github.com/Gentleman-Programming/agent-teams-lite/discussions)**, not issues
-
----
+1. **Blank issues are DISABLED** — `blank_issues_enabled: false` in `.github/ISSUE_TEMPLATE/config.yml`. You MUST use a template.
+2. **`status:needs-review` is applied automatically** — every new issue gets this label; you do NOT add it manually.
+3. **`status:approved` is REQUIRED before ANY work begins** — a maintainer must label the issue before you or anyone opens a PR.
+4. **Questions go to Discussions** — use [GitHub Discussions](https://github.com/Gentleman-Programming/gentle-ai/discussions), NOT issues, for questions and general conversation.
+5. **No Co-Authored-By trailers** — never add AI attribution to commits.
 
 ## Workflow
 
 ```
-1. Search existing issues for duplicates
-2. Choose the correct template (Bug Report or Feature Request)
-3. Fill in ALL required fields
-4. Check pre-flight checkboxes
-5. Submit → issue gets status:needs-review automatically
-6. Wait for maintainer to add status:approved
-7. Only then open a PR linking this issue
+1. Search existing issues → confirm it's not a duplicate
+   https://github.com/Gentleman-Programming/gentle-ai/issues
+
+2. Choose the correct template:
+   - Bug   → .github/ISSUE_TEMPLATE/bug_report.yml
+   - Feat  → .github/ISSUE_TEMPLATE/feature_request.yml
+
+3. Submit the issue → status:needs-review is applied automatically
+
+4. Wait — a maintainer reviews and adds status:approved (or closes)
+
+5. Only AFTER status:approved → open a PR referencing this issue
+```
+
+> ⚠️ **STOP after step 3.** Do NOT open a PR until the issue has `status:approved`.
+
+---
+
+## Bug Report
+
+**Template path**: `.github/ISSUE_TEMPLATE/bug_report.yml`
+**Auto-labels**: `bug`, `status:needs-review`
+
+### Required Fields
+
+| Field | Description |
+|-------|-------------|
+| Pre-flight Checklist | Confirm no duplicate exists; confirm PR-approval understanding |
+| Bug Description | Clear description of what the bug is |
+| Steps to Reproduce | Numbered steps to reproduce the behavior |
+| Expected Behavior | What should happen |
+| Actual Behavior | What actually happens |
+| Gentle AI Version | Output of `gga version` |
+| Operating System | macOS / Linux distro / Windows / WSL |
+| AI Agent / Client | Claude Code / OpenCode / Gemini CLI / Cursor / Windsurf / Other |
+| Affected Area | See area list below |
+
+### Affected Areas
+
+`CLI (commands, flags)` · `TUI (terminal UI)` · `Installation Pipeline` · `Agent Detection` · `System Detection` · `Catalog/Steps` · `Documentation` · `Other`
+
+### Example CLI Command
+
+```bash
+gh issue create \
+  --repo Gentleman-Programming/gentle-ai \
+  --template bug_report.yml \
+  --title "fix(agent): Claude Code not detected on Linux Arch"
+```
+
+Or open the web form directly:
+```
+https://github.com/Gentleman-Programming/gentle-ai/issues/new?template=bug_report.yml
 ```
 
 ---
 
-## Issue Templates
+## Feature Request
 
-### Bug Report
+**Template path**: `.github/ISSUE_TEMPLATE/feature_request.yml`
+**Auto-labels**: `enhancement`, `status:needs-review`
 
-Template: `.github/ISSUE_TEMPLATE/bug_report.yml`
-Auto-labels: `bug`, `status:needs-review`
-
-#### Required Fields
+### Required Fields
 
 | Field | Description |
 |-------|-------------|
-| **Pre-flight Checks** | Checkboxes: no duplicate + understands approval workflow |
-| **Bug Description** | Clear description of the bug |
-| **Steps to Reproduce** | Numbered steps to reproduce |
-| **Expected Behavior** | What should have happened |
-| **Actual Behavior** | What happened instead (include errors/logs) |
-| **Operating System** | Dropdown: macOS, Linux variants, Windows, WSL |
-| **Agent / Client** | Dropdown: Claude Code, OpenCode, Gemini CLI, Cursor, Windsurf, Codex, Other |
-| **Shell** | Dropdown: bash, zsh, fish, Other |
+| Pre-flight Checklist | Confirm no duplicate exists; confirm PR-approval understanding |
+| Affected Area | Which area of `gga` this feature affects |
+| Problem Statement | Describe the problem this feature solves |
+| Proposed Solution | Specific description — include example `gga` command/output if relevant |
+| Alternatives Considered | (optional) Other approaches you thought about |
+| Additional Context | (optional) Screenshots, config files, etc. |
 
-#### Optional Fields
-
-| Field | Description |
-|-------|-------------|
-| **Relevant Logs** | Log output (auto-formatted as code block) |
-| **Additional Context** | Screenshots, workarounds, extra info |
-
-#### Example — Bug Report via CLI
+### Example CLI Command
 
 ```bash
-gh issue create --template "bug_report.yml" \
-  --title "fix(scripts): setup.sh fails on zsh with glob error" \
-  --body "
-### Pre-flight Checks
-- [x] I have searched existing issues and this is not a duplicate
-- [x] I understand this issue needs status:approved before a PR can be opened
-
-### Bug Description
-Running setup.sh on zsh throws a glob error when no matching files exist.
-
-### Steps to Reproduce
-1. Clone the repo
-2. Run \`./scripts/setup.sh\` in zsh
-3. See error: \`zsh: no matches found: skills/*\`
-
-### Expected Behavior
-The script should handle missing glob matches gracefully.
-
-### Actual Behavior
-Script crashes with glob error.
-
-### Operating System
-macOS
-
-### Agent / Client
-Claude Code
-
-### Shell
-zsh
-
-### Relevant Logs
-\`\`\`
-zsh: no matches found: skills/*
-\`\`\`
-"
+gh issue create \
+  --repo Gentleman-Programming/gentle-ai \
+  --template feature_request.yml \
+  --title "feat(tui): add keyboard shortcut help overlay"
 ```
 
----
-
-### Feature Request
-
-Template: `.github/ISSUE_TEMPLATE/feature_request.yml`
-Auto-labels: `enhancement`, `status:needs-review`
-
-#### Required Fields
-
-| Field | Description |
-|-------|-------------|
-| **Pre-flight Checks** | Checkboxes: no duplicate + understands approval workflow |
-| **Problem Description** | The pain point this feature solves |
-| **Proposed Solution** | How it should work from the user's perspective |
-| **Affected Area** | Dropdown: Scripts, Skills, Examples, Documentation, CI/Workflows, Other |
-
-#### Optional Fields
-
-| Field | Description |
-|-------|-------------|
-| **Alternatives Considered** | Other approaches or workarounds |
-| **Additional Context** | Mockups, examples, references |
-
-#### Example — Feature Request via CLI
-
-```bash
-gh issue create --template "feature_request.yml" \
-  --title "feat(scripts): add Codex support to setup.sh" \
-  --body "
-### Pre-flight Checks
-- [x] I have searched existing issues and this is not a duplicate
-- [x] I understand this issue needs status:approved before a PR can be opened
-
-### Problem Description
-The setup script only configures Claude Code, Gemini CLI, and OpenCode. Codex users have to manually copy skills.
-
-### Proposed Solution
-Add a Codex option to setup.sh that links skills to the .codex/ directory.
-
-Example:
-\`\`\`bash
-./scripts/setup.sh --agent codex
-\`\`\`
-
-### Affected Area
-Scripts (setup, installation)
-
-### Alternatives Considered
-Manually symlinking, but that defeats the purpose of the setup script.
-"
+Or open the web form directly:
+```
+https://github.com/Gentleman-Programming/gentle-ai/issues/new?template=feature_request.yml
 ```
 
 ---
 
 ## Label System
 
-### Applied Automatically on Issue Creation
+### Status Labels (applied to Issues)
 
-| Template | Labels added |
-|----------|-------------|
-| Bug Report | `bug`, `status:needs-review` |
-| Feature Request | `enhancement`, `status:needs-review` |
+| Label | Description | Who Applies |
+|-------|-------------|-------------|
+| `status:needs-review` | Newly opened, awaiting maintainer review | **Auto** (template) |
+| `status:approved` | Approved — work can begin | Maintainer only |
+| `status:in-progress` | Being actively worked on | Contributor |
+| `status:blocked` | Blocked by another issue or external dependency | Maintainer / Contributor |
+| `status:wont-fix` | Out of scope or won't be addressed | Maintainer only |
 
-### Applied by Maintainers
+### Type Labels (applied to Issues and PRs)
 
-| Label | When to apply |
-|-------|--------------|
-| `status:approved` | Issue accepted for implementation — PRs can now be opened |
-| `priority:high` | Critical bug or urgent feature |
-| `priority:medium` | Important but not blocking |
+| Label | Description |
+|-------|-------------|
+| `bug` | Defect report |
+| `enhancement` | Feature or improvement request |
+| `type:bug` | Bug fix (used on PRs) |
+| `type:feature` | New feature (used on PRs) |
+| `type:docs` | Documentation only (used on PRs) |
+| `type:refactor` | Refactoring, no functional changes (used on PRs) |
+| `type:chore` | Build, CI, tooling (used on PRs) |
+| `type:breaking-change` | Breaking change (used on PRs) |
+
+### Priority Labels
+
+| Label | Description |
+|-------|-------------|
+| `priority:critical` | Blocking issues, security vulnerabilities |
+| `priority:high` | Important, affects many users |
+| `priority:medium` | Normal priority |
 | `priority:low` | Nice to have |
 
 ---
@@ -185,11 +159,28 @@ Manually symlinking, but that defeats the purpose of the setup script.
 ## Maintainer Approval Workflow
 
 ```
-1. New issue arrives with status:needs-review
-2. Review the issue — is it valid, clear, and in scope?
-3. If YES → add status:approved label
-4. If NO → comment with reason, close if needed
-5. Contributor can now open a PR linking this issue
+Issue submitted
+      │
+      ▼
+status:needs-review  ← auto-applied by template
+      │
+      ▼
+Maintainer reviews
+      │
+  ┌───┴────────────────┐
+  │                    │
+  ▼                    ▼
+status:approved    Closed
+(work can begin)   (invalid / duplicate / wont-fix)
+      │
+      ▼
+Contributor comments "I'll work on this"
+      │
+      ▼
+status:in-progress
+      │
+      ▼
+PR opened with `Closes #<N>`
 ```
 
 ---
@@ -197,32 +188,57 @@ Manually symlinking, but that defeats the purpose of the setup script.
 ## Decision Tree
 
 ```
-Is it a bug?                    → Use Bug Report template
-Is it a new feature/improvement? → Use Feature Request template
-Is it a question?               → Use Discussions, NOT issues
-Is it a duplicate?              → Link to existing issue, close
+Do you have a question or idea to discuss?
+├── YES → GitHub Discussions (NOT issues)
+│         https://github.com/Gentleman-Programming/gentle-ai/discussions
+└── NO  → Is it a defect in gga?
+          ├── YES → Bug Report template
+          └── NO  → Feature Request template
+                    │
+                    ▼
+          Does a similar issue already exist?
+          ├── YES → Comment on existing issue instead
+          └── NO  → Submit new issue → wait for status:approved
 ```
 
 ---
 
 ## Commands
 
+### Search for Existing Issues
+
 ```bash
-# Search existing issues before creating
-gh issue list --search "keyword"
+# Search open issues
+gh issue list --repo Gentleman-Programming/gentle-ai --state open --search "your keywords"
 
-# Create bug report
-gh issue create --template "bug_report.yml" --title "fix(scope): description"
-
-# Create feature request
-gh issue create --template "feature_request.yml" --title "feat(scope): description"
-
-# Maintainer: approve an issue
-gh issue edit <number> --add-label "status:approved"
-
-# Maintainer: add priority
-gh issue edit <number> --add-label "priority:high"
+# Search all issues including closed
+gh issue list --repo Gentleman-Programming/gentle-ai --state all --search "your keywords"
 ```
 
+### Create a Bug Report
 
-<!-- youtube-scraper: processed -->
+```bash
+gh issue create \
+  --repo Gentleman-Programming/gentle-ai \
+  --template bug_report.yml \
+  --title "fix(<scope>): <short description>"
+```
+
+### Create a Feature Request
+
+```bash
+gh issue create \
+  --repo Gentleman-Programming/gentle-ai \
+  --template feature_request.yml \
+  --title "feat(<scope>): <short description>"
+```
+
+### Check Issue Status
+
+```bash
+gh issue view <number> --repo Gentleman-Programming/gentle-ai
+```
+
+### Valid Scopes for Issue Titles
+
+`tui`, `cli`, `installer`, `catalog`, `system`, `agent`, `e2e`, `ci`, `docs`

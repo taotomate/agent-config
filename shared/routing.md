@@ -30,6 +30,3 @@
 Si un modelo genera errores repetidos en un tipo de tarea específico,
 consultá `directives/errors_learned.md` para ver el historial
 y reasignalo a una capa o tarea donde tenga mejor rendimiento.
-
-
-<!-- youtube-scraper: processed -->

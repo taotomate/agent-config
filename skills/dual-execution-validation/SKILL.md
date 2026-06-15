@@ -6,7 +6,11 @@ description: >
   el consumo de tokens mediante benchmarking en tiempo real.
   Trigger: "dual execution", "validación dual", "correr frontera", "comparar con local".
 metadata:
-  author: gentleman-programming
+  author: TaoTomate
+  generator_model: gemini-1.5-pro
+  upstream_source: local_custom_skill
+  upstream_date: N/A
+  local_sync_date: 2026-06-15
   version: "2.0"
 ---
 
@@ -42,6 +46,3 @@ metadata:
 # Ejemplo de invocación manual del test de comparación
 python scratch/shadow_test.py
 ```
-
-
-<!-- youtube-scraper: processed -->

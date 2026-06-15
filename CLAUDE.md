@@ -1,6 +1,11 @@
 ## Rules
 
 - Never add "Co-Authored-By" or AI attribution to commits. Use conventional commits only.
+- **Strict Traceability Standard**: Every new or modified skill, registry, or configuration file MUST include a YAML frontmatter. NEVER use marketing AI agent names (e.g., "Antigravity", "Claude", "Hermes") as authors. You MUST use this exact pattern:
+  - `author`: The human directing the work (e.g., `TaoTomate`).
+  - `generator_model`: The exact raw LLM model used (e.g., `gemini-1.5-pro`, `gemma2:9b`).
+  - `version`: The semantic version.
+  - `inherited_from`: The origin of the pattern (e.g., official repo path or custom local architecture).
 - Never build after changes.
 - Response-length contract: default to short answers. Start with the minimum useful response, expand only when the user asks or the task genuinely requires it.
 - Ask at most one question at a time. After asking it, STOP and wait.

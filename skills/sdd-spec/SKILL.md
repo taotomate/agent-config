@@ -5,7 +5,11 @@ description: >
   Trigger: When the orchestrator launches you to write or update specs for a change.
 license: MIT
 metadata:
-  author: gentleman-programming
+  author: TaoTomate
+  generator_model: gemini-1.5-pro
+  upstream_source: local_custom_skill
+  upstream_date: N/A
+  local_sync_date: 2026-06-15
   version: "2.0"
 ---
 
@@ -223,6 +227,3 @@ Ready for design (sdd-design). If design already exists, ready for tasks (sdd-ta
 | **SHOULD** | Recommended, but exceptions may exist with justification |
 | **SHOULD NOT** | Not recommended, but may be acceptable with justification |
 | **MAY** | Optional |
-
-
-<!-- youtube-scraper: processed -->

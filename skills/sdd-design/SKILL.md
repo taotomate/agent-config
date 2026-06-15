@@ -5,7 +5,11 @@ description: >
   Trigger: When the orchestrator launches you to write or update the technical design for a change.
 license: MIT
 metadata:
-  author: gentleman-programming
+  author: TaoTomate
+  generator_model: gemini-1.5-pro
+  upstream_source: local_custom_skill
+  upstream_date: N/A
+  local_sync_date: 2026-06-15
   version: "2.0"
 ---
 
@@ -163,6 +167,3 @@ Ready for tasks (sdd-tasks).
 - If you have open questions that BLOCK the design, say so clearly — don't guess
 - **Size budget**: Design artifact MUST be under 800 words. Architecture decisions as tables (option | tradeoff | decision). Code snippets only for non-obvious patterns.
 - Return envelope per **Section D** from `skills/_shared/sdd-phase-common.md`.
-
-
-<!-- youtube-scraper: processed -->

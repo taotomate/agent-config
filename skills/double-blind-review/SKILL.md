@@ -7,7 +7,11 @@ description: >
   Trigger: "double-blind review", "revisión doble ciego", "auditar", "review adversarial".
 license: Apache-2.0
 metadata:
-  author: gentleman-programming
+  author: TaoTomate
+  generator_model: gemini-1.5-pro
+  upstream_source: local_custom_skill
+  upstream_date: N/A
+  local_sync_date: 2026-06-15
   version: "2.0"
 ---
 
@@ -348,6 +352,3 @@ node skills/double-blind-review/scripts/audit_runner.js --codePath <absolute_pat
 #  --localUrl "http://localhost:1234/v1"         Configure custom Local LLM Proxy URL
 #  --cloudUrl "http://localhost:5678/v1"         Configure custom Cloud LLM Proxy URL
 ```
-
-
-<!-- youtube-scraper: processed -->

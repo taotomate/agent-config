@@ -1,0 +1,9 @@
+{
+  "last_report_path": "D:\\Engram_SDD\\Hermes-Nous\\hermes-data\\logs\\curator\\20260603-054612",
+  "last_run_at": "2026-06-03T05:46:12.383652+00:00",
+  "last_run_duration_seconds": 221.968336,
+  "last_run_summary": "auto: no changes; llm: I'll start by inspecting the 3 skills to check for support files and content overlap.\nThen I'll define the umbrella skill `hermes-gateway-config` to absorb them.ctl:skip_to_content",
+  "last_run_summary_shown_at": null,
+  "paused": false,
+  "run_count": 1
+}

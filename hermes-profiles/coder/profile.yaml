@@ -1,0 +1,3 @@
+description: 'Programacion, debugging, codigo. Modelo: qwen3-coder via OpenRouter.
+  1M ctx, tool calling + code, ~1.1s.'
+description_auto: false

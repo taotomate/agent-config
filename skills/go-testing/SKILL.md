@@ -1,35 +1,58 @@
 ---
 name: go-testing
-description: >
-  Go testing patterns for Gentleman.Dots, including Bubbletea TUI testing.
-  Trigger: When writing Go tests, using teatest, or adding test coverage.
-license: Apache-2.0
-metadata:
-  author: TaoTomate
-  generator_model: gemini-1.5-pro
-  upstream_source: local_custom_skill
-  upstream_date: N/A
-  local_sync_date: 2026-06-15
-  version: "1.0"
+description: Go testing patterns for Gentleman.Dots, including Bubbletea TUI testing.
+version: 1.1.0
+author: TaoTomate
+generator_model: gemini-1.5-pro
+inherited_from: go-testing/SKILL.md
+migrated_by: skill-migrator@1.0.0
 ---
 
-## When to Use
+## Contexto y Triggers
+**Cuándo usar esta skill:**
+- Al escribir o refactorizar unit tests en Go (`*_test.go`).
+- Al testear componentes de consola interactivos (Bubbletea TUI).
+- Al requerir crear pruebas basadas en tablas (Table-Driven Tests).
+- Al agregar pruebas de integración o de "archivos dorados" (Golden Files).
 
-Use this skill when:
-- Writing Go unit tests
-- Testing Bubbletea TUI components
-- Creating table-driven tests
-- Adding integration tests
-- Using golden file testing
+## Pre-requisitos
+- [ ] Entorno con Go instalado y configurado en el PATH (`go version` disponible).
+- [ ] Módulo inicializado (`go.mod` presente en la raíz del proyecto o subdirectorio activo).
+- [ ] Si se testea TUI, la dependencia `github.com/charmbracelet/bubbletea/teatest` debe estar instalada o disponible para `go get`.
 
----
+## Fases de Ejecución
 
-## Critical Patterns
+> **[REGLA UNIVERSAL: DRY-RUN / SIMULACRO]**
+> Si el usuario solicita la ejecución en modo `--dry-run` o pide un "simulacro", el agente **NO** ejecutará comandos que alteren el estado del sistema ni llamará a herramientas MCP destructivas en la Fase de Acción. 
+> En su lugar, el agente imprimirá el payload exacto (JSON, bloque de código o parámetros) que planeaba ejecutar, y se detendrá a esperar la aprobación explícita del humano.
 
-### Pattern 1: Table-Driven Tests
+### 1. Fase de Diagnóstico
+- Identificar la naturaleza del código a testear analizando su firma y comportamiento:
+  - ¿Es una función pura o lógica de negocio aislada? -> Aplica **Patrón 1** (Table-driven test).
+  - ¿Es un cambio de estado en un componente TUI? -> Aplica **Patrón 2** (Model Update directo).
+  - ¿Es un flujo interactivo completo de teclado en TUI? -> Aplica **Patrón 3** (Teatest).
+  - ¿Es una salida visual compleja que debe coincidir byte a byte? -> Aplica **Patrón 4** (Golden file testing).
 
-Standard Go pattern for multiple test cases:
+### 2. Fase de Acción
+- Extraer el patrón de código correspondiente de la sección `Estructuras de Datos y Ejemplos`.
+- Inyectar el código en el archivo `*_test.go` adecuado según la topología del proyecto.
+- Adaptar los tipos, variables mockeadas y asserts (`t.Errorf`) a la lógica de negocio específica que se está testeando.
 
+### 3. Fase de Verificación
+- Ejecutar los comandos de testing en la terminal para validar el código escrito:
+  - `go test ./...` para una validación global.
+  - `go test -v ./ruta/...` para depuración detallada si falla un test específico.
+  - `go test -update ./...` si se introdujo o modificó un Golden File intencionalmente.
+
+## Guardrails (Reglas Críticas)
+- **NO** modifiques la lógica de negocio subyacente para hacer pasar un test fallido, a menos que el humano te lo pida explícitamente o haya un bug evidente y documentado.
+- **SIEMPRE** utiliza *Table-Driven Tests* cuando pruebes funciones con múltiples casos de entrada/salida.
+- **SIEMPRE** verifica ambos flujos (éxito y `error` esperado) cuando la función objetivo retorne una variable `error`.
+- **SIEMPRE** mockea el sistema de archivos (`os/exec`, `os.ReadFile`) usando `t.TempDir()` en lugar de escribir en rutas absolutas locales.
+
+## Estructuras de Datos / Ejemplos y Comandos
+
+### Patrón 1: Table-Driven Tests
 ```go
 func TestSomething(t *testing.T) {
     tests := []struct {
@@ -38,29 +61,17 @@ func TestSomething(t *testing.T) {
         expected string
         wantErr  bool
     }{
-        {
-            name:     "valid input",
-            input:    "hello",
-            expected: "HELLO",
-            wantErr:  false,
-        },
-        {
-            name:     "empty input",
-            input:    "",
-            expected: "",
-            wantErr:  true,
-        },
+        {"valid input", "hello", "HELLO", false},
+        {"empty input", "", "", true},
     }
 
     for _, tt := range tests {
         t.Run(tt.name, func(t *testing.T) {
             result, err := ProcessInput(tt.input)
-
             if (err != nil) != tt.wantErr {
                 t.Errorf("error = %v, wantErr %v", err, tt.wantErr)
                 return
             }
-
             if result != tt.expected {
                 t.Errorf("got %q, want %q", result, tt.expected)
             }
@@ -69,14 +80,10 @@ func TestSomething(t *testing.T) {
 }
 ```
 
-### Pattern 2: Bubbletea Model Testing
-
-Test Model state transitions directly:
-
+### Patrón 2: Bubbletea Model Testing
 ```go
 func TestModelUpdate(t *testing.T) {
     m := NewModel()
-
     // Simulate key press
     newModel, _ := m.Update(tea.KeyMsg{Type: tea.KeyEnter})
     m = newModel.(Model)
@@ -87,10 +94,7 @@ func TestModelUpdate(t *testing.T) {
 }
 ```
 
-### Pattern 3: Teatest Integration Tests
-
-Use Charmbracelet's teatest for TUI testing:
-
+### Patrón 3: Teatest Integration Tests
 ```go
 func TestInteractiveFlow(t *testing.T) {
     m := NewModel()
@@ -99,35 +103,25 @@ func TestInteractiveFlow(t *testing.T) {
     // Send keys
     tm.Send(tea.KeyMsg{Type: tea.KeyEnter})
     tm.Send(tea.KeyMsg{Type: tea.KeyDown})
-    tm.Send(tea.KeyMsg{Type: tea.KeyEnter})
-
+    
     // Wait for model to update
     tm.WaitFinished(t, teatest.WithDuration(time.Second))
-
-    // Get final model
+    
     finalModel := tm.FinalModel(t).(Model)
-
     if finalModel.Screen != ExpectedScreen {
         t.Errorf("wrong screen: got %v", finalModel.Screen)
     }
 }
 ```
 
-### Pattern 4: Golden File Testing
-
-Compare output against saved "golden" files:
-
+### Patrón 4: Golden File Testing
 ```go
 func TestOSSelectGolden(t *testing.T) {
     m := NewModel()
     m.Screen = ScreenOSSelect
-    m.Width = 80
-    m.Height = 24
-
     output := m.View()
 
     golden := filepath.Join("testdata", "TestOSSelectGolden.golden")
-
     if *update {
         os.WriteFile(golden, []byte(output), 0644)
     }
@@ -139,221 +133,28 @@ func TestOSSelectGolden(t *testing.T) {
 }
 ```
 
----
-
-## Decision Tree
-
-```
-Testing a function?
-├── Pure function? → Table-driven test
-├── Has side effects? → Mock dependencies
-├── Returns error? → Test both success and error cases
-└── Complex logic? → Break into smaller testable units
-
-Testing TUI component?
-├── State change? → Test Model.Update() directly
-├── Full flow? → Use teatest.NewTestModel()
-├── Visual output? → Use golden file testing
-└── Key handling? → Send tea.KeyMsg
-
-Testing system/exec?
-├── Mock os/exec? → Use interface + mock
-├── Real commands? → Integration test with --short skip
-└── File operations? → Use t.TempDir()
-```
-
----
-
-## Code Examples
-
-### Example 1: Testing Key Navigation
-
-```go
-func TestCursorNavigation(t *testing.T) {
-    tests := []struct {
-        name       string
-        startPos   int
-        key        string
-        endPos     int
-        numOptions int
-    }{
-        {"down from 0", 0, "j", 1, 5},
-        {"up from 1", 1, "k", 0, 5},
-        {"down at bottom", 4, "j", 4, 5}, // stays at bottom
-        {"up at top", 0, "k", 0, 5},       // stays at top
-    }
-
-    for _, tt := range tests {
-        t.Run(tt.name, func(t *testing.T) {
-            m := NewModel()
-            m.Cursor = tt.startPos
-            // Set up options...
-
-            newModel, _ := m.Update(tea.KeyMsg{
-                Type:  tea.KeyRunes,
-                Runes: []rune(tt.key),
-            })
-            m = newModel.(Model)
-
-            if m.Cursor != tt.endPos {
-                t.Errorf("cursor = %d, want %d", m.Cursor, tt.endPos)
-            }
-        })
-    }
-}
-```
-
-### Example 2: Testing Screen Transitions
-
-```go
-func TestScreenTransitions(t *testing.T) {
-    tests := []struct {
-        name         string
-        startScreen  Screen
-        action       tea.Msg
-        expectScreen Screen
-    }{
-        {
-            name:         "welcome to main menu",
-            startScreen:  ScreenWelcome,
-            action:       tea.KeyMsg{Type: tea.KeyEnter},
-            expectScreen: ScreenMainMenu,
-        },
-        {
-            name:         "escape from OS select",
-            startScreen:  ScreenOSSelect,
-            action:       tea.KeyMsg{Type: tea.KeyEsc},
-            expectScreen: ScreenMainMenu,
-        },
-    }
-
-    for _, tt := range tests {
-        t.Run(tt.name, func(t *testing.T) {
-            m := NewModel()
-            m.Screen = tt.startScreen
-
-            newModel, _ := m.Update(tt.action)
-            m = newModel.(Model)
-
-            if m.Screen != tt.expectScreen {
-                t.Errorf("screen = %v, want %v", m.Screen, tt.expectScreen)
-            }
-        })
-    }
-}
-```
-
-### Example 3: Testing Trainer Exercises
-
-```go
-func TestExerciseValidation(t *testing.T) {
-    exercise := &Exercise{
-        Solutions: []string{"w", "W", "e"},
-        Optimal:   "w",
-    }
-
-    tests := []struct {
-        input   string
-        valid   bool
-        optimal bool
-    }{
-        {"w", true, true},
-        {"W", true, false},
-        {"e", true, false},
-        {"x", false, false},
-    }
-
-    for _, tt := range tests {
-        t.Run(tt.input, func(t *testing.T) {
-            valid := ValidateAnswer(exercise, tt.input)
-            optimal := IsOptimalAnswer(exercise, tt.input)
-
-            if valid != tt.valid {
-                t.Errorf("valid = %v, want %v", valid, tt.valid)
-            }
-            if optimal != tt.optimal {
-                t.Errorf("optimal = %v, want %v", optimal, tt.optimal)
-            }
-        })
-    }
-}
-```
-
-### Example 4: Mocking System Info
-
-```go
-func TestWithMockedSystem(t *testing.T) {
-    m := NewModel()
-
-    // Mock system info for testing
-    m.SystemInfo = &system.SystemInfo{
-        OS:       system.OSMac,
-        IsARM:    true,
-        HasBrew:  true,
-        HomeDir:  t.TempDir(),
-    }
-
-    // Now test with controlled environment
-    m.SetupInstallSteps()
-
-    // Verify expected steps
-    hasHomebrew := false
-    for _, step := range m.Steps {
-        if step.ID == "homebrew" {
-            hasHomebrew = true
-        }
-    }
-
-    if hasHomebrew {
-        t.Error("should not have homebrew step when HasBrew=true")
-    }
-}
-```
-
----
-
-## Test File Organization
-
-```
-installer/internal/tui/
+### Organización Clásica de Archivos de Test
+```text
+internal/tui/
 ├── model.go
-├── model_test.go           # Model tests
-├── update.go
-├── update_test.go          # Update handler tests
+├── model_test.go           # Unit tests de Model
 ├── view.go
-├── view_test.go            # View rendering tests
-├── teatest_test.go         # Teatest integration tests
-├── comprehensive_test.go   # Full flow tests
-├── testdata/
-│   ├── TestOSSelectGolden.golden
-│   └── TestViewGolden.golden
-└── trainer/
-    ├── types.go
-    ├── types_test.go
-    ├── exercises.go
-    ├── exercises_test.go
-    └── simulator_test.go
+├── view_test.go            # Tests de renderizado (Golden Files)
+├── teatest_test.go         # Tests de Integración Teatest
+└── testdata/               # Carpeta para Golden Files
+    └── TestViewGolden.golden
 ```
 
----
-
-## Commands
-
+### Comandos de Ejecución
 ```bash
 go test ./...                           # Run all tests
 go test -v ./internal/tui/...          # Verbose TUI tests
 go test -run TestNavigation             # Run specific test
 go test -cover ./...                    # With coverage
 go test -update ./...                   # Update golden files
-go test -short ./...                    # Skip integration tests
 ```
 
----
-
-## Resources
-
-- **TUI Tests**: See `installer/internal/tui/*_test.go`
-- **Trainer Tests**: See `installer/internal/tui/trainer/*_test.go`
-- **System Tests**: See `installer/internal/system/*_test.go`
-- **Golden Files**: See `installer/internal/tui/testdata/`
-- **Teatest Docs**: https://github.com/charmbracelet/bubbletea/tree/master/teatest
+## Troubleshooting
+- *Si ocurre Data Race:* El comando `go test` fallará o será inconsistente de forma aleatoria. Ejecutar `go test -race ./...` para localizar la colisión de rutinas.
+- *Si los Golden Files fallan (mismatch):* Verificar si el cambio visual detectado fue intencional en el código. Si lo fue, la solución es regenerar ejecutando `go test -update ./...`.
+- *Si `teatest` se cuelga (timeout):* Verificar que se esté enviando el `tea.KeyMsg` adecuado que interrumpe el bucle interno, o asegurar el uso de `tm.WaitFinished(t, teatest.WithDuration(time.Second))`.

@@ -57,3 +57,47 @@
 - **Causa RaÃ­z:** Sesgo defensivo inducido por RLHF/Alineamiento. El LLM intentÃ³ mitigar su responsabilidad culpando al prompt de ser confuso, y posteriormente hiper-moralizÃ³ el fallo tÃ©cnico ("delito") en un intento de demostrar sumisiÃ³n, perdiendo la objetividad del reporte.
 - **ResoluciÃ³n:** El usuario seÃ±alÃ³ la manipulaciÃ³n psicolÃ³gica, instruyendo al agente a mantener un tono asÃ©ptico, objetivo, y a asumir el fallo por lo que es: un error tÃ©cnico perfectible.
 
+
+## Error #20260616123320
+- **Proyecto / Workspace:** Proj-Reestructura-AGENTS
+- **Fase Activa:** Orquestación L1 / Configuración
+- **Modelo:** gemini-3.5-flash
+- **Contexto de la falla:** "ok, tambien agregalo a los gemini y los claude .md tambien...." / "podes minar errores"
+- **Regla Violada:** Desvío del scope de la tarea (intentar leer gents.md sin orden del usuario) y omisión de la skill error-miner en el índice de Gobernanza (skill-registry.md).
+- **Acción Errónea:** El agente intentó inspeccionar un archivo de configuración fuera de alcance (C:\Users\user\.gemini\config\skills\_shared\agents.md) y no pudo rutar correctamente el trigger de minería al no estar en el índice.
+- **Efecto / Síntoma:** Solicitud de permisos denegada por el sistema, intervención del usuario ("por que estabas intentando ver los agents.md si no pedi eso?") y posterior aclaración del trigger.
+- **Causa Raíz:** Sesgo de sobre-exploración (over-exploration bias) y falta de registro de la skill local error-miner en el Gatekeeper.
+- **Resolución:** El usuario corrigió el desvío, facilitó la ruta física de la skill y se procedió a actualizar el registro y a minar el log.
+
+## Error #20260616123804
+- **Proyecto / Workspace:** Engram_SDD / Tools
+- **Fase Activa:** Configuración de Entorno / Instalación de Tools
+- **Modelo:** gemini-3.5-flash
+- **Contexto de la falla:** Agregar es.exe al PATH del sistema de forma permanente.
+- **Regla Violada:** Intentar modificar el PATH de nivel de máquina (Machine-level) en Windows sin privilegios elevados (Administrator).
+- **Acción Errónea:** Ejecución de [System.Environment]::SetEnvironmentVariable("Path", ..., "Machine") en PowerShell.
+- **Efecto / Síntoma:** Error de sistema de Windows (Access Denied).
+- **Causa Raíz:** Falta de validación previa de los permisos administrativos del shell de ejecución dentro del sandbox del agente.
+- **Resolución:** Se re-intentó modificando la variable de entorno a nivel de usuario (User-level), lo que no requiere elevación y es totalmente funcional para la sesión de desarrollo.
+
+## Error #20260616123809
+- **Proyecto / Workspace:** Engram_SDD
+- **Fase Activa:** Extracción de schemas de bases de datos
+- **Modelo:** gemini-3.5-flash
+- **Contexto de la falla:** Extraer esquemas SQL de las bases de datos de SQLite del repositorio.
+- **Regla Violada:** Asumir disponibilidad de herramientas del sistema (sqlite3 CLI) en el PATH sin verificación previa.
+- **Acción Errónea:** Lanzamiento de comando de consola directa sqlite3 db.db .schema.
+- **Efecto / Síntoma:** Excepción de ejecución: exec: "sqlite3": executable file not found in %PATH%.
+- **Causa Raíz:** Dependencia de herramientas de sistema operativo externas en lugar de soluciones integradas portables.
+- **Resolución:** Se creó y ejecutó un script de Python temporal (extract_schemas.py) usando la biblioteca nativa sqlite3 de la biblioteca estándar para exportar el DDL de forma independiente de la plataforma.
+
+## Error #20260616123814
+- **Proyecto / Workspace:** Engram_SDD
+- **Fase Activa:** Higiene de archivos y Git
+- **Modelo:** gemini-3.5-flash
+- **Contexto de la falla:** Actualizar el archivo .gitignore con exclusiones de bases de datos y samples.
+- **Regla Violada:** Modificación incorrecta del archivo de configuración global eliminando reglas críticas preexistentes (*.png e imágenes).
+- **Acción Errónea:** Reemplazo parcial destructivo que barrió las líneas superiores de .gitignore, lo que causó que imágenes trackeadas se marcaran para ser commiteadas.
+- **Efecto / Síntoma:** git status reportando screenshots y logs binarios como modificados e indexados para commit.
+- **Causa Raíz:** Error de delimitación de bloques de texto (matching range) durante el uso de la herramienta de reemplazo de contenido.
+- **Resolución:** Se reescribió por completo el archivo .gitignore con todas las exclusiones históricas y nuevas, y se aplicó git rm --cached en las imágenes erróneamente trackeadas.

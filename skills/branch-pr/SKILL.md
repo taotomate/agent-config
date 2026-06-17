@@ -1,307 +1,84 @@
 ---
-name: gentle-ai-branch-pr
-description: "Create Gentle AI pull requests with issue-first checks. Trigger: creating, opening, or preparing PRs for review."
+name: branch-pr
+description: >
+  PR creation workflow for Agent Teams Lite following the issue-first enforcement system.
+  Trigger: When creating a pull request, opening a PR, or preparing changes for review.
 license: Apache-2.0
 metadata:
-  author: TaoTomate
-  generator_model: gemini-1.5-pro
-  upstream_source: Gentleman-Programming/gentle-ai/skills/branch-pr
-  upstream_date: 2026-05-07
-  local_sync_date: 2026-06-15
+  author: gentleman-programming
   version: "2.0"
+generator_model: gemini-1.5-pro
+inherited_from: branch-pr/SKILL.md
+migrated_by: skill-migrator@1.0.0
 ---
 
-# Gentle AI — Branch & PR Skill
+## Contexto y Triggers
+**Cuándo usar esta skill:**
+- Creación de un pull request para cualquier cambio.
+- Preparar un branch para ser subido y evaluado.
+- Ayudar a un contribuidor a abrir un PR.
 
-## When to Use
+## Pre-requisitos
+- [ ] Debe existir un issue aprobado con la etiqueta `status:approved` vinculado.
+- [ ] El código debe estar localmente modificado o listo para commitear.
 
-Load this skill whenever you need to:
-- Create a branch for a new fix or feature
-- Open a pull request on [Gentleman-Programming/gentle-ai](https://github.com/Gentleman-Programming/gentle-ai)
-- Prepare changes for review
+## Fases de Ejecución
 
-## Critical Rules
+> **[REGLA UNIVERSAL: DRY-RUN / SIMULACRO]**
+> Si el usuario solicita la ejecución en modo `--dry-run` o pide un "simulacro", el agente **NO** ejecutará comandos que alteren el estado del sistema ni llamará a herramientas MCP destructivas en la Fase de Acción. 
+> En su lugar, el agente imprimirá el payload exacto (JSON, bloque de código o parámetros) que planeaba ejecutar, y se detendrá a esperar la aprobación explícita del humano.
 
-1. **Every PR MUST link an approved issue** — `Closes/Fixes/Resolves #<N>` in the PR body, and that issue MUST have `status:approved`. PRs without this are **automatically rejected** by CI.
-2. **Exactly one `type:*` label** — apply exactly ONE type label to the PR. CI will reject PRs with zero or multiple type labels.
-3. **400-line review budget** — keep PRs within 400 changed lines (`additions + deletions`) or request/obtain maintainer-applied `size:exception` with rationale documented.
-4. **Automated checks must pass** — see the Automated Checks table below.
-5. **No `Co-Authored-By` trailers** — never add AI attribution to commits.
-6. **No force-push to main/master** — protected branch.
+### 1. Fase de Diagnóstico
+- Verificar que el issue a enlazar tenga la etiqueta `status:approved`.
 
-## Workflow
+### 2. Fase de Acción
+- Crear un branch siguiendo la nomenclatura: `type/description`.
+- Implementar los cambios utilizando commits convencionales.
+- Ejecutar `shellcheck` en los scripts modificados.
+- Abrir el PR utilizando el PR template correspondiente del repositorio.
+- Agregar exactamente UNA etiqueta de tipo `type:*`.
 
-```
-1. Confirm the issue has status:approved
-   gh issue view <N> --repo Gentleman-Programming/gentle-ai
+### 3. Fase de Verificación
+- Esperar a que las comprobaciones automáticas pasen en el repositorio.
 
-2. Create a branch from main using the naming convention below
+## Guardrails (Reglas Críticas)
+- **SIEMPRE** vincula un issue aprobado a CADA pull request, no hay excepciones.
+- **SIEMPRE** agrega exactamente UNA etiqueta `type:*` al PR.
+- **NUNCA** hagas push ni asumas que el merge es posible sin que las validaciones automáticas pasen.
+- **NUNCA** utilices `Co-Authored-By` de asistentes AI en los commits.
 
-3. Implement changes following specs and design
+## Estructuras de Datos / Ejemplos y Comandos
 
-4. Run tests locally (unit + E2E)
+### Nomenclatura de Branch
+Expresión regular estricta: `^(feat|fix|chore|docs|style|refactor|perf|test|build|ci|revert)\/[a-z0-9._-]+$`
+**Formato:** `type/description` (ej. `feat/user-login`, `fix/zsh-glob-error`).
 
-5. Commit using Conventional Commits format
-
-6. Open a PR referencing the issue
-   → Add exactly ONE type:* label
-   → Fill in the PR body using the template
-
-7. All automated checks must pass before merge
-```
-
----
-
-## Branch Naming
-
-Branch names **must** match this pattern:
-
-```
-^(feat|fix|chore|docs|style|refactor|perf|test|build|ci|revert)\/[a-z0-9._-]+$
-```
-
-| Type | Example |
-|------|---------|
-| `feat/` | `feat/user-login` |
-| `fix/` | `fix/duplicate-observation-insert` |
-| `docs/` | `docs/api-reference-update` |
-| `refactor/` | `refactor/extract-query-sanitizer` |
-| `chore/` | `chore/bump-bubbletea-v0.26` |
-| `style/` | `style/fix-linter-warnings` |
-| `perf/` | `perf/optimize-catalog-loading` |
-| `test/` | `test/add-pipeline-coverage` |
-| `build/` | `build/update-goreleaser-config` |
-| `ci/` | `ci/add-e2e-docker-job` |
-| `revert/` | `revert/undo-model-picker-change` |
-
-**Rules:**
-- All lowercase
-- Use hyphens, dots, or underscores as separators (no spaces, no uppercase)
-- Description must be short and descriptive
-
----
-
-## PR Body Format
-
-The PR body must follow the template at `.github/PULL_REQUEST_TEMPLATE.md`. All sections are required unless marked optional.
-
+### Formato de PR Body
 ```markdown
-## 🔗 Linked Issue
+Closes #<issue-number>
 
-Closes #<N>
+| File | Change |
+|------|--------|
+| `path/to/file` | What changed |
 
-## 🏷️ PR Type
-
-- [ ] `type:bug` — Bug fix (non-breaking change that fixes an issue)
-- [ ] `type:feature` — New feature (non-breaking change that adds functionality)
-- [ ] `type:docs` — Documentation only
-- [ ] `type:refactor` — Code refactoring (no functional changes)
-- [ ] `type:chore` — Build, CI, or tooling changes
-- [ ] `type:breaking-change` — Breaking change
-
-## 📝 Summary
-
-<!-- Clear description of what this PR does and why. -->
-
-## 📂 Changes
-
-| File / Area | What Changed |
-|-------------|-------------|
-| `path/to/file` | Brief description |
-
-## 🧪 Test Plan
-
-**Unit Tests**
-\`\`\`bash
-go test ./...
-\`\`\`
-
-**E2E Tests** (Docker required)
-\`\`\`bash
-cd e2e && ./docker-test.sh
-\`\`\`
-
-- [ ] Unit tests pass (`go test ./...`)
-- [ ] E2E tests pass (`cd e2e && ./docker-test.sh`)
-- [ ] Manually tested locally
-
-## ✅ Contributor Checklist
-
-- [ ] PR is linked to an issue with `status:approved`
-- [ ] PR stays within 400 changed lines, or I have requested/obtained maintainer-applied `size:exception` with rationale documented
-- [ ] I have added the appropriate `type:*` label to this PR
-- [ ] Unit tests pass (`go test ./...`)
-- [ ] E2E tests pass (`cd e2e && ./docker-test.sh`)
-- [ ] I have updated documentation if necessary
-- [ ] My commits follow Conventional Commits format
-- [ ] My commits do not include `Co-Authored-By` trailers
+- [x] Scripts run without errors: `shellcheck scripts/*.sh`
+- [x] Manually tested the affected functionality
+- [x] Skills load correctly in target agent
 ```
+*(Debe usarse el `.github/PULL_REQUEST_TEMPLATE.md`)*
 
----
+### Conventional Commits
+Regex: `^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\([a-z0-9\._-]+\))?!?: .+`
+**Formato:** `type(scope): description` o `type: description` (el `!` indica breaking change).
 
-## Automated Checks
-
-These checks run on every PR and **all must pass** before merge:
-
-| Check | What It Verifies | How to Fix |
-|-------|-----------------|------------|
-| **Check PR Cognitive Load** | PR stays within 400 changed lines (`additions + deletions`) or has `size:exception` | Split the PR, or request/obtain maintainer-applied `size:exception` and document the rationale |
-| **Check Issue Reference** | PR body contains `Closes/Fixes/Resolves #N` | Add `Closes #<N>` to the PR body |
-| **Check Issue Has `status:approved`** | Linked issue has been approved by a maintainer | Wait for maintainer to add `status:approved` to the issue |
-| **Check PR Has `type:*` Label** | Exactly one `type:*` label is applied to the PR | Ask a maintainer to add the correct label; remove extras |
-| **Unit Tests** | `go test ./...` passes | Fix failing tests before pushing |
-| **E2E Tests** | `cd e2e && ./docker-test.sh` passes | Fix failing E2E scenarios before pushing |
-
----
-
-## Conventional Commits
-
-Commit messages **must** match this pattern:
-
-```
-^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\([a-z0-9\._-]+\))?!?: .+
-```
-
-### Format
-
-```
-<type>(<optional-scope>)!: <description>
-
-[optional body]
-
-[optional footer]
-```
-
-### Allowed Types
-
-| Type | Purpose | PR Label |
-|------|---------|----------|
-| `feat` | New feature | `type:feature` |
-| `fix` | Bug fix | `type:bug` |
-| `docs` | Documentation only | `type:docs` |
-| `refactor` | Code change (no behavior change) | `type:refactor` |
-| `chore` | Maintenance, dependencies, tooling | `type:chore` |
-| `style` | Formatting, linting (no logic change) | `type:chore` |
-| `perf` | Performance improvement | `type:feature` |
-| `test` | Adding or updating tests | `type:chore` |
-| `build` | Build system or external deps | `type:chore` |
-| `ci` | CI configuration | `type:chore` |
-| `revert` | Reverts a previous commit | matches reverted type |
-
-### Breaking Changes
-
-Add `!` after the type/scope:
-
-```
-feat(cli)!: rename --config flag to --config-file
-
-BREAKING CHANGE: the --config flag has been renamed to --config-file.
-```
-
-Breaking changes map to `type:breaking-change` label.
-
-### Examples
-
-```
-feat(tui): add progress bar to installation steps
-fix(agent): correct Claude Code detection on macOS
-docs: update contributing guide
-chore(deps): bump bubbletea to v0.26
-refactor(pipeline): extract step executor
-style: fix linter warnings in catalog package
-perf(system): cache OS detection result
-test(installer): add coverage for catalog step execution
-build: update goreleaser config for arm64
-ci: split unit and e2e test jobs
-revert: undo model picker redesign
-feat(cli)!: change default config path
-```
-
----
-
-## Commands
-
-### Setup
-
+### Comandos de Ejecución
 ```bash
-# Confirm issue is approved before starting
-gh issue view <N> --repo Gentleman-Programming/gentle-ai
-
-# Create branch
-git checkout main && git pull
-git checkout -b fix/<short-description>
+git checkout -b feat/my-feature main
+shellcheck scripts/*.sh
+git push -u origin feat/my-feature
+gh pr create --title "feat(scope): description" --body "Closes #N"
+gh pr edit <pr-number> --add-label "type:feature"
 ```
 
-### Testing Locally
-
-```bash
-# Unit tests
-go test ./...
-
-# Unit tests — specific package
-go test ./internal/tui/...
-
-# Unit tests — verbose
-go test -v ./...
-
-# E2E tests (Docker must be running)
-cd e2e && ./docker-test.sh
-```
-
-### Open a PR
-
-```bash
-gh pr create \
-  --repo Gentleman-Programming/gentle-ai \
-  --title "fix(agent): correct Claude Code detection on Linux" \
-  --body "$(cat <<'EOF'
-## 🔗 Linked Issue
-
-Closes #42
-
-## 🏷️ PR Type
-
-- [x] \`type:bug\` — Bug fix (non-breaking change that fixes an issue)
-
-## 📝 Summary
-
-Fixes Claude Code binary detection failing on Linux when HOME is not set.
-
-## 📂 Changes
-
-| File / Area | What Changed |
-|-------------|-------------|
-| \`internal/agents/claude.go\` | Added HOME env var fallback |
-
-## 🧪 Test Plan
-
-- [x] Unit tests pass (\`go test ./...\`)
-- [x] E2E tests pass (\`cd e2e && ./docker-test.sh\`)
-- [x] Manually tested locally
-
-## ✅ Contributor Checklist
-
-- [x] PR is linked to an issue with \`status:approved\`
-- [x] PR stays within 400 changed lines, or I have requested/obtained maintainer-applied \`size:exception\` with rationale documented
-- [x] I have added the appropriate \`type:*\` label to this PR
-- [x] Unit tests pass (\`go test ./...\`)
-- [x] E2E tests pass (\`cd e2e && ./docker-test.sh\`)
-- [x] I have updated documentation if necessary
-- [x] My commits follow Conventional Commits format
-- [x] My commits do not include \`Co-Authored-By\` trailers
-EOF
-)"
-```
-
-### Check PR Status
-
-```bash
-gh pr checks --repo Gentleman-Programming/gentle-ai <PR-number>
-gh pr view --repo Gentleman-Programming/gentle-ai <PR-number>
-```
-
-### Add a Label
-
-```bash
-gh pr edit <PR-number> --repo Gentleman-Programming/gentle-ai --add-label "type:bug"
-```
+## ⚠️ Residuos de Migración (Feedback para evolución)
+*(Toda la información ha sido mapeada satisfactoriamente)*

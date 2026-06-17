@@ -5,11 +5,7 @@ description: >
   Trigger: "destilar local", "compresión local", "local distiller".
 license: MIT
 metadata:
-  author: TaoTomate
-  generator_model: gemini-1.5-pro
-  upstream_source: local_custom_skill
-  upstream_date: N/A
-  local_sync_date: 2026-06-15
+  author: gentleman-programming
   version: "1.0"
 ---
 

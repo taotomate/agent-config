@@ -1,10 +1,5 @@
 # VISION.md
-<!-- v3.3 | última edición: 2026-06-11 -->
-
-## Notas e Inspiración
-Este framework es un desarrollo original de **Taotomate**, fuertemente inspirado a nivel conceptual, arquitectónico (SDD) y de herencia de identidad en el ecosistema "Gentleman AI" de Alan Buscaglia. Se reconoce y agradece su valioso aporte open source, el cual sentó bases metodológicas que luego fueron adaptadas y evolucionadas para las necesidades de este repositorio.
-
----
+<!-- v3.2 | última edición: 2026-06-03 -->
 
 ## Por qué y para qué existe este sistema
 

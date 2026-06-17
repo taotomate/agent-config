@@ -1,244 +1,106 @@
 ---
-name: gentle-ai-issue-creation
-description: "Create Gentle AI issues with issue-first checks. Trigger: creating GitHub issues, bug reports, or feature requests."
-license: Apache-2.0
-metadata:
-  author: TaoTomate
-  generator_model: gemini-1.5-pro
-  upstream_source: Gentleman-Programming/gentle-ai/skills/issue-creation
-  upstream_date: 2026-05-07
-  local_sync_date: 2026-06-15
-  version: "1.0"
+name: issue-creation
+description: Issue creation workflow for Agent Teams Lite using the GitHub MCP Server.
+version: 1.2.0
+author: TaoTomate
+generator_model: gemini-1.5-pro
+inherited_from: issue-creation/SKILL.md
+migrated_by: skill-migrator@1.0.0
 ---
 
-# Gentle AI — Issue Creation Skill
+## Contexto y Triggers
+**Cuándo usar esta skill:**
+- Creación de un GitHub issue (bug report o feature request).
+- Ayudar a un colaborador a reportar un issue.
+- Triage o aprobación de issues como mantenedor.
 
-## When to Use
+## Pre-requisitos
+- [ ] Servidor MCP de GitHub configurado y habilitado.
+- [ ] El repositorio destino tiene las plantillas `.github/ISSUE_TEMPLATE/bug_report.yml` y `.github/ISSUE_TEMPLATE/feature_request.yml`.
 
-Load this skill whenever you need to:
-- Report a bug in `gga`
-- Request a new feature or enhancement
-- Open any GitHub issue on the [Gentleman-Programming/gentle-ai](https://github.com/Gentleman-Programming/gentle-ai) repository
+## Fases de Ejecución
 
-## Critical Rules
+> **[REGLA UNIVERSAL: DRY-RUN / SIMULACRO]**
+> Si el usuario solicita la ejecución en modo `--dry-run` o pide un "simulacro", el agente **NO** ejecutará comandos que alteren el estado del sistema ni llamará a herramientas MCP destructivas en la Fase de Acción. 
+> En su lugar, el agente imprimirá el payload exacto (JSON, bloque de código o parámetros) que planeaba ejecutar, y se detendrá a esperar la aprobación explícita del humano.
 
-1. **Blank issues are DISABLED** — `blank_issues_enabled: false` in `.github/ISSUE_TEMPLATE/config.yml`. You MUST use a template.
-2. **`status:needs-review` is applied automatically** — every new issue gets this label; you do NOT add it manually.
-3. **`status:approved` is REQUIRED before ANY work begins** — a maintainer must label the issue before you or anyone opens a PR.
-4. **Questions go to Discussions** — use [GitHub Discussions](https://github.com/Gentleman-Programming/gentle-ai/discussions), NOT issues, for questions and general conversation.
-5. **No Co-Authored-By trailers** — never add AI attribution to commits.
+### 1. Fase de Diagnóstico
+- Ejecutar una búsqueda de issues existentes usando la herramienta MCP `search_issues` para asegurar que no sea un duplicado.
+- Determinar si el requerimiento es un Bug, Feature o Pregunta. (Si es Pregunta, derivar a Discussions y abortar la skill).
 
-## Workflow
+### 2. Fase de Acción
+- Extraer del usuario toda la información requerida según el tipo de issue (ver sección Estructuras de Datos).
+- Construir el cuerpo del issue (Markdown string) respetando estrictamente el formato de los campos esperados.
+- Invocar la herramienta MCP `create_issue` con el owner, repo, title y body correspondientes.
 
-```
-1. Search existing issues → confirm it's not a duplicate
-   https://github.com/Gentleman-Programming/gentle-ai/issues
+### 3. Fase de Verificación
+- Confirmar que la herramienta MCP devuelve un código de éxito y el número del nuevo issue.
+- Si el repositorio está configurado con auto-labels, verificar internamente que el ciclo se completó (ej. `status:needs-review`).
 
-2. Choose the correct template:
-   - Bug   → .github/ISSUE_TEMPLATE/bug_report.yml
-   - Feat  → .github/ISSUE_TEMPLATE/feature_request.yml
+## Guardrails (Reglas Críticas)
+- **NO** crear issues en blanco; SIEMPRE usar la estructura Markdown definida por las plantillas `.yml` del repositorio objetivo.
+- **NO** redirigir preguntas a issues; SIEMPRE mandarlas a [Discussions](https://github.com/Gentleman-Programming/agent-teams-lite/discussions).
+- **SIEMPRE** priorizar el uso del servidor MCP nativo por sobre la ejecución de comandos `gh` en terminal.
 
-3. Submit the issue → status:needs-review is applied automatically
+## Estructuras de Datos / Ejemplos y Comandos
 
-4. Wait — a maintainer reviews and adds status:approved (or closes)
+### Plantilla de Formato: Bug Report
+Cuando armes el parámetro `body` para la herramienta MCP `create_issue`, inyecta este Markdown estricto:
 
-5. Only AFTER status:approved → open a PR referencing this issue
-```
+```markdown
+### Pre-flight Checks
+- [x] I have searched existing issues and this is not a duplicate
+- [x] I understand this issue needs status:approved before a PR can be opened
 
-> ⚠️ **STOP after step 3.** Do NOT open a PR until the issue has `status:approved`.
+### Bug Description
+[Descripción clara del error]
 
----
+### Steps to Reproduce
+1. [Paso 1]
+2. [Paso 2]
 
-## Bug Report
+### Expected Behavior
+[Lo que debía pasar]
 
-**Template path**: `.github/ISSUE_TEMPLATE/bug_report.yml`
-**Auto-labels**: `bug`, `status:needs-review`
+### Actual Behavior
+[Lo que pasó, incluye logs en formato bloque de código]
 
-### Required Fields
+### Operating System
+[OS]
 
-| Field | Description |
-|-------|-------------|
-| Pre-flight Checklist | Confirm no duplicate exists; confirm PR-approval understanding |
-| Bug Description | Clear description of what the bug is |
-| Steps to Reproduce | Numbered steps to reproduce the behavior |
-| Expected Behavior | What should happen |
-| Actual Behavior | What actually happens |
-| Gentle AI Version | Output of `gga version` |
-| Operating System | macOS / Linux distro / Windows / WSL |
-| AI Agent / Client | Claude Code / OpenCode / Gemini CLI / Cursor / Windsurf / Other |
-| Affected Area | See area list below |
-
-### Affected Areas
-
-`CLI (commands, flags)` · `TUI (terminal UI)` · `Installation Pipeline` · `Agent Detection` · `System Detection` · `Catalog/Steps` · `Documentation` · `Other`
-
-### Example CLI Command
-
-```bash
-gh issue create \
-  --repo Gentleman-Programming/gentle-ai \
-  --template bug_report.yml \
-  --title "fix(agent): Claude Code not detected on Linux Arch"
+### Agent / Client
+[Cliente usado]
 ```
 
-Or open the web form directly:
-```
-https://github.com/Gentleman-Programming/gentle-ai/issues/new?template=bug_report.yml
-```
+### Plantilla de Formato: Feature Request
+Cuando armes el parámetro `body` para la herramienta MCP `create_issue`, usa este Markdown estricto:
 
----
+```markdown
+### Pre-flight Checks
+- [x] I have searched existing issues and this is not a duplicate
+- [x] I understand this issue needs status:approved before a PR can be opened
 
-## Feature Request
+### Problem Description
+[El punto de dolor que esto resuelve]
 
-**Template path**: `.github/ISSUE_TEMPLATE/feature_request.yml`
-**Auto-labels**: `enhancement`, `status:needs-review`
+### Proposed Solution
+[Cómo debería funcionar desde la perspectiva del usuario]
 
-### Required Fields
-
-| Field | Description |
-|-------|-------------|
-| Pre-flight Checklist | Confirm no duplicate exists; confirm PR-approval understanding |
-| Affected Area | Which area of `gga` this feature affects |
-| Problem Statement | Describe the problem this feature solves |
-| Proposed Solution | Specific description — include example `gga` command/output if relevant |
-| Alternatives Considered | (optional) Other approaches you thought about |
-| Additional Context | (optional) Screenshots, config files, etc. |
-
-### Example CLI Command
-
-```bash
-gh issue create \
-  --repo Gentleman-Programming/gentle-ai \
-  --template feature_request.yml \
-  --title "feat(tui): add keyboard shortcut help overlay"
+### Affected Area
+[Scripts, Skills, Docs, etc.]
 ```
 
-Or open the web form directly:
-```
-https://github.com/Gentleman-Programming/gentle-ai/issues/new?template=feature_request.yml
-```
-
----
-
-## Label System
-
-### Status Labels (applied to Issues)
-
-| Label | Description | Who Applies |
-|-------|-------------|-------------|
-| `status:needs-review` | Newly opened, awaiting maintainer review | **Auto** (template) |
-| `status:approved` | Approved — work can begin | Maintainer only |
-| `status:in-progress` | Being actively worked on | Contributor |
-| `status:blocked` | Blocked by another issue or external dependency | Maintainer / Contributor |
-| `status:wont-fix` | Out of scope or won't be addressed | Maintainer only |
-
-### Type Labels (applied to Issues and PRs)
-
-| Label | Description |
-|-------|-------------|
-| `bug` | Defect report |
-| `enhancement` | Feature or improvement request |
-| `type:bug` | Bug fix (used on PRs) |
-| `type:feature` | New feature (used on PRs) |
-| `type:docs` | Documentation only (used on PRs) |
-| `type:refactor` | Refactoring, no functional changes (used on PRs) |
-| `type:chore` | Build, CI, tooling (used on PRs) |
-| `type:breaking-change` | Breaking change (used on PRs) |
-
-### Priority Labels
-
-| Label | Description |
-|-------|-------------|
-| `priority:critical` | Blocking issues, security vulnerabilities |
-| `priority:high` | Important, affects many users |
-| `priority:medium` | Normal priority |
-| `priority:low` | Nice to have |
-
----
-
-## Maintainer Approval Workflow
-
-```
-Issue submitted
-      │
-      ▼
-status:needs-review  ← auto-applied by template
-      │
-      ▼
-Maintainer reviews
-      │
-  ┌───┴────────────────┐
-  │                    │
-  ▼                    ▼
-status:approved    Closed
-(work can begin)   (invalid / duplicate / wont-fix)
-      │
-      ▼
-Contributor comments "I'll work on this"
-      │
-      ▼
-status:in-progress
-      │
-      ▼
-PR opened with `Closes #<N>`
+### Ejemplo de invocación MCP (Representación JSON)
+El agente debe estructurar la llamada a la herramienta MCP `create_issue` similar a esto:
+```json
+{
+  "owner": "Gentleman-Programming",
+  "repo": "agent-teams-lite",
+  "title": "fix(scripts): error de auth en github mcp",
+  "body": "### Pre-flight Checks\n- [x] I have searched..."
+}
 ```
 
----
-
-## Decision Tree
-
-```
-Do you have a question or idea to discuss?
-├── YES → GitHub Discussions (NOT issues)
-│         https://github.com/Gentleman-Programming/gentle-ai/discussions
-└── NO  → Is it a defect in gga?
-          ├── YES → Bug Report template
-          └── NO  → Feature Request template
-                    │
-                    ▼
-          Does a similar issue already exist?
-          ├── YES → Comment on existing issue instead
-          └── NO  → Submit new issue → wait for status:approved
-```
-
----
-
-## Commands
-
-### Search for Existing Issues
-
-```bash
-# Search open issues
-gh issue list --repo Gentleman-Programming/gentle-ai --state open --search "your keywords"
-
-# Search all issues including closed
-gh issue list --repo Gentleman-Programming/gentle-ai --state all --search "your keywords"
-```
-
-### Create a Bug Report
-
-```bash
-gh issue create \
-  --repo Gentleman-Programming/gentle-ai \
-  --template bug_report.yml \
-  --title "fix(<scope>): <short description>"
-```
-
-### Create a Feature Request
-
-```bash
-gh issue create \
-  --repo Gentleman-Programming/gentle-ai \
-  --template feature_request.yml \
-  --title "feat(<scope>): <short description>"
-```
-
-### Check Issue Status
-
-```bash
-gh issue view <number> --repo Gentleman-Programming/gentle-ai
-```
-
-### Valid Scopes for Issue Titles
-
-`tui`, `cli`, `installer`, `catalog`, `system`, `agent`, `e2e`, `ci`, `docs`
+## Troubleshooting
+- *Si la herramienta MCP devuelve un error de timeout o credenciales inválidas:* El usuario debe revisar la configuración de sus tokens (`GITHUB_PERSONAL_ACCESS_TOKEN`) en el archivo config de MCP.
+- *Si el MCP no está disponible:* Abortar e invocar la skill `auditor`, no intentes recurrir al `gh cli` de la terminal a menos que el humano lo ordene explícitamente.

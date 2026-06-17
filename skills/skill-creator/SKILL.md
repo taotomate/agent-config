@@ -5,159 +5,84 @@ description: >
   Trigger: When user asks to create a new skill, add service instructions, or document patterns for AI.
 license: Apache-2.0
 metadata:
-  author: TaoTomate
-  generator_model: gemini-1.5-pro
-  upstream_source: local_custom_skill
-  upstream_date: N/A
-  local_sync_date: 2026-06-15
+  author: gentleman-programming
   version: "1.0"
 allowed-tools: Read, Edit, Write, Glob, Grep, Bash, WebFetch, WebSearch, Task
+generator_model: gemini-1.5-pro
+inherited_from: skill-creator/SKILL.md
+migrated_by: skill-migrator@1.0.0
 ---
 
-## When to Create a Skill
+## Contexto y Triggers
+**Cuándo usar esta skill:**
+- Un patrón es utilizado repetidamente y la AI requiere instrucciones explícitas.
+- Las convenciones específicas del proyecto difieren de las prácticas generales recomendadas.
+- Los flujos de trabajo complejos requieren instrucciones paso a paso.
+- Cuando los árboles de decisión pueden ayudar a la AI a elegir el enfoque correcto.
 
-Create a skill when:
-- A pattern is used repeatedly and AI needs guidance
-- Project-specific conventions differ from generic best practices
-- Complex workflows need step-by-step instructions
-- Decision trees help AI choose the right approach
+## Pre-requisitos
+- [ ] La skill no debe existir ya (verificar en `skills/`).
+- [ ] El patrón debe ser reusable, no una tarea ad-hoc o aislada.
 
-**Don't create a skill when:**
-- Documentation already exists (create a reference instead)
-- Pattern is trivial or self-explanatory
-- It's a one-off task
+## Fases de Ejecución
 
----
+> **[REGLA UNIVERSAL: DRY-RUN / SIMULACRO]**
+> Si el usuario solicita la ejecución en modo `--dry-run` o pide un "simulacro", el agente **NO** ejecutará comandos que alteren el estado del sistema ni llamará a herramientas MCP destructivas en la Fase de Acción. 
+> En su lugar, el agente imprimirá el payload exacto (JSON, bloque de código o parámetros) que planeaba ejecutar, y se detendrá a esperar la aprobación explícita del humano.
 
-## Skill Structure
+### 1. Fase de Diagnóstico
+- Evaluar si realmente se necesita una skill: Si la documentación ya existe, crear una referencia. Si es trivial, no crear la skill.
+- Determinar el nombre siguiendo la nomenclatura (`{technology}`, `{project}-{component}`, `{action}-{target}`).
 
-```
+### 2. Fase de Acción
+- Escribir el `SKILL.md` principal usando la plantilla.
+- Incluir patrones críticos claros, ejemplos de código mínimos y comandos copy-paste.
+- Decidir la ubicación de archivos accesorios: `assets/` para templates o esquemas JSON; `references/` para referencias locales de documentación.
+
+### 3. Fase de Verificación
+- Asegurar que el frontmatter está completo (identificador en lowercase, descripción con triggers, versión, autor).
+- Agregar la nueva skill al registro `CONSTITUTION.md` usando la tabla de habilidades.
+
+## Guardrails (Reglas Críticas)
+- **NUNCA** agregues una sección de "Keywords" (el agente busca en el frontmatter, no en el body).
+- **NUNCA** uses URLs web en `references/`, debes usar paths locales exclusivamente.
+- **NUNCA** dupliques contenido de documentación ya existente; utiliza enlaces y referencias.
+- **SIEMPRE** asegúrate de comenzar con los patrones más críticos y usar tablas para árboles de decisión.
+
+## Estructuras de Datos / Ejemplos y Comandos
+
+### Nomenclatura de Skills
+- **Genérica:** `{technology}` (ej. `pytest`, `typescript`)
+- **Específica de proyecto:** `{project}-{component}` (ej. `myapp-api`)
+- **De flujo de trabajo:** `{action}-{target}` (ej. `skill-creator`, `jira-task`)
+
+### Estructura de Directorios
+```text
 skills/{skill-name}/
-├── SKILL.md              # Required - main skill file
-├── assets/               # Optional - templates, schemas, examples
-│   ├── template.py
-│   └── schema.json
-└── references/           # Optional - links to local docs
-    └── docs.md           # Points to docs/developer-guide/*.mdx
+├── SKILL.md              # Obligatorio - archivo principal
+├── assets/               # Opcional - templates, schemas
+└── references/           # Opcional - links a documentación local
 ```
 
----
-
-## SKILL.md Template
-
+### Plantilla Básica SKILL.md
 ```markdown
 ---
 name: {skill-name}
-description: >
-  {One-line description of what this skill does}.
-  Trigger: {When the AI should load this skill}.
-license: Apache-2.0
-metadata:
-  author: gentleman-programming
-  version: "1.0"
+description: {Qué hace y cuándo invocarlo (triggers)}
+version: "1.0.0"
+author: {tu-nombre}
 ---
-
-## When to Use
-
-{Bullet points of when to use this skill}
-
-## Critical Patterns
-
-{The most important rules - what AI MUST know}
-
-## Code Examples
-
-{Minimal, focused examples}
-
-## Commands
-
-```bash
-{Common commands}
+## Contexto y Triggers
+## Pre-requisitos
+## Fases de Ejecución
+## Guardrails (Reglas Críticas)
+## Estructuras de Datos / Ejemplos y Comandos
 ```
 
-## Resources
-
-- **Templates**: See [assets/](assets/) for {description}
-- **Documentation**: See [references/](references/) for local docs
-```
-
----
-
-## Naming Conventions
-
-| Type | Pattern | Examples |
-|------|---------|----------|
-| Generic skill | `{technology}` | `pytest`, `playwright`, `typescript` |
-| Project-specific | `{project}-{component}` | `myapp-api`, `myapp-ui` |
-| Testing skill | `{project}-test-{component}` | `myapp-test-sdk`, `myapp-test-api` |
-| Workflow skill | `{action}-{target}` | `skill-creator`, `jira-task` |
-
----
-
-## Decision: assets/ vs references/
-
-```
-Need code templates?        → assets/
-Need JSON schemas?          → assets/
-Need example configs?       → assets/
-Link to existing docs?      → references/
-Link to external guides?    → references/ (with local path)
-```
-
-**Key Rule**: `references/` should point to LOCAL files, not web URLs.
-
----
-
-## Frontmatter Fields
-
-| Field | Required | Description |
-|-------|----------|-------------|
-| `name` | Yes | Skill identifier (lowercase, hyphens) |
-| `description` | Yes | What + Trigger in one block |
-| `license` | Yes | Always `Apache-2.0` |
-| `metadata.author` | Yes | `gentleman-programming` |
-| `metadata.version` | Yes | Semantic version as string |
-
----
-
-## Content Guidelines
-
-### DO
-- Start with the most critical patterns
-- Use tables for decision trees
-- Keep code examples minimal and focused
-- Include Commands section with copy-paste commands
-
-### DON'T
-- Add Keywords section (agent searches frontmatter, not body)
-- Duplicate content from existing docs (reference instead)
-- Include lengthy explanations (link to docs)
-- Add troubleshooting sections (keep focused)
-- Use web URLs in references (use local paths)
-
----
-
-## Registering the Skill
-
-After creating the skill, add it to `CONSTITUTION.md`:
-
+### Registro en CONSTITUTION.md
 ```markdown
 | `{skill-name}` | {Description} | [SKILL.md](skills/{skill-name}/SKILL.md) |
 ```
 
----
-
-## Checklist Before Creating
-
-- [ ] Skill doesn't already exist (check `skills/`)
-- [ ] Pattern is reusable (not one-off)
-- [ ] Name follows conventions
-- [ ] Frontmatter is complete (description includes trigger keywords)
-- [ ] Critical patterns are clear
-- [ ] Code examples are minimal
-- [ ] Commands section exists
-- [ ] Added to CONSTITUTION.md
-
-## Resources
-
-- **Templates**: See [assets/](assets/) for SKILL.md template
+## ⚠️ Residuos de Migración (Feedback para evolución)
+*(Toda la información ha sido mapeada satisfactoriamente)*

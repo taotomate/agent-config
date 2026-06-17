@@ -6,32 +6,72 @@ description: >
   inyectar el SOTA Sync Point en el hilo actual).
   Trigger: "prueba compress", "distill experimental", "telemetria de destilacion".
 metadata:
-  author: TaoTomate
-  generator_model: gemini-1.5-pro
-  upstream_source: local_custom_skill
-  upstream_date: N/A
-  local_sync_date: 2026-06-15
   version: "3.0"
+author: TaoTomate
+generator_model: gemini-1.5-pro
+inherited_from: experimental-compress/SKILL.md
+migrated_by: skill-migrator@1.0.0
 ---
 
-## SOTA Compression Protocol
+## Contexto y Triggers
+**Cuándo usar esta skill:**
+- Cuando el usuario pide ver el progreso de los chunks procesados en segundo plano (`'status'`).
+- Cuando se requiere inyectar el SOTA Sync Point en el hilo actual (`'reduce'`).
+- Triggers: "prueba compress", "distill experimental", "telemetria de destilacion".
 
-### 1. Status Check (Telemetría)
-Si el usuario pregunta por el estado de la destilación o cuántos chunks se procesaron:
-1. Ejecuta el script en modo status:
-   `python D:\Engram_SDD\Proj-Distill\distill_experimental.py --mode status`
-2. El script imprimirá en la consola el reporte de hilos procesados y pendientes.
-3. Lee el stdout de la consola y muéstraselo al usuario directamente en el chat, formateado de forma limpia.
+## Pre-requisitos
+- [ ] Acceso de ejecución al script `D:\Engram_SDD\Proj-Distill\distill_experimental.py`.
+- [ ] Tener acceso al ID real de la conversación actual (`<conversation_id>`).
 
-### 2. SOTA Injection (Fases Map + Reduce Manuales)
-Si el usuario pide ejecutar la destilación, el punto de sincronización, o dice "prueba compress":
-1. Ejecuta primero el script en modo `map-only` apuntando a esta conversación para procesar sus chunks pendientes.
-   - **Mapeo Completo**: `python D:\Engram_SDD\Proj-Distill\distill_experimental.py --mode map-only --conversation-id <conversation_id>`
-   - **Mapeo Parcial (Panorámica Rápida)**: `python D:\Engram_SDD\Proj-Distill\distill_experimental.py --mode map-only --conversation-id <conversation_id> --max-chunks 5`
-   *(Reemplaza <conversation_id> por el ID real de este chat. Si hay un modelo de map específico configurado, agregá --map-models <modelo>).*
-2. Ejecuta inmediatamente después el script en modo `reduce` para generar el dossier consolidado (incluso si no se mapeó todo el hilo):
-   `python D:\Engram_SDD\Proj-Distill\distill_experimental.py --mode reduce --conversation-id <conversation_id>`
-   *(Reemplaza <conversation_id> por el ID real de este chat. Si hay un modelo de reduce específico, agregá --reduce-model <modelo>).*
-3. El script de python en modo `reduce` leerá el archivo de estado actualizado (`distill_state_<id>.json`), llamará al modelo (Fase Reduce) y te devolverá un JSON por stdout.
-4. **UX Sync**: Parseá ese JSON y agarrá el campo `summary`.
-5. DEBES escupir el contenido exacto de ese `summary` en el chat. No lo resumas ni lo escondas en un artefacto. Esto servirá como el ancla de memoria (SOTA Sync Point) para el LLM y el usuario.
+## Fases de Ejecución
+
+> **[REGLA UNIVERSAL: DRY-RUN / SIMULACRO]**
+> Si el usuario solicita la ejecución en modo `--dry-run` o pide un "simulacro", el agente **NO** ejecutará comandos que alteren el estado del sistema ni llamará a herramientas MCP destructivas en la Fase de Acción. 
+> En su lugar, el agente imprimirá el payload exacto (JSON, bloque de código o parámetros) que planeaba ejecutar, y se detendrá a esperar la aprobación explícita del humano.
+
+### 1. Fase de Diagnóstico
+- Identificar la intención del usuario basándose en el trigger: ¿Es una consulta de telemetría (Status Check) o una ejecución manual de la compresión (SOTA Injection)?
+
+### 2. Fase de Acción
+- **Si es Status Check (Telemetría):**
+  - Ejecutar el script en modo status (ver sección Comandos).
+- **Si es SOTA Injection (Manual):**
+  - Ejecutar primero el script en modo `map-only` apuntando a esta conversación para procesar sus chunks pendientes. Puede ser Mapeo Completo o Parcial.
+  - Ejecutar inmediatamente después el script en modo `reduce` para generar el dossier consolidado, incluso si no se mapeó todo el hilo.
+
+### 3. Fase de Verificación
+- **Para Status Check:** Leer el stdout de la consola y mostrar el reporte de hilos procesados y pendientes, formateándolo limpiamente en el chat.
+- **Para SOTA Injection:** El script en modo `reduce` devolverá un JSON. Extraer el campo `summary` (UX Sync). Escupir el contenido *exacto* de ese `summary` en el chat de inmediato.
+
+## Guardrails (Reglas Críticas)
+- **SIEMPRE** debes usar el ID real de este chat al reemplazar `<conversation_id>`.
+- **NUNCA** resumas ni escondas en un artefacto el contenido del `summary` devuelto en el modo `reduce`. Debes imprimirlo exactamente como viene; esto sirve como el ancla de memoria.
+- **SIEMPRE** ejecuta la fase de `reduce` después del `map-only` para inyecciones manuales.
+
+## Estructuras de Datos / Ejemplos y Comandos
+
+### Comandos de Ejecución
+
+**Status Check (Telemetría):**
+```bash
+python D:\Engram_SDD\Proj-Distill\distill_experimental.py --mode status
+```
+
+**SOTA Injection - Mapeo Completo:**
+```bash
+python D:\Engram_SDD\Proj-Distill\distill_experimental.py --mode map-only --conversation-id <conversation_id>
+```
+
+**SOTA Injection - Mapeo Parcial (Panorámica Rápida):**
+```bash
+python D:\Engram_SDD\Proj-Distill\distill_experimental.py --mode map-only --conversation-id <conversation_id> --max-chunks 5
+```
+
+**SOTA Injection - Reducción (Dossier Consolidado):**
+```bash
+python D:\Engram_SDD\Proj-Distill\distill_experimental.py --mode reduce --conversation-id <conversation_id>
+```
+*(Nota: Si hay un modelo de map/reduce específico configurado, se puede añadir `--map-models <modelo>` o `--reduce-model <modelo>` respectivamente a los comandos).*
+
+## ⚠️ Residuos de Migración (Feedback para evolución)
+*(Toda la información ha sido mapeada satisfactoriamente, adaptando las lógicas de scripts externos a los nuevos Guardrails y Fases)*

@@ -33,9 +33,9 @@ inherited_from: conversation-distillation/SKILL.md
 - Extraer la intención principal ("Para qué"): el dossier DEBE centrarse en el propósito original.
 
 ### 2. Fase de Acción
-- **Delegate to Unified Distiller**: Ejecutar la herramienta central de destilación en la nube (Groq):
+- **Delegate to Unified Distiller**: Ejecutar la herramienta central de destilación:
   ```bash
-  python D:\Engram_SDD\Proj-Distill\distill.py --conversation-id <conversation_id> --topic <topic_name> --force-provider groq
+  python D:\Engram_SDD\Proj-Distill\distill.py --conversation-id <conversation_id> --topic <topic_name>
   ```
 - El script procesará automáticamente la conversación en capas, construirá referencias, preservará trade-offs y escribirá el archivo en `C:\Users\user\.gemini\antigravity\knowledge\`, además de persistirlo en Engram.
 
@@ -52,9 +52,9 @@ inherited_from: conversation-distillation/SKILL.md
 
 ## Estructuras de Datos / Ejemplos y Comandos
 
-**Comando de Ejecución (Cloud Distillation):**
+**Comando de Ejecución:**
 ```bash
-python D:\Engram_SDD\Proj-Distill\distill.py --conversation-id <conversation_id> --topic <topic_name> --force-provider groq
+python D:\Engram_SDD\Proj-Distill\distill.py --conversation-id <conversation_id> --topic <topic_name>
 ```
 
 ## ⚠️ Residuos de Migración (Feedback para evolución)

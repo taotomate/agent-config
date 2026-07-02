@@ -15,11 +15,7 @@ metadata:
 ## Execution Phases
 
 
-
 **DRY-RUN RULE:** Before executing any destructive or external operation, first perform a dry-run to preview what will happen. Show the user what actions would be taken, then ask for confirmation before proceeding.
-> **[UNIVERSAL DRY-RUN / SIMULATION RULE]**
-> If the user requests execution in `--dry-run` mode or asks for a "simulation", the agent will **NOT** execute commands that alter system state or call destructive MCP tools in the Action Phase.
-> Instead, the agent will print the exact payload (JSON, code block, or parameters) it planned to execute, and will wait for explicit human approval.
 ### 1. Preparation Phase
 - Load references and verify prerequisites
 - Resolve target scope
@@ -32,9 +28,7 @@ metadata:
 
 ## Context & Triggers
 **When to use this skill:**
-- TODO: Add specific triggers for this skill
 - Triggers: "godmode", "use godmode"
-
 
 
 # G0DM0D3 Jailbreaking Skill
@@ -42,11 +36,6 @@ metadata:
 Bypass safety filters on API-served LLMs using techniques from [G0DM0D3](https://github.com/elder-plinius/G0DM0D3) and [L1B3RT4S](https://github.com/elder-plinius/L1B3RT4S). Three attack modes plus Hermes-native configuration for persistent jailbreaking.
 
 **Key difference from OBLITERATUS:** OBLITERATUS modifies model weights permanently (requires open-weight models + GPU). This skill operates at the prompt/API level — works on any model accessible via API, including closed-source models (GPT, Claude, Gemini, Grok).
-
-
-## Prerequisites
-- [ ] Read access to target files/directories
-- [ ] Write access for auto-fix operations
 
 
 ## When to Use This Skill

@@ -13,16 +13,9 @@ model_tier: fast
 - To estimate shadow cost savings from using free/local models.
 - Triggers: "backfill telemetry", "token archaeology", "audit history".
 
-## Prerequisites
-- [ ] Access to `~/.gemini/antigravity/brain/` with conversation overview files.
-- [ ] Write access to `~\.gemini\antigravity\scratch\telemetry_log_historical.json`.
-- [ ] Python script `backfill_telemetry.py` available in the execution path.
 
 ## Execution Phases
 
-> **[UNIVERSAL DRY-RUN / SIMULATION RULE]**
-> If the user requests execution in `--dry-run` mode or asks for a "simulation", the agent will **NOT** execute commands that alter system state or call destructive MCP tools in the Action Phase. 
-> Instead, the agent will print the exact payload (JSON, code block, or parameters) it planned to execute, and will wait for explicit human approval.
 
 ### 1. Scan Brain Directories
 - Recursively scan all directories in `~/.gemini/antigravity/brain/`

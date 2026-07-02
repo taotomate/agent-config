@@ -7,11 +7,7 @@ description: Run smoke tests to verify extension functionality in a real VS Code
 ## Execution Phases
 
 
-
 **DRY-RUN RULE:** Before executing any destructive or external operation, first perform a dry-run to preview what will happen. Show the user what actions would be taken, then ask for confirmation before proceeding.
-> **[UNIVERSAL DRY-RUN / SIMULATION RULE]**
-> If the user requests execution in `--dry-run` mode or asks for a "simulation", the agent will **NOT** execute commands that alter system state or call destructive MCP tools in the Action Phase.
-> Instead, the agent will print the exact payload (JSON, code block, or parameters) it planned to execute, and will wait for explicit human approval.
 ### 1. Preparation Phase
 - Load references and verify prerequisites
 - Resolve target scope
@@ -24,9 +20,7 @@ description: Run smoke tests to verify extension functionality in a real VS Code
 
 ## Context & Triggers
 **When to use this skill:**
-- TODO: Add specific triggers for this skill
 - Triggers: "run-smoke-tests", "use run-smoke-tests"
-
 
 
 Run smoke tests to verify the extension loads and basic functionality works in a real VS Code environment.
@@ -141,7 +135,6 @@ suite('Smoke: [Feature Name]', function () {
 | `src/test/smoke/index.ts`                 | Test runner entry point            |
 | `src/test/testUtils.ts`                   | Utilities (waitForCondition, etc.) |
 
-## Prerequisites
 
 - **CI needs webpack build**: The extension must be built with `npm run compile` (webpack) before tests run. The test runner uses `dist/extension.js` which is only created by webpack, not by `npm run compile-tests` (tsc)
 - **Extension builds**: Run `npm run compile` before tests

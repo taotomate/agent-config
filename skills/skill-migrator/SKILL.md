@@ -15,16 +15,9 @@ model_tier: fast
 - To apply a migration process in bulk across an entire directory.
 - Triggers: "migrate skill", "refactor old skill", "apply skill-migrator", "update skill architecture".
 
-## Prerequisites
-- [ ] The target architecture template (`agent-config/shared/template_skill.md`) must exist and be readable by the agent.
-- [ ] The agent must have read and write permissions on the target file (`target: path`) or target directory (`batch: path`).
-- [ ] The agent must not have active restrictions preventing it from overwriting Markdown files or generating new structures.
 
 ## Execution Phases
 
-> **[UNIVERSAL DRY-RUN / SIMULATION RULE]**
-> If the user requests execution in `--dry-run` mode or asks for a "simulation", the agent will **NOT** execute commands that alter system state or call destructive MCP tools in the Action Phase. 
-> Instead, the agent will print the exact payload (JSON, code block, or parameters) it planned to execute, and will wait for explicit human approval.
 
 ### 1. Diagnosis Phase
 - Identify the requested execution mode: Individual (`target: path/to/skill`) or Batch (`batch: path/to/dir/`).
@@ -76,9 +69,6 @@ migrated_by: skill-migrator@1.0.0
 Copy and insert this block exactly as-is, right below the `## Execution Phases` title in the skill you are migrating:
 
 ```markdown
-> **[UNIVERSAL DRY-RUN / SIMULATION RULE]**
-> If the user requests execution in `--dry-run` mode or asks for a "simulation", the agent will **NOT** execute commands that alter system state or call destructive MCP tools in the Action Phase. 
-> Instead, the agent will print the exact payload (JSON, code block, or parameters) it planned to execute, and will stop to wait for explicit human approval.
 ```
 
 ## Troubleshooting

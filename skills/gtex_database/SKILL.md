@@ -10,11 +10,7 @@ description: >
 ## Execution Phases
 
 
-
 **DRY-RUN RULE:** Before executing any destructive or external operation, first perform a dry-run to preview what will happen. Show the user what actions would be taken, then ask for confirmation before proceeding.
-> **[UNIVERSAL DRY-RUN / SIMULATION RULE]**
-> If the user requests execution in `--dry-run` mode or asks for a "simulation", the agent will **NOT** execute commands that alter system state or call destructive MCP tools in the Action Phase.
-> Instead, the agent will print the exact payload (JSON, code block, or parameters) it planned to execute, and will wait for explicit human approval.
 ### 1. Preparation Phase
 - Load references and verify prerequisites
 - Resolve target scope
@@ -27,9 +23,7 @@ description: >
 
 ## Context & Triggers
 **When to use this skill:**
-- TODO: Add specific triggers for this skill
 - Triggers: "gtex_database", "use gtex_database"
-
 
 
 # GTEx Database Integration
@@ -39,7 +33,6 @@ expression Quantitative Trait Loci (eQTLs) from the GTEx Portal API V2. It
 provides access to median TPM (Transcripts Per Million) values for genes and
 significant eQTLs for variants across 54 human tissue sites.
 
-## Prerequisites
 
 1.  **`uv`**: Read the `uv` skill and follow its Setup instructions to ensure
     `uv` is installed and on PATH.

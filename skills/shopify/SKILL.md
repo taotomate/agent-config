@@ -29,11 +29,7 @@ metadata:
 ## Execution Phases
 
 
-
 **DRY-RUN RULE:** Before executing any destructive or external operation, first perform a dry-run to preview what will happen. Show the user what actions would be taken, then ask for confirmation before proceeding.
-> **[UNIVERSAL DRY-RUN / SIMULATION RULE]**
-> If the user requests execution in `--dry-run` mode or asks for a "simulation", the agent will **NOT** execute commands that alter system state or call destructive MCP tools in the Action Phase.
-> Instead, the agent will print the exact payload (JSON, code block, or parameters) it planned to execute, and will wait for explicit human approval.
 ### 1. Preparation Phase
 - Load references and verify prerequisites
 - Resolve target scope
@@ -46,9 +42,7 @@ metadata:
 
 ## Context & Triggers
 **When to use this skill:**
-- TODO: Add specific triggers for this skill
 - Triggers: "shopify", "use shopify"
-
 
 
 # Shopify — Admin & Storefront GraphQL APIs
@@ -57,7 +51,6 @@ Work with Shopify stores directly through `curl`: list products, manage inventor
 
 The REST Admin API is legacy since 2024-04 and only receives security fixes. **Use GraphQL Admin** for all admin work. Use **Storefront GraphQL** for read-only customer-facing queries (products, collections, cart).
 
-## Prerequisites
 
 1. In Shopify admin: **Settings → Apps and sales channels → Develop apps → Create an app**.
 2. Click **Configure Admin API scopes**, select what you need (examples below), save.

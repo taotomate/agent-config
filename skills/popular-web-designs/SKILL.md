@@ -22,11 +22,7 @@ triggers:
 ## Execution Phases
 
 
-
 **DRY-RUN RULE:** Before executing any destructive or external operation, first perform a dry-run to preview what will happen. Show the user what actions would be taken, then ask for confirmation before proceeding.
-> **[UNIVERSAL DRY-RUN / SIMULATION RULE]**
-> If the user requests execution in `--dry-run` mode or asks for a "simulation", the agent will **NOT** execute commands that alter system state or call destructive MCP tools in the Action Phase.
-> Instead, the agent will print the exact payload (JSON, code block, or parameters) it planned to execute, and will wait for explicit human approval.
 ### 1. Preparation Phase
 - Load references and verify prerequisites
 - Resolve target scope
@@ -39,9 +35,7 @@ triggers:
 
 ## Context & Triggers
 **When to use this skill:**
-- TODO: Add specific triggers for this skill
 - Triggers: "popular-web-designs", "use popular-web-designs"
-
 
 
 # Popular Web Designs
@@ -49,11 +43,6 @@ triggers:
 54 real-world design systems ready for use when generating HTML/CSS. Each template captures a
 site's complete visual language: color palette, typography hierarchy, component styles, spacing
 system, shadows, responsive behavior, and practical agent prompts with exact CSS values.
-
-
-## Prerequisites
-- [ ] Read access to target files/directories
-- [ ] Write access for auto-fix operations
 
 
 ## Related design skills

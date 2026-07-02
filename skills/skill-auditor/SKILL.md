@@ -23,10 +23,6 @@ Audit and optimize a library of skills. Generates structural/functional scorecar
 - "review all skills for quality"
 - User wants to standardize a skill library
 
-## Prerequisites
-- [ ] Skills are in accessible directories (use Everything HTTP API to find them)
-- [ ] Write access for applying fixes
-- [ ] skill-optimizer v2.0.2 spec available (from TaoTomate or similar)
 
 ## Workflow
 

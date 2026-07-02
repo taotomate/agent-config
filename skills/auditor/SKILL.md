@@ -20,9 +20,6 @@ model_tier: medium
 
 ## Execution Phases
 
-> **[UNIVERSAL DRY-RUN / SIMULATION RULE]**
-> If the user requests execution in `--dry-run` mode or asks for a "simulation", the agent will **NOT** execute commands that alter system state or call destructive MCP tools in the Action Phase. 
-> Instead, the agent will print the exact payload (JSON, code block, or parameters) it planned to execute, and will wait for explicit human approval.
 
 ### 1. Capture (Snapshot)
 Extract the exact error and context (last executed commands or output tokens). Do not guess the error.

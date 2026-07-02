@@ -8,11 +8,7 @@ version: 0.1.0
 ## Execution Phases
 
 
-
 **DRY-RUN RULE:** Before executing any destructive or external operation, first perform a dry-run to preview what will happen. Show the user what actions would be taken, then ask for confirmation before proceeding.
-> **[UNIVERSAL DRY-RUN / SIMULATION RULE]**
-> If the user requests execution in `--dry-run` mode or asks for a "simulation", the agent will **NOT** execute commands that alter system state or call destructive MCP tools in the Action Phase.
-> Instead, the agent will print the exact payload (JSON, code block, or parameters) it planned to execute, and will wait for explicit human approval.
 ### 1. Preparation Phase
 - Load references and verify prerequisites
 - Resolve target scope
@@ -25,9 +21,7 @@ version: 0.1.0
 
 ## Context & Triggers
 **When to use this skill:**
-- TODO: Add specific triggers for this skill
 - Triggers: "build-mcpb", "use build-mcpb"
-
 
 
 # Build an MCPB (Bundled Local MCP Server)
@@ -39,11 +33,6 @@ MCPB is a local MCP server **packaged with its runtime**. The user installs one 
 **Use MCPB when the server must run on the user's machine** — reading local files, driving a desktop app, talking to localhost services, OS-level APIs. If your server only hits cloud APIs, you almost certainly want a remote HTTP server instead (see `build-mcp-server`). Don't pay the MCPB packaging tax for something that could be a URL.
 
 ---
-
-
-## Prerequisites
-- [ ] Read access to target files/directories
-- [ ] Write access for auto-fix operations
 
 
 ## What an MCPB bundle contains

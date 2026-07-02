@@ -7,11 +7,7 @@ description: Run integration tests to verify that extension components work toge
 ## Execution Phases
 
 
-
 **DRY-RUN RULE:** Before executing any destructive or external operation, first perform a dry-run to preview what will happen. Show the user what actions would be taken, then ask for confirmation before proceeding.
-> **[UNIVERSAL DRY-RUN / SIMULATION RULE]**
-> If the user requests execution in `--dry-run` mode or asks for a "simulation", the agent will **NOT** execute commands that alter system state or call destructive MCP tools in the Action Phase.
-> Instead, the agent will print the exact payload (JSON, code block, or parameters) it planned to execute, and will wait for explicit human approval.
 ### 1. Preparation Phase
 - Load references and verify prerequisites
 - Resolve target scope
@@ -24,9 +20,7 @@ description: Run integration tests to verify that extension components work toge
 
 ## Context & Triggers
 **When to use this skill:**
-- TODO: Add specific triggers for this skill
 - Triggers: "run-integration-tests", "use run-integration-tests"
-
 
 
 Run integration tests to verify that multiple components (managers, API, settings) work together correctly.
@@ -126,7 +120,6 @@ suite('Integration: [Component A] + [Component B]', function () {
 | `src/test/integration/index.ts`                          | Test runner entry point                            |
 | `src/test/testUtils.ts`                                  | Utilities (`waitForCondition`, `TestEventHandler`) |
 
-## Prerequisites
 
 - **CI needs webpack build** - Run `npm run compile` (webpack) before tests, not just `npm run compile-tests` (tsc)
 - **Extension builds** - Run `npm run compile` before tests

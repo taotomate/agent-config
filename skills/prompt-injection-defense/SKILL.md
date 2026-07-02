@@ -14,15 +14,9 @@ model_tier: medium
 - Al configurar o validar credenciales y tokens de acceso dentro de las herramientas.
 - Para verificar y auditar skills descargadas de repositorios públicos antes de integrarlas al workspace.
 
-## Prerequisites
-- [ ] Read access to the target `SKILL.md` files.
-- [ ] Knowledge of the external endpoints or inputs processed by the target skill.
 
 ## Execution Phases
 
-> **[UNIVERSAL DRY-RUN / SIMULATION RULE]**
-> If the user requests execution in `--dry-run` mode or asks for a "simulation", the agent will **NOT** execute commands that alter system state or call destructive MCP tools in the Action Phase.
-> Instead, the agent will print the exact payload (JSON, code block, or parameters) it planned to execute, and will wait for explicit human approval.
 
 ### 1. Identify Threat Vectors
 - **Direct Injection**: Chequear si las instrucciones permiten que el usuario sobrescriba las directivas del sistema (ej: "Ignore previous rules").

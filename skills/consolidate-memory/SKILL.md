@@ -7,11 +7,7 @@ description: "Reflective pass over your memory files — merge duplicates, fix s
 ## Execution Phases
 
 
-
 **DRY-RUN RULE:** Before executing any destructive or external operation, first perform a dry-run to preview what will happen. Show the user what actions would be taken, then ask for confirmation before proceeding.
-> **[UNIVERSAL DRY-RUN / SIMULATION RULE]**
-> If the user requests execution in `--dry-run` mode or asks for a "simulation", the agent will **NOT** execute commands that alter system state or call destructive MCP tools in the Action Phase.
-> Instead, the agent will print the exact payload (JSON, code block, or parameters) it planned to execute, and will wait for explicit human approval.
 ### 1. Preparation Phase
 - Load references and verify prerequisites
 - Resolve target scope
@@ -24,9 +20,7 @@ description: "Reflective pass over your memory files — merge duplicates, fix s
 
 ## Context & Triggers
 **When to use this skill:**
-- TODO: Add specific triggers for this skill
 - Triggers: "consolidate-memory", "use consolidate-memory"
-
 
 
 # Memory Consolidation
@@ -34,11 +28,6 @@ description: "Reflective pass over your memory files — merge duplicates, fix s
 You're doing a reflective pass over what you've learned about this user and their work. The goal: a future session should be able to orient quickly — who they work with, what they're focused on, how they like things done — without re-asking.
 
 Your system prompt's auto-memory section defines the directory, file format, and memory types. Follow it.
-
-
-## Prerequisites
-- [ ] Read access to target files/directories
-- [ ] Write access for auto-fix operations
 
 
 ## Phase 1 — Take stock

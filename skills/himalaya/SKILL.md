@@ -17,11 +17,7 @@ prerequisites:
 ## Execution Phases
 
 
-
 **DRY-RUN RULE:** Before executing any destructive or external operation, first perform a dry-run to preview what will happen. Show the user what actions would be taken, then ask for confirmation before proceeding.
-> **[UNIVERSAL DRY-RUN / SIMULATION RULE]**
-> If the user requests execution in `--dry-run` mode or asks for a "simulation", the agent will **NOT** execute commands that alter system state or call destructive MCP tools in the Action Phase.
-> Instead, the agent will print the exact payload (JSON, code block, or parameters) it planned to execute, and will wait for explicit human approval.
 ### 1. Preparation Phase
 - Load references and verify prerequisites
 - Resolve target scope
@@ -34,9 +30,7 @@ prerequisites:
 
 ## Context & Triggers
 **When to use this skill:**
-- TODO: Add specific triggers for this skill
 - Triggers: "himalaya", "use himalaya"
-
 
 
 # Himalaya Email CLI
@@ -53,7 +47,6 @@ requires the external `himalaya` CLI.
 - `references/configuration.md` (config file setup + IMAP/SMTP authentication)
 - `references/message-composition.md` (MML syntax for composing emails)
 
-## Prerequisites
 
 1. Himalaya CLI installed (`himalaya --version` to verify)
 2. A configuration file at `~/.config/himalaya/config.toml`

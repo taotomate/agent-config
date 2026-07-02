@@ -14,12 +14,6 @@ model_tier: fast
 - When processing single or multiple threads from the Antigravity brain
 - When comparing against legacy distill results
 
-## Prerequisites
-
-- [ ] Python 3.10+ available
-- [ ] `Proj-Synapse/` is the engine directory (verify path)
-- [ ] Access to Antigravity brain directory (`~/.gemini/antigravity/brain/`)
-- [ ] For the thread ID(s) to process: confirm with user if ambiguous
 
 ## Execution Phases
 

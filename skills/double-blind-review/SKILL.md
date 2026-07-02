@@ -19,15 +19,9 @@ model_tier: medium
 - When high-confidence review is needed on code, features, or architecture.
 - When a single reviewer might miss edge cases.
 
-## Prerequisites
-- [ ] Know the specific file(s) or component to audit (`<absolute_path_to_code_file>`).
-- [ ] Local execution script available: `skills/double-blind-review/scripts/audit_runner.js`.
 
 ## Execution Phases
 
-> **[UNIVERSAL DRY-RUN / SIMULATION RULE]**
-> If the user requests execution in `--dry-run` mode or asks for a "simulation", the agent will **NOT** execute commands that alter system state or call destructive MCP tools in the Action Phase. 
-> Instead, the agent will print the exact command (JSON, code block, or parameters) it planned to execute, and will stop to wait for explicit human approval.
 
 ### 1. Diagnosis Phase (Skill Resolution & Scope)
 - Confirm the specific *target* (file or path) to review. If unclear, ask the user before proceeding.

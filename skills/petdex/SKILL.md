@@ -16,11 +16,7 @@ metadata:
 ## Execution Phases
 
 
-
 **DRY-RUN RULE:** Before executing any destructive or external operation, first perform a dry-run to preview what will happen. Show the user what actions would be taken, then ask for confirmation before proceeding.
-> **[UNIVERSAL DRY-RUN / SIMULATION RULE]**
-> If the user requests execution in `--dry-run` mode or asks for a "simulation", the agent will **NOT** execute commands that alter system state or call destructive MCP tools in the Action Phase.
-> Instead, the agent will print the exact payload (JSON, code block, or parameters) it planned to execute, and will wait for explicit human approval.
 ### 1. Preparation Phase
 - Load references and verify prerequisites
 - Resolve target scope
@@ -33,9 +29,7 @@ metadata:
 
 ## Context & Triggers
 **When to use this skill:**
-- TODO: Add specific triggers for this skill
 - Triggers: "petdex", "use petdex"
-
 
 
 # Petdex Skill
@@ -52,7 +46,6 @@ and the `display.pet` config — it does not generate sprites.
 - The user wants to change, preview, or disable the active pet.
 - Diagnosing why a pet isn't showing (terminal graphics support, config).
 
-## Prerequisites
 
 - Network access to `petdex.dev` for the gallery/manifest (read-only, no auth).
 - Pillow (a core Hermes dependency) for sprite decoding — already installed.

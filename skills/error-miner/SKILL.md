@@ -15,16 +15,9 @@ model_tier: medium
 - When the user asks to audit or mine the history for errors.
 - Triggers: "mine errors", "close thread and mine", "postmortem", "audit history"
 
-## Prerequisites
-- [ ] Access to the current thread transcript (full conversation)
-- [ ] Write permissions to `shared/global_error_log.md`
-- [ ] Read `directives/errors_learned.md` to avoid learning duplicates
 
 ## Execution Phases
 
-> **[UNIVERSAL DRY-RUN / SIMULATION RULE]**
-> If the user requests execution in `--dry-run` mode or asks for a "simulation", the agent will **NOT** execute commands that alter system state or call destructive MCP tools in the Action Phase. 
-> Instead, the agent will print the exact payload (JSON, code block, or parameters) it planned to execute, and will wait for explicit human approval.
 
 ### 1. Diagnosis Phase
 - Scan the transcript for: omitted commands, violated rules, routing skips, manual interventions.

@@ -14,15 +14,9 @@ migrated_by: skill-optimizer@3.2.0
 - Triggers: "youtube-hunter", "use youtube-hunter"
 - Propósito: Esta skill actúa como el "rastreador" del sistema. Su trabajo es identificar qué contenido de video ha llegado a `20_Atlas/23_Readwise` y marcarlo para que el extractor de transcripciones sepa qué procesar.
 
-## Prerequisites
-- [ ] Read access to target files/directories
-- [ ] Write access for auto-fix operations
 
 ## Execution Phases
 
-> **[UNIVERSAL DRY-RUN / SIMULATION RULE]**
-> If the user requests execution in `--dry-run` mode or asks for a "simulation", the agent will **NOT** execute commands that alter system state or call destructive MCP tools in the Action Phase.
-> Instead, the agent will print the exact payload (JSON, code block, or parameters) it planned to execute, and will wait for explicit human approval.
 
 ### 1. Preparation Phase
 - Load references and verify prerequisites

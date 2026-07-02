@@ -17,16 +17,9 @@ model_tier: medium
 - Convert a large feature into chained or stacked PRs
 - Triggers: "split commits", "work unit", "reviewable commits", "plan commits"
 
-## Prerequisites
-- [ ] Know the full scope of the change (features, fixes, refactors involved)
-- [ ] Have the changes in staging or the working tree
-- [ ] If SDD forecasts a change >400 lines, have a delivery strategy defined
 
 ## Execution Phases
 
-> **[UNIVERSAL DRY-RUN / SIMULATION RULE]**
-> If the user requests execution in `--dry-run` mode or asks for a "simulation", the agent will **NOT** execute commands that alter system state or call destructive MCP tools in the Action Phase. 
-> Instead, the agent will print the exact payload (JSON, code block, or parameters) it planned to execute, and will stop to wait for explicit human approval.
 
 ### 1. Diagnosis Phase
 - Identify independent work units in the total change.

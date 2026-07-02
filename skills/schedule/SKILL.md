@@ -14,15 +14,9 @@ migrated_by: skill-optimizer@3.2.0
 - Triggers: "schedule", "use schedule", "create scheduled task", "update scheduled task", "list scheduled tasks"
 - Decidir primero si el usuario quiere **crear una nueva** tarea programada o **modificar una existente**.
 
-## Prerequisites
-- [ ] Read access to target files/directories
-- [ ] Write access for auto-fix operations
 
 ## Execution Phases
 
-> **[UNIVERSAL DRY-RUN / SIMULATION RULE]**
-> If the user requests execution in `--dry-run` mode or asks for a "simulation", the agent will **NOT** execute commands that alter system state or call destructive MCP tools in the Action Phase.
-> Instead, the agent will print the exact payload (JSON, code block, or parameters) it planned to execute, and will wait for explicit human approval.
 
 ### 1. Fase de Selección (Nueva o Modificación)
 Determinar la intención:
@@ -45,4 +39,3 @@ Determinar la intención:
 - **ALWAYS** handle errors gracefully — skip with warning, don't crash
 
 ## Data Structures / Examples & Commands
-*TODO: Fill in this section.*

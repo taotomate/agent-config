@@ -19,15 +19,9 @@ model_tier: medium
 - When processing large volumes of text where token savings are critical.
 - Triggers: "dual execution", "dual validation", "run frontier", "compare with local".
 
-## Prerequisites
-- [ ] Local model configured and accessible.
-- [ ] Know the exact prompt to be used for cross-validation.
 
 ## Execution Phases
 
-> **[UNIVERSAL DRY-RUN / SIMULATION RULE]**
-> If the user requests execution in `--dry-run` mode or asks for a "simulation", the agent will **NOT** execute commands that alter system state or call destructive MCP tools in the Action Phase. 
-> Instead, the agent will print the exact payload it planned to execute, and will stop to wait for explicit human approval.
 
 ### 1. Diagnosis Phase
 - Extract the main intent of the task.

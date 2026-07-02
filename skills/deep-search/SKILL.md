@@ -14,15 +14,9 @@ migrated_by: skill-optimizer@3.2.0
 - Triggers: "deep-search", "use deep-search", "scan infrastructure", "find ports"
 - Purpose: Ensure operational consciousness by mapping infrastructure and prioritizing existing knowledge (Dossiers/KI) over raw disk search.
 
-## Prerequisites
-- [ ] Read access to target files/directories
-- [ ] Write access for auto-fix operations
 
 ## Execution Phases
 
-> **[UNIVERSAL DRY-RUN / SIMULATION RULE]**
-> If the user requests execution in `--dry-run` mode or asks for a "simulation", the agent will **NOT** execute commands that alter system state or call destructive MCP tools in the Action Phase.
-> Instead, the agent will print the exact payload (JSON, code block, or parameters) it planned to execute, and will wait for explicit human approval.
 
 ### 1. Preparation Phase
 - Load references and verify prerequisites

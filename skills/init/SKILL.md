@@ -9,11 +9,7 @@ disable-model-invocation: true
 ## Execution Phases
 
 
-
 **DRY-RUN RULE:** Before executing any destructive or external operation, first perform a dry-run to preview what will happen. Show the user what actions would be taken, then ask for confirmation before proceeding.
-> **[UNIVERSAL DRY-RUN / SIMULATION RULE]**
-> If the user requests execution in `--dry-run` mode or asks for a "simulation", the agent will **NOT** execute commands that alter system state or call destructive MCP tools in the Action Phase.
-> Instead, the agent will print the exact payload (JSON, code block, or parameters) it planned to execute, and will wait for explicit human approval.
 ### 1. Preparation Phase
 - Load references and verify prerequisites
 - Resolve target scope
@@ -26,9 +22,7 @@ disable-model-invocation: true
 
 ## Context & Triggers
 **When to use this skill:**
-- TODO: Add specific triggers for this skill
 - Triggers: "init", "use init"
-
 
 
 The purpose of this command is to create or update chat customization files
@@ -43,11 +37,6 @@ Use the related skill `agent-customization` for detailed information about the d
 Explore the codebase to get a good understanding of the project and its conventions, and then create or update the relevant chat customization files to help AI coding agents be productive in this codebase.
 
 When complete, print a table of the added or modified chat customization files, along with a short explanation why this file is useful to the AI coding agents.
-
-
-## Prerequisites
-- [ ] Read access to target files/directories
-- [ ] Write access for auto-fix operations
 
 
 ## Workflow

@@ -16,16 +16,9 @@ model_tier: medium
 - The user asks for chained PRs, stacked PRs, or reviewer load control
 - Triggers: "chained PR", "stacked PR", "split PR", "large PR"
 
-## Prerequisites
-- [ ] Know the estimated change size (additions + deletions)
-- [ ] Identify independent work units within the change
-- [ ] `gh` CLI configured with permissions to create PRs
 
 ## Execution Phases
 
-> **[UNIVERSAL DRY-RUN / SIMULATION RULE]**
-> If the user requests execution in `--dry-run` mode or asks for a "simulation", the agent will **NOT** execute commands that alter system state or call destructive MCP tools in the Action Phase. 
-> Instead, the agent will print the exact payload (JSON, code block, or parameters) it planned to execute, and will stop to wait for explicit human approval.
 
 ### 1. Diagnosis Phase
 - Estimate changed lines and identify independent work units.

@@ -8,11 +8,7 @@ tools: Read, Glob, Grep, Bash, Edit
 ## Execution Phases
 
 
-
 **DRY-RUN RULE:** Before executing any destructive or external operation, first perform a dry-run to preview what will happen. Show the user what actions would be taken, then ask for confirmation before proceeding.
-> **[UNIVERSAL DRY-RUN / SIMULATION RULE]**
-> If the user requests execution in `--dry-run` mode or asks for a "simulation", the agent will **NOT** execute commands that alter system state or call destructive MCP tools in the Action Phase.
-> Instead, the agent will print the exact payload (JSON, code block, or parameters) it planned to execute, and will wait for explicit human approval.
 ### 1. Preparation Phase
 - Load references and verify prerequisites
 - Resolve target scope
@@ -25,9 +21,7 @@ tools: Read, Glob, Grep, Bash, Edit
 
 ## Context & Triggers
 **When to use this skill:**
-- TODO: Add specific triggers for this skill
 - Triggers: "claude-md-improver", "use claude-md-improver"
-
 
 
 # CLAUDE.md Improver
@@ -35,11 +29,6 @@ tools: Read, Glob, Grep, Bash, Edit
 Audit, evaluate, and improve CLAUDE.md files across a codebase to ensure Claude Code has optimal project context.
 
 **This skill can write to CLAUDE.md files.** After presenting a quality report and getting user approval, it updates CLAUDE.md files with targeted improvements.
-
-
-## Prerequisites
-- [ ] Read access to target files/directories
-- [ ] Write access for auto-fix operations
 
 
 ## Workflow

@@ -17,16 +17,9 @@ model_tier: high
 - When the user asks to distill, summarize, or create an architectural dossier of the current conversation.
 - Triggers: "distill thread", "technical distillation", "extract context", "create dossier".
 
-## Prerequisites
-- [ ] Execution access to the script `D:\Engram_SDD\Proj-Distill\distill.py`.
-- [ ] Have the actual current conversation ID (`<conversation_id>`).
-- [ ] The user must specify a `<topic_name>` or you must derive it from the main session context.
 
 ## Execution Phases
 
-> **[UNIVERSAL DRY-RUN / SIMULATION RULE]**
-> If the user requests execution in `--dry-run` mode or asks for a "simulation", the agent will **NOT** execute commands that alter system state or call destructive MCP tools in the Action Phase. 
-> Instead, the agent will print the exact payload (JSON, code block, or parameters) it planned to execute, and will stop to wait for explicit human approval.
 
 ### 1. Diagnosis Phase
 - Identify the `<topic_name>` to distill based on the conversation, or ask the user if not obvious.

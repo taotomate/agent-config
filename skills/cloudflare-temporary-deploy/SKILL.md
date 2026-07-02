@@ -15,11 +15,7 @@ metadata:
 ## Execution Phases
 
 
-
 **DRY-RUN RULE:** Before executing any destructive or external operation, first perform a dry-run to preview what will happen. Show the user what actions would be taken, then ask for confirmation before proceeding.
-> **[UNIVERSAL DRY-RUN / SIMULATION RULE]**
-> If the user requests execution in `--dry-run` mode or asks for a "simulation", the agent will **NOT** execute commands that alter system state or call destructive MCP tools in the Action Phase.
-> Instead, the agent will print the exact payload (JSON, code block, or parameters) it planned to execute, and will wait for explicit human approval.
 ### 1. Preparation Phase
 - Load references and verify prerequisites
 - Resolve target scope
@@ -32,9 +28,7 @@ metadata:
 
 ## Context & Triggers
 **When to use this skill:**
-- TODO: Add specific triggers for this skill
 - Triggers: "cloudflare-temporary-deploy", "use cloudflare-temporary-deploy"
-
 
 
 # Cloudflare Temporary Deploy Skill
@@ -58,7 +52,6 @@ Load this skill when the user wants to:
 - **Wrangler is already authenticated** → `--temporary` returns an error by design. Run `wrangler logout` first only if the user explicitly wants a throwaway deploy.
 - **Long-lived hosting** → temporary deployments are deleted after 60 minutes unless claimed.
 
-## Prerequisites
 
 - **Wrangler 4.102.0 or later.** This is the version that introduced `--temporary`. Earlier versions do not have it. Verify with `npx wrangler@latest --version`.
 - **Node 18+ / npm** (or `npx`, `yarn`, `pnpm`). No global install needed — `npx wrangler@latest` works.

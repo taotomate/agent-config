@@ -15,14 +15,9 @@ model_tier: medium
 - On-demand invocation or when discussing methodological and technical architecture concepts.
 - When generating MOC (Map of Content) files for Obsidian with hidden JSON metadata.
 
-## Prerequisites
-- [ ] The target path must exist: `D:\Voveda\20_Atlas\21_MOCs`.
 
 ## Execution Phases
 
-> **[UNIVERSAL DRY-RUN / SIMULATION RULE]**
-> If the user requests execution in `--dry-run` mode or asks for a "simulation", the agent will **NOT** execute commands that alter system state or call destructive MCP tools in the Action Phase. 
-> Instead, the agent will print the exact payload (JSON, code block, or parameters) it planned to execute, and will stop to wait for explicit human approval.
 
 ### 1. Diagnosis Phase
 - Apply MAXIMUM RECALL strategy: Identify infrastructure tools (APIs, libraries, e.g. TypeScript, Obsidian API), methodology (patterns like MOC, Atomic Notes), and underlying theory.

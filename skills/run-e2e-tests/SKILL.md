@@ -7,11 +7,7 @@ description: Run E2E tests to verify complete user workflows like environment di
 ## Execution Phases
 
 
-
 **DRY-RUN RULE:** Before executing any destructive or external operation, first perform a dry-run to preview what will happen. Show the user what actions would be taken, then ask for confirmation before proceeding.
-> **[UNIVERSAL DRY-RUN / SIMULATION RULE]**
-> If the user requests execution in `--dry-run` mode or asks for a "simulation", the agent will **NOT** execute commands that alter system state or call destructive MCP tools in the Action Phase.
-> Instead, the agent will print the exact payload (JSON, code block, or parameters) it planned to execute, and will wait for explicit human approval.
 ### 1. Preparation Phase
 - Load references and verify prerequisites
 - Resolve target scope
@@ -24,9 +20,7 @@ description: Run E2E tests to verify complete user workflows like environment di
 
 ## Context & Triggers
 **When to use this skill:**
-- TODO: Add specific triggers for this skill
 - Triggers: "run-e2e-tests", "use run-e2e-tests"
-
 
 
 Run E2E (end-to-end) tests to verify complete user workflows work correctly.
@@ -93,7 +87,6 @@ npm run compile && npm run compile-tests && npm run e2e-test
 
 For detailed debugging: Debug panel → "E2E Tests" → F5
 
-## Prerequisites
 
 E2E tests have system requirements:
 

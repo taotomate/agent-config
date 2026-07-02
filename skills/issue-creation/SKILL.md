@@ -15,15 +15,9 @@ model_tier: fast
 - Helping a contributor report an issue.
 - Triage or approval of issues as a maintainer.
 
-## Prerequisites
-- [ ] GitHub MCP server configured and enabled.
-- [ ] The target repository has `.github/ISSUE_TEMPLATE/bug_report.yml` and `.github/ISSUE_TEMPLATE/feature_request.yml` templates.
 
 ## Execution Phases
 
-> **[UNIVERSAL DRY-RUN / SIMULATION RULE]**
-> If the user requests execution in `--dry-run` mode or asks for a "simulation", the agent will **NOT** execute commands that alter system state or call destructive MCP tools in the Action Phase. 
-> Instead, the agent will print the exact payload (JSON, code block, or parameters) it planned to execute, and will stop to wait for explicit human approval.
 
 ### 1. Diagnosis Phase
 - Run a search for existing issues using the `search_issues` MCP tool to ensure it is not a duplicate.

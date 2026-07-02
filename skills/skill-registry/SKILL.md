@@ -15,15 +15,9 @@ model_tier: fast
 - When setting up a new project (as an integrated part of `sdd-init`).
 - When the human explicitly asks "update skills", "update registry", or "skill registry".
 
-## Prerequisites
-- [ ] The orchestrator agent must have filesystem read permissions to scan global and local configuration directories.
-- [ ] Write capability to the project root directory (`.config/`) must exist.
 
 ## Execution Phases
 
-> **[UNIVERSAL DRY-RUN / SIMULATION RULE]**
-> If the user requests execution in `--dry-run` mode or asks for a "simulation", the agent will **NOT** execute commands that alter system state or call destructive MCP tools in the Action Phase. 
-> Instead, the agent will print the exact payload (JSON, code block, or parameters) it planned to execute, and will stop to wait for explicit human approval.
 
 ### 1. Diagnosis Phase
 - Recursively scan for `SKILL.md` files in global locations (e.g. `~/.gemini/skills/`, `~/.claude/skills/`, `~/.config/opencode/skills/`) and local project locations (e.g. `{project-root}/.service/skills/`).

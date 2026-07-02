@@ -662,6 +662,116 @@ def resolve_pending_review(output_dir: Path, answers: dict) -> dict:
     }
 
 
+def cleanup_skill(skill_name: str, skills_dir: Path, interactive: bool = False) -> list[str]:
+    """Remove bloat from a skill without restructuring.
+
+    Cleans:
+      1. Injected DRY-RUN blocks (the generic 5-line blockquote)
+      2. TODO placeholders ("TODO: Fill in this section", "TODO: Add specific triggers")
+      3. Duplicate DRY-RUN blocks (keep only the first)
+      4. Empty Prerequisites sections (only checkmarks, no real content)
+
+    Does NOT:
+      - Change headings or section names
+      - Restructure content
+      - Add or remove sections
+      - Modify the frontmatter
+
+    Returns list of changes made.
+    """
+    import re
+
+    changes: list[str] = []
+    skill_file = skills_dir / skill_name / "SKILL.md"
+
+    if not skill_file.exists():
+        return [f"SKIP: {skill_name} — no SKILL.md"]
+
+    content = skill_file.read_text(encoding="utf-8")
+    original = content
+
+    # 1. Remove injected DRY-RUN blocks (the generic blockquote)
+    # Pattern: blockquote starting with [UNIVERSAL DRY-RUN / SIMULATION RULE]
+    dry_run_pattern = re.compile(
+        r'\n?>\s*\*\*\[UNIVERSAL DRY-RUN / SIMULATION RULE\]\*\*\n'
+        r'(?:>\s*.*\n)*'
+        r'(?:>\s*\n)*',
+        re.MULTILINE,
+    )
+    matches = dry_run_pattern.findall(content)
+    if matches:
+        # Remove all but keep track
+        content = dry_run_pattern.sub('\n', content)
+        changes.append(f"Removed {len(matches)} DRY-RUN block(s)")
+
+    # 2. Remove TODO placeholders
+    todo_patterns = [
+        r'\n\s*-\s*TODO:\s*Add specific triggers for this skill\s*\n',
+        r'\n\s*\*TODO:\s*Fill in this section\.\*\s*\n',
+        r'\n\s*TODO:\s*Fill in this section\.?\s*\n',
+    ]
+    for pattern in todo_patterns:
+        todo_matches = re.findall(pattern, content, re.IGNORECASE)
+        if todo_matches:
+            content = re.sub(pattern, '\n', content, flags=re.IGNORECASE)
+            changes.append(f"Removed {len(todo_matches)} TODO placeholder(s)")
+
+    # 3. Remove duplicate DRY-RUN lines (keep only first occurrence)
+    dry_run_line_pattern = re.compile(
+        r'^(\s*>?\s*(?:DRY-RUN|dry-run|dry_run).*$)',
+        re.MULTILINE | re.IGNORECASE,
+    )
+    lines = content.split('\n')
+    seen_dry_run = False
+    cleaned_lines = []
+    removed_duplicates = 0
+    for line in lines:
+        if dry_run_line_pattern.match(line):
+            if seen_dry_run:
+                removed_duplicates += 1
+                continue
+            seen_dry_run = True
+        cleaned_lines.append(line)
+    if removed_duplicates:
+        content = '\n'.join(cleaned_lines)
+        changes.append(f"Removed {removed_duplicates} duplicate DRY-RUN line(s)")
+
+    # 4. Remove empty Prerequisites sections (only checkmarks, no real content)
+    prereq_pattern = re.compile(
+        r'(?:^##\s+(?:Prerequisites|Requirements)\s*\n)'
+        r'((?:\s*-\s*\[[ x]\]\s*.*\n)*)'
+        r'(\s*\n)',
+        re.MULTILINE,
+    )
+    prereq_match = prereq_pattern.search(content)
+    if prereq_match:
+        prereq_content = prereq_match.group(1).strip()
+        # Check if it's only checkmarks with no real content
+        lines = [l.strip() for l in prereq_content.split('\n') if l.strip()]
+        all_checkmarks = all(re.match(r'^-\s*\[[ x]\]', l) for l in lines)
+        if all_checkmarks and len(lines) <= 5:
+            content = content[:prereq_match.start()] + '\n' + content[prereq_match.end():]
+            changes.append(f"Removed empty Prerequisites section ({len(lines)} checkmarks)")
+
+    # 5. Clean up excessive blank lines (3+ consecutive → 2)
+    content = re.sub(r'\n{4,}', '\n\n\n', content)
+
+    # Write if changed
+    if content != original:
+        if interactive:
+            print(f"\n  Cleanup for {skill_name}:", file=sys.stderr)
+            for c in changes:
+                print(f"    - {c}", file=sys.stderr)
+            response = input(f"  Apply cleanup to {skill_name}? [y/N]: ").strip().lower()
+            if response != "y":
+                return [f"SKIP (user declined): {skill_name}"]
+
+        skill_file.write_text(content, encoding="utf-8")
+        changes.insert(0, f"CLEANED: {skill_name}")
+
+    return changes
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="skill-optimizer: Semantic and functional skill auditing",
@@ -701,6 +811,14 @@ def main():
             "--batch/--skill run. Reads a JSON answers object from stdin: "
             '{"<skill>": {"is_candidate": true|false, "reasoning": "<short>"}}. '
             "No network call — uses --output-dir to locate the prior analysis."
+        ),
+    )
+    parser.add_argument(
+        "--cleanup", action="store_true",
+        help=(
+            "Remove bloat from skills: injected DRY-RUN blocks, TODO placeholders, "
+            "duplicate DRY-RUN rules, empty Prerequisites sections. Does NOT "
+            "restructure — preserves original content and headings."
         ),
     )
 
@@ -843,6 +961,13 @@ def main():
                             shutil.rmtree(target_skill)
                             shutil.copytree(backup_skill, target_skill)
                             fix_log.append(f"RESTORED: {sname} from backup")
+
+    # ---- Phase 8b: Cleanup (if --cleanup) ----
+    if args.cleanup:
+        for sname in skills_to_scan:
+            changes = cleanup_skill(sname, skills_dir, interactive=args.interactive)
+            if changes:
+                fix_log.extend(changes)
 
     # ---- Output ----
     script_candidates = [

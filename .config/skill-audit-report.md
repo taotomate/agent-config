@@ -1,6 +1,6 @@
 # Skill Audit Report
 
-**Generated:** 2026-07-02T20:43:56.388577
+**Generated:** 2026-07-02T21:43:26.810618
 **Skills analyzed:** 370
 **Script candidates:** 0
 **Tier mismatches:** 169

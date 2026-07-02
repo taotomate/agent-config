@@ -14,7 +14,6 @@ Audit all skills in a directory: structural compliance, tier mismatch, script ca
 
 **v4.0 anti-over-optimization:** Skills within budget (<=1000 tokens) with valid structure (>=2 required sections) are NEVER migrated, even if they technically trigger legacy detection. DRY-RUN is optional, not mandatory. No TODO placeholders injected. No Migration Residue sections created.
 
-## Prerequisites
 
 - Python 3.10+, PyYAML (`pip install pyyaml`)
 - `.config/skill-registry.md` must exist (run skill-registry first)

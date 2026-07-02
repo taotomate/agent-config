@@ -16,11 +16,7 @@ metadata:
 ## Execution Phases
 
 
-
 **DRY-RUN RULE:** Before executing any destructive or external operation, first perform a dry-run to preview what will happen. Show the user what actions would be taken, then ask for confirmation before proceeding.
-> **[UNIVERSAL DRY-RUN / SIMULATION RULE]**
-> If the user requests execution in `--dry-run` mode or asks for a "simulation", the agent will **NOT** execute commands that alter system state or call destructive MCP tools in the Action Phase.
-> Instead, the agent will print the exact payload (JSON, code block, or parameters) it planned to execute, and will wait for explicit human approval.
 ### 1. Preparation Phase
 - Load references and verify prerequisites
 - Resolve target scope
@@ -33,9 +29,7 @@ metadata:
 
 ## Context & Triggers
 **When to use this skill:**
-- TODO: Add specific triggers for this skill
 - Triggers: "telephony", "use telephony"
-
 
 
 # Telephony — Numbers, Calls, and Texts without Core Tool Changes
@@ -51,11 +45,6 @@ It ships with a helper script, `scripts/telephony.py`, that can:
 - make direct Twilio calls using TwiML `<Say>` or `<Play>`
 - import the owned Twilio number into Vapi
 - place outbound AI calls through Bland.ai or Vapi
-
-
-## Prerequisites
-- [ ] Read access to target files/directories
-- [ ] Write access for auto-fix operations
 
 
 ## What this solves

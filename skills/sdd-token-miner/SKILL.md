@@ -13,15 +13,9 @@ model_tier: fast
 - When existing tokens are expired or running low.
 - Triggers: "find credits", "token miner", "renew tokens", "free tokens", "mine tokens".
 
-## Prerequisites
-- [ ] A Google or GitHub account (required by most providers).
-- [ ] Environment variables or secure storage ready for API keys.
 
 ## Execution Phases
 
-> **[UNIVERSAL DRY-RUN / SIMULATION RULE]**
-> If the user requests execution in `--dry-run` mode or asks for a "simulation", the agent will **NOT** execute commands that alter system state or call destructive MCP tools in the Action Phase. 
-> Instead, the agent will print the exact payload (JSON, code block, or parameters) it planned to execute, and will wait for explicit human approval.
 
 ### 1. Diagnosis Phase
 - Ask the user which provider they want to set up, or recommend based on need:

@@ -31,3 +31,16 @@
 If a model generates repeated errors on a specific task type,
 consult `directives/errors_learned.md` for history
 and reassign it to a layer or task where it performs better.
+
+## Small Model Support
+
+When using local/small models (tier: fast), load the skill's
+`references/small-model-guide.md` after loading the main SKILL.md.
+This inlines key logic so the model doesn't need to resolve
+external references or make complex decisions.
+
+Available guides:
+- `skills/sdd-apply/references/small-model-guide.md`
+- `skills/sdd-design/references/small-model-guide.md`
+- `skills/sdd-spec/references/small-model-guide.md`
+- `skills/sdd-tasks/references/small-model-guide.md`

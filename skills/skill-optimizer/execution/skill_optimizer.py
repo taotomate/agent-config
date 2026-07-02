@@ -305,20 +305,16 @@ def apply_safe_fixes(
     """Apply safe auto-fixes to a skill. Returns list of changes made.
 
     Safe fixes:
-      - Inject DRY-RUN rule if missing
       - Fix model_tier if invalid value
 
+    DRY-RUN is NOT auto-injected — it's optional per the style guide.
     Destructive fixes (always require confirmation):
       - Script extraction
       - Legacy migration
     """
     changes: list[str] = []
 
-    # This was the actual self-protection bug: apply_safe_fixes had NO
-    # core/meta-skill check at all, so skill-optimizer (or skill-creator)
-    # could silently rewrite its own SKILL.md when run in --batch over a
-    # directory that includes itself. Guard explicitly, before touching
-    # anything on disk.
+    # Core/meta skill guard
     if is_core_skill(skill_name):
         return [f"SKIP: {skill_name} — core/meta skill, never auto-fixed"]
 
@@ -328,40 +324,9 @@ def apply_safe_fixes(
         return [f"SKIP: {skill_name} — no SKILL.md"]
 
     content = skill_file.read_text(encoding="utf-8")
-    modified = False
 
-    # Fix: inject DRY-RUN rule if missing
-    if not (
-        "DRY-RUN" in content
-        or "dry-run" in content
-        or "dry_run" in content
-    ):
-        dry_run_block = (
-            '\n> **[UNIVERSAL DRY-RUN / SIMULATION RULE]**\n'
-            '> If the user requests execution in `--dry-run` mode or asks for a '
-            '"simulation", the agent will **NOT** execute commands that alter system '
-            'state or call destructive MCP tools in the Action Phase.\n'
-            '> Instead, the agent will print the exact payload (JSON, code block, or '
-            'parameters) it planned to execute, and will wait for explicit human approval.\n'
-        )
-        import re
-        match = re.search(r"(^##\s+Execution Phases.*$)", content, re.MULTILINE)
-        if match:
-            insert_pos = match.end()
-            content = content[:insert_pos] + "\n" + dry_run_block + content[insert_pos:]
-            modified = True
-            changes.append(f"Injected DRY-RUN rule in {skill_name}")
-
-    if modified:
-        if interactive:
-            print(f"\n  Changes for {skill_name}:", file=sys.stderr)
-            for c in changes:
-                print(f"    - {c}", file=sys.stderr)
-            response = input(f"  Apply changes to {skill_name}? [y/N]: ").strip().lower()
-            if response != "y":
-                return [f"SKIP (user declined): {skill_name}"]
-
-        skill_file.write_text(content, encoding="utf-8")
+    # No automatic DRY-RUN injection — it's optional per the style guide.
+    # Skills that need it will have it; skills that don't shouldn't be forced.
 
     return changes
 
@@ -396,13 +361,47 @@ def validate_post_fix(
 # Legacy Migration (Phase 8a)
 # ---------------------------------------------------------------------------
 
+def is_already_good(skill_name: str, skills_dir: Path) -> bool:
+    """Return True if skill is within budget and has valid structure.
+
+    Skills that are already well-structured should NOT be migrated,
+    even if they technically trigger legacy detection. This prevents
+    over-optimization of clean skills.
+    """
+    skill = load_skill(skills_dir / skill_name)
+    if not skill:
+        return False
+
+    body = skill["body"]
+    fm = skill.get("frontmatter", {})
+
+    # Must have frontmatter
+    if not fm:
+        return False
+
+    # Count approximate tokens (word count)
+    token_count = len(body.split())
+
+    # If within style guide budget (target 180-450, hard max 1000)
+    # and has at least 2 of 4 required sections, it's good enough
+    if token_count <= 1000:
+        sections = check_required_sections(body)
+        present = sum(1 for v in sections.values() if v)
+        if present >= 2:
+            return True
+
+    return False
+
+
 # Mapping from legacy section patterns to modern template sections
+# Aligned with skill-style-guide.md: Activation Contract, Hard Rules,
+# Execution Steps, Output Contract.
 LEGACY_SECTION_MAP = {
-    r"(?:When to use|Triggers|Cuándo usar)": "## Context & Triggers",
+    r"(?:When to use|Triggers|Cuándo usar)": "## Activation Contract",
     r"(?:Requirements|Dependencies|Dependencias)": "## Prerequisites",
-    r"(?:Steps|Workflow|Pasos|Flujo)": "## Execution Phases",
-    r"(?:Rules|Constraints|Reglas|Restricciones)": "## Guardrails (Critical Rules)",
-    r"(?:Examples|Commands|Ejemplos|Comandos)": "## Data Structures / Examples & Commands",
+    r"(?:Steps|Workflow|Pasos|Flujo)": "## Execution Steps",
+    r"(?:Rules|Constraints|Reglas|Restricciones|Guardrails)": "## Hard Rules",
+    r"(?:Examples|Commands|Ejemplos|Comandos|Response Format|Output Format)": "## Output Contract",
 }
 
 
@@ -503,44 +502,28 @@ def migrate_legacy_skill(
     fm_yaml = yaml.dump(new_fm, default_flow_style=False, allow_unicode=True, sort_keys=False)
     new_content = f"---\n{fm_yaml}---\n\n"
 
-    # DRY-RUN rule for Execution Phases
-    dry_run_block = (
-        '\n> **[UNIVERSAL DRY-RUN / SIMULATION RULE]**\n'
-        '> If the user requests execution in `--dry-run` mode or asks for a '
-        '"simulation", the agent will **NOT** execute commands that alter system '
-        'state or call destructive MCP tools in the Action Phase.\n'
-        '> Instead, the agent will print the exact payload it planned to execute, '
-        'and will wait for explicit human approval.\n'
-    )
-
-    # Write sections in template order
+    # Write sections in template order, preserving unmapped sections
     section_order = [
-        "## Context & Triggers",
+        "## Activation Contract",
         "## Prerequisites",
-        "## Execution Phases",
-        "## Guardrails (Critical Rules)",
-        "## Data Structures / Examples & Commands",
+        "## Execution Steps",
+        "## Hard Rules",
+        "## Output Contract",
     ]
 
     for heading in section_order:
         content = mapped_sections.get(heading, "")
         new_content += f"{heading}\n"
-        if heading == "## Execution Phases":
-            new_content += dry_run_block + "\n"
         if content:
             new_content += content + "\n"
-        else:
-            new_content += "*TODO: Fill in this section.*\n"
-            changes.append(f"Empty section created: {heading}")
+        # No TODO placeholders — empty sections are left empty or omitted
         new_content += "\n"
 
-    # Migration residue
+    # Preserve unmapped sections (don't丢弃 content into "Migration Residue")
     if residue_blocks:
-        new_content += "## ⚠️ Migration Residue (Evolution Feedback)\n\n"
-        new_content += "The following blocks did not map to any standard section:\n\n"
         for block in residue_blocks:
             new_content += block + "\n\n"
-        changes.append(f"Added {len(residue_blocks)} block(s) to Migration Residue")
+        changes.append(f"Preserved {len(residue_blocks)} unmapped section(s) as-is")
 
     # Confirm before writing (ALWAYS for destructive ops)
     if interactive:
@@ -831,7 +814,11 @@ def main():
             is_legacy = result_map.get(sname, {}).get("legacy_format", False)
             
             if is_legacy:
-                changes.extend(migrate_legacy_skill(sname, skills_dir, interactive=args.interactive))
+                # Don't migrate skills that are already well-structured
+                if is_already_good(sname, skills_dir):
+                    fix_log.append(f"SKIP: {sname} — already within budget, not migrated")
+                else:
+                    changes.extend(migrate_legacy_skill(sname, skills_dir, interactive=args.interactive))
             
             # Apply safe fixes
             safe_changes = apply_safe_fixes(sname, skills_dir, interactive=args.interactive)

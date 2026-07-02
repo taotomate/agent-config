@@ -110,22 +110,25 @@ MECHANICAL_PHASE_INDICATORS = [
     r"\bLocal\s+Script\b",
 ]
 
-# Required sections in a skill — English-only canonical names.
-# Previously bilingual (ES/EN aliases). Dropped the Spanish entries:
-# every real skill in this ecosystem is authored in English, so the
-# aliases protected nothing and only grew the matching surface. Any
-# skill still using a Spanish header (e.g. "Fases de Ejecución") will
-# now correctly show up as missing/legacy in the audit — that's the
-# point: surface it for a migration, don't silently absorb it.
+# Required sections in a skill — aligned with skill-style-guide.md.
+# Each canonical name maps to acceptable heading variants.
+# The style guide defines: Activation Contract, Hard Rules, Decision Gates,
+# Execution Steps, Output Contract, References. We accept legacy names too
+# so existing skills aren't flagged just for using different headings.
 REQUIRED_SECTIONS: dict[str, list[str]] = {
-    "Context & Triggers": ["Context & Triggers"],
-    "Prerequisites": ["Prerequisites"],
-    "Execution Phases": ["Execution Phases"],
-    "Guardrails": ["Guardrails", "Guardrails (Critical Rules)"],
-    "Data Structures / Examples": [
-        "Data Structures",
-        "Data Structures / Examples",
-        "Data Structures / Examples & Commands",
+    "Activation Contract": [
+        "Activation Contract", "When to Use", "When to use",
+        "Context & Triggers", "Triggers",
+    ],
+    "Hard Rules": [
+        "Hard Rules", "Guardrails", "Guardrails (Critical Rules)",
+        "Rules", "Constraints",
+    ],
+    "Execution Steps": [
+        "Execution Steps", "Execution Phases", "Steps", "Workflow",
+    ],
+    "Output Contract": [
+        "Output Contract", "Response Format", "Output Format",
     ],
 }
 
@@ -242,7 +245,10 @@ def load_skill(skill_path: Path) -> dict | None:
 # ---------------------------------------------------------------------------
 
 def check_required_sections(body: str) -> dict[str, bool]:
-    """Check for presence of required sections (English-only canonical names).
+    """Check for presence of required sections.
+
+    Uses flexible matching: a heading like "## General Review Rules"
+    matches the "Hard Rules" requirement because it contains "Rules".
 
     Returns a dict mapping section name → found (bool).
     """
@@ -250,6 +256,11 @@ def check_required_sections(body: str) -> dict[str, bool]:
     for section_name, patterns in REQUIRED_SECTIONS.items():
         found = False
         for p in patterns:
+            # Flexible match: heading contains the pattern as a word
+            if re.search(rf"^##\s+.*?\b{re.escape(p)}\b", body, re.MULTILINE | re.IGNORECASE):
+                found = True
+                break
+            # Also try exact match for backward compatibility
             if re.search(rf"^##\s+{re.escape(p)}", body, re.MULTILINE):
                 found = True
                 break
@@ -274,6 +285,16 @@ def check_section_quality(body: str, sections: dict[str, bool]) -> dict[str, str
         patterns = REQUIRED_SECTIONS[section_name]
         section_body = ""
         for p in patterns:
+            # Flexible match: heading contains the pattern as a word
+            match = re.search(
+                rf"^##\s+.*?\b{re.escape(p)}\b\s*\n(.*?)(?=^##\s|\Z)",
+                body,
+                re.MULTILINE | re.DOTALL | re.IGNORECASE,
+            )
+            if match:
+                section_body = match.group(1).strip()
+                break
+            # Also try exact match
             match = re.search(
                 rf"^##\s+{re.escape(p)}\s*\n(.*?)(?=^##\s|\Z)",
                 body,
@@ -286,12 +307,6 @@ def check_section_quality(body: str, sections: dict[str, bool]) -> dict[str, str
         if not section_body:
             quality[section_name] = "empty"
         elif len(section_body.split()) < 8:
-            # Word count, not newline count. The old check counted
-            # physical lines (`split("\n")) < 3`), which flagged a dense
-            # one-line section (e.g. "Triggers: 'x', 'y', 'z'") as
-            # "minimal" while three blank-padded paragraphs of filler
-            # would have passed as "adequate". Word count tracks actual
-            # content regardless of how it's formatted.
             quality[section_name] = "minimal"
         else:
             quality[section_name] = "adequate"
@@ -429,16 +444,17 @@ def detect_legacy_format(body: str, frontmatter: dict) -> bool:
 
     Legacy indicators:
       - No YAML frontmatter
-      - Missing DRY-RUN rule
-      - Missing Guardrails section
+      - Missing Hard Rules section (or legacy name: Guardrails, Rules, etc.)
+
+    DRY-RUN is NOT a legacy indicator — many skills don't need it
+    (code review, research, documentation). The style guide does not
+    require it.
     """
     if not frontmatter:
         return True
-    if not check_dry_run(body):
-        return True
 
     sections = check_required_sections(body)
-    if not sections.get("Guardrails", False):
+    if not sections.get("Hard Rules", False):
         return True
 
     return False
@@ -456,24 +472,24 @@ def compute_structural_score(
     """Compute structural compliance score (0.0 – 1.0).
 
     Weights:
-      - Section presence: 40%
+      - Section presence: 60%
       - Section count (all present): 10% bonus
-      - DRY-RUN rule: 20%
       - Frontmatter validity: 30%
+
+    DRY-RUN is NOT scored — it's optional per the style guide.
     """
     section_count = sum(1 for v in sections.values() if v)
     total_sections = len(sections) if sections else 1
     section_ratio = section_count / total_sections
 
     all_sections_bonus = 0.1 if section_count == total_sections else 0.0
-    dry_run_score = 0.2 if has_dry_run else 0.0
     fm_score = 0.3 if fm_validation.get("valid", False) else 0.0
 
     # Partial credit for frontmatter with only warnings (no errors)
     if not fm_validation.get("valid") and not fm_validation.get("errors"):
         fm_score = 0.2
 
-    return round(section_ratio * 0.4 + all_sections_bonus + dry_run_score + fm_score, 2)
+    return round(section_ratio * 0.6 + all_sections_bonus + fm_score, 2)
 
 
 def compute_script_score(body: str, skill_name: str) -> dict[str, Any]:
@@ -622,9 +638,9 @@ def tokenize_skill_identity(skill: dict) -> set[str]:
         w.lower() for w in re.findall(r"\b\w{3,}\b", desc)
     )
 
-    # Trigger tokens (from Context & Triggers section)
+    # Trigger tokens (from Activation Contract / Context & Triggers section)
     trigger_match = re.search(
-        r"(?:Context\s*&\s*Triggers|Triggers).*?\n(.*?)(?=^##\s|\Z)",
+        r"(?:Activation\s+Contract|Context\s*&\s*Triggers|When\s+to\s+[Uu]se|Triggers).*?\n(.*?)(?=^##\s|\Z)",
         body, re.MULTILINE | re.DOTALL | re.IGNORECASE,
     )
     if trigger_match:
@@ -727,11 +743,11 @@ def generate_recommendations(
             f"A section with <3 lines likely doesn't cover its purpose."
         )
 
-    # DRY-RUN rule
+    # DRY-RUN rule — optional, not mandatory
     if not has_dry_run:
         recs.append(
-            "[Structural] Missing universal DRY-RUN/simulation rule under "
-            "'## Execution Phases'. This is mandatory per spec v2.0."
+            "[Structural] No DRY-RUN/simulation rule found. "
+            "This is optional — only add if the skill involves executable operations."
         )
 
     # Tier mismatch
@@ -775,8 +791,8 @@ def generate_recommendations(
     # Legacy format
     if is_legacy:
         recs.append(
-            "[Structural] Legacy format detected (pre-v2.0). "
-            "Consider running migration (--apply) to update to current template."
+            "[Structural] Legacy format detected (missing frontmatter or Hard Rules section). "
+            "Consider running migration (--apply) to update structure."
         )
 
     return recs

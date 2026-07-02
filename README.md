@@ -78,13 +78,22 @@ cp agent-config/GEMINI.md /path/to/your/project/GEMINI.md
 |------|---------|
 | `shared/VISION.md` | Philosophy and historical context |
 | `shared/routing.md` | Model assignment by layer |
-| `shared/engram-convention.md` | Engram naming rules |
-| `shared/persistence-contract.md` | SDD persistence modes |
-| `shared/openspec-convention.md` | OpenSpec structure |
 | `shared/audit-framework.md` | How to audit this system |
 | `shared/skill-style-guide.md` | Standards for writing SKILL.md files (body budget, structure, quality gates) |
-| `shared/trigger-rules.md` | Documentation of the 3-tier trigger system (advisory/strong/strongest) |
-| `shared/template_skill.md` | Template for new skills |
+| `shared/sdd-phase-common.md` | SDD common protocol (loaded by 9 SDD skills) |
+| `shared/skill-resolver.md` | Skill resolution protocol (loaded by judgment-day) |
+
+### Documentation (human reference only)
+
+| File | Purpose |
+|------|---------|
+| `docs/trigger-rules.md` | 3-tier trigger system (advisory/strong/strongest) |
+| `docs/persistence-contract.md` | SDD persistence modes (engram/openspec/hybrid/none) |
+| `docs/engram-convention.md` | Engram naming rules |
+| `docs/openspec-convention.md` | OpenSpec structure |
+| `docs/validation-framework.md` | Validation patterns for skills |
+| `docs/distillation-protocol.md` | How to extract decisions from sessions |
+| `docs/template_skill.md` | Template for new skills |
 
 ## Structure
 
@@ -104,14 +113,21 @@ agent-config/
   shared/
     VISION.md                Philosophy (human reference)
     routing.md               Model routing by layer
-    engram-convention.md     Engram naming rules
-    persistence-contract.md  SDD persistence modes
-    openspec-convention.md   OpenSpec structure
     audit-framework.md       Audit framework
-    template_skill.md        Skill template
-    errors_learned.md        Error log
+    skill-style-guide.md     SKILL.md standards
+    sdd-phase-common.md      SDD common protocol
+    skill-resolver.md        Skill resolution protocol
 
-  skills/                    33+ skills (SDD, workflow, meta)
+  docs/
+    trigger-rules.md         Trigger system docs
+    persistence-contract.md  Persistence modes docs
+    engram-convention.md     Engram naming docs
+    openspec-convention.md   OpenSpec structure docs
+    validation-framework.md  Validation patterns
+    distillation-protocol.md Session distillation docs
+    template_skill.md        Skill template
+
+  skills/                    370+ skills
   .config/
     GOVERNANCE_PROTOCOL.md   Delegation + failure handling
     skill-registry.md        Skill index for orchestrator

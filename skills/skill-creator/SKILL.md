@@ -38,6 +38,19 @@ allowed-tools: Read, Edit, Write, Glob, Grep, Bash, WebFetch, WebSearch, Task
 - Ensure the frontmatter is complete (lowercase identifier, description with triggers, version, author).
 - Add the new skill to the `CONSTITUTION.md` registry using the skills table.
 
+### Validation
+Before marking the skill as complete, verify:
+
+**Input Validation:**
+- Skill name follows naming convention (`{technology}`, `{project}-{component}`, `{action}-{target}`)
+- No duplicate skill exists in `skills/` directory
+
+**Output Validation:**
+- SKILL.md has valid frontmatter with all required fields
+- SKILL.md body is under 450 tokens (style guide budget)
+- No TODO placeholders remain
+- `references/` directory contains only local files (no URLs)
+
 ## Guardrails (Critical Rules)
 - **NEVER** add a "Keywords" section (the agent searches frontmatter, not the body).
 - **NEVER** use web URLs in `references/`, use local paths exclusively.

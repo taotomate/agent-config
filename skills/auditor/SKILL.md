@@ -36,6 +36,20 @@ Classify the error and act accordingly:
 - **ContextOverflow (LLM Failure):** The agent lost the execution thread or hallucinated. *Action:* Clear context, summarize state, and retry with a more focused prompt.
 - **SystemError (Fatal Failure):** Permission error, network outage, chronic missing dependencies. *Action:* Suspend execution and escalate to the Human Architect.
 
+### Validation
+After completing analysis, verify:
+
+**Output Validation:**
+- Error message captured verbatim (not paraphrased)
+- Root cause identified (not just symptoms)
+- Category assigned (LogicError / ContextOverflow / SystemError)
+- Action plan documented
+
+**Error Handling:**
+- If error can't be read → STOP, report "unable to access error logs"
+- If category unclear → default to LogicError, note uncertainty
+- If 3+ retries failed → escalate to SystemError
+
 ## Guardrails
 - **DO NOT** attempt blind iterative patches (more than 3 retries without success indicates a fatal failure).
 - **ALWAYS** document the root cause before proposing and applying a solution.

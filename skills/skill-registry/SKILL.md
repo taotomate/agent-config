@@ -34,6 +34,19 @@ model_tier: fast
 - If the `mem_save` tool is available (Engram MCP integration), invoke it to persist the registry content to persistent memory using `topic_key: "skill-registry"`.
 - Display a concise console summary indicating how many user skills and project conventions were indexed.
 
+### Validation
+After generating the registry, verify:
+
+**Output Validation:**
+- `.config/skill-registry.md` exists and is non-empty
+- Registry has at least 1 skill entry
+- Each entry has: trigger, skill name, path
+- No duplicate skill names in registry
+
+**Error Handling:**
+- If no skills found → WARNING: "No skills discovered. Check scan paths."
+- If registry empty after scan → STOP, report what went wrong
+
 ## Guardrails (Critical Rules)
 - **ALWAYS** skip `sdd-*`, `_shared`, and `skill-registry` directories during scanning. They do not contain "actionable code skills", but orchestrator meta-protocols. Injecting them would waste tokens uselessly.
 - **NEVER** exceed 15 lines per "Compact Rules" block. They must be strict directives ("Do X", "Never Y"), without tutorials, motivation explanations, or long code examples.

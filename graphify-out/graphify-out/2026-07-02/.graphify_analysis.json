@@ -1,0 +1,262 @@
+{
+  "communities": {
+    "0": [
+      "concept_agent_context_isolation",
+      "concept_compact_rules",
+      "concept_engram_mode",
+      "concept_gatekeeper",
+      "concept_helpful_vs_compliant",
+      "concept_hybrid_mode",
+      "concept_l1_orchestrator",
+      "concept_l2_orchestration",
+      "concept_l3_execution",
+      "concept_openspec_mode",
+      "concept_resolve_model_script",
+      "concept_return_envelope",
+      "concept_sdd_pipeline",
+      "concept_skill_registry",
+      "shared_global_error_log",
+      "shared_openspec_convention",
+      "shared_persistence_contract",
+      "shared_routing",
+      "shared_sdd_phase_common",
+      "shared_skill_resolver",
+      "shared_skill_style_guide"
+    ],
+    "1": [
+      "concept_engram_protocol",
+      "concept_sdd_workflow",
+      "shared_engram_convention_md",
+      "skills_sdd_apply_skill_sdd_apply",
+      "skills_sdd_archive_skill_sdd_archive",
+      "skills_sdd_design_skill_sdd_design",
+      "skills_sdd_explore_skill_sdd_explore",
+      "skills_sdd_init_skill_sdd_init",
+      "skills_sdd_onboard_skill_sdd_onboard",
+      "skills_sdd_propose_skill_sdd_propose",
+      "skills_sdd_spec_skill_sdd_spec",
+      "skills_sdd_tasks_skill_sdd_tasks",
+      "skills_sdd_verify_skill_sdd_verify"
+    ],
+    "2": [
+      "any",
+      "tools_skill_catalog_extract_description",
+      "tools_skill_catalog_extract_skill_name",
+      "tools_skill_catalog_extract_version",
+      "tools_skill_catalog_parse_frontmatter",
+      "tools_skill_catalog_rationale_45",
+      "tools_skill_catalog_rationale_64",
+      "tools_skill_catalog_rationale_70",
+      "tools_skill_catalog_rationale_76",
+      "tools_skill_catalog_rationale_87",
+      "tools_skill_catalog_scan_directory"
+    ],
+    "3": [
+      "agents_antigravity_md",
+      "agents_base_md",
+      "concept_failure_protocol",
+      "config_error_log_md",
+      "config_governance_protocol_md",
+      "shared_errors_learned_md",
+      "shared_routing_md",
+      "skills_go_testing_skill_go_testing",
+      "skills_skill_creator_skill_skill_creator"
+    ],
+    "4": [
+      "agents_claude_code_md",
+      "agents_gemini_cli_md",
+      "agents_md",
+      "claude_md",
+      "gemini_md",
+      "readme_md",
+      "shared_openspec_convention_md",
+      "shared_vision_md"
+    ],
+    "5": [
+      "changelog_md",
+      "concept_audit_axioms",
+      "config_skill_registry_md",
+      "shared_audit_framework_md",
+      "shared_skill_style_guide_md",
+      "shared_trigger_rules_md",
+      "skills_skill_optimizer_skill_skill_optimizer",
+      "tools_skill_catalog_py"
+    ],
+    "6": [
+      "path",
+      "tools_skill_catalog_archive_duplicates",
+      "tools_skill_catalog_generate_registry",
+      "tools_skill_catalog_identify_active",
+      "tools_skill_catalog_main",
+      "tools_skill_catalog_rationale_138",
+      "tools_skill_catalog_rationale_352",
+      "tools_skill_catalog_rationale_391"
+    ],
+    "7": [
+      "tools_skill_catalog",
+      "tools_skill_catalog_build_version_map",
+      "tools_skill_catalog_print_json",
+      "tools_skill_catalog_print_report",
+      "tools_skill_catalog_rationale_130",
+      "tools_skill_catalog_rationale_205",
+      "tools_skill_catalog_rationale_252"
+    ],
+    "8": [
+      "config_skill_audit_report_md",
+      "shared_template_skill",
+      "shared_validation_framework",
+      "skills_auditor_skill_auditor"
+    ],
+    "9": [
+      "tools_skill_catalog_content_hash",
+      "tools_skill_catalog_rationale_58"
+    ],
+    "10": [
+      "tools_skill_catalog_find_duplicates",
+      "tools_skill_catalog_rationale_122"
+    ],
+    "11": [
+      "tools_skill_catalog_generate_recommendations",
+      "tools_skill_catalog_rationale_157"
+    ],
+    "12": [
+      "shared_distillation_protocol_md"
+    ],
+    "13": [
+      "shared_trigger_rules"
+    ],
+    "14": [
+      "skills_skill_registry_skill_skill_registry"
+    ]
+  },
+  "cohesion": {
+    "0": 0.16666666666666666,
+    "1": 0.15384615384615385,
+    "2": 0.2545454545454545,
+    "3": 0.3888888888888889,
+    "4": 0.32142857142857145,
+    "5": 0.2857142857142857,
+    "6": 0.35714285714285715,
+    "7": 0.2857142857142857,
+    "8": 0.5,
+    "9": 1.0,
+    "10": 1.0,
+    "11": 1.0,
+    "12": 1.0,
+    "13": 1.0,
+    "14": 1.0
+  },
+  "gods": [
+    {
+      "id": "agents_base_md",
+      "label": "Agent Base Instructions",
+      "degree": 20
+    },
+    {
+      "id": "readme_md",
+      "label": "README - Agent Config",
+      "degree": 19
+    },
+    {
+      "id": "concept_sdd_workflow",
+      "label": "SDD Workflow Concept",
+      "degree": 12
+    },
+    {
+      "id": "tools_skill_catalog_main",
+      "label": "main()",
+      "degree": 11
+    },
+    {
+      "id": "tools_skill_catalog_scan_directory",
+      "label": "scan_directory()",
+      "degree": 10
+    },
+    {
+      "id": "config_governance_protocol_md",
+      "label": "Governance Protocol",
+      "degree": 10
+    },
+    {
+      "id": "changelog_md",
+      "label": "Changelog",
+      "degree": 8
+    },
+    {
+      "id": "tools_skill_catalog_parse_frontmatter",
+      "label": "parse_frontmatter()",
+      "degree": 7
+    },
+    {
+      "id": "shared_persistence_contract",
+      "label": "Persistence Contract",
+      "degree": 7
+    },
+    {
+      "id": "shared_sdd_phase_common",
+      "label": "SDD Phase Common Protocol",
+      "degree": 7
+    }
+  ],
+  "surprises": [
+    {
+      "source": "Agent Base Instructions",
+      "target": "skill_catalog.py Tool",
+      "source_files": [
+        "agents/base.md",
+        "tools/skill_catalog.py"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "crosses file types (doc \u2194 code); connects across different repos/directories; bridges separate communities"
+    },
+    {
+      "source": "README - Agent Config",
+      "target": "skill_catalog.py Tool",
+      "source_files": [
+        "README.md",
+        "tools/skill_catalog.py"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "crosses file types (code \u2194 doc); connects across different repos/directories; bridges separate communities"
+    },
+    {
+      "source": "AGENTS.md Entry Point",
+      "target": "Agent Base Instructions",
+      "source_files": [
+        "AGENTS.md",
+        "agents/base.md"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "connects across different repos/directories; bridges separate communities; peripheral node `AGENTS.md Entry Point` unexpectedly reaches hub `Agent Base Instructions`"
+    },
+    {
+      "source": "Governance Protocol",
+      "target": "Auditor Skill",
+      "source_files": [
+        ".config/GOVERNANCE_PROTOCOL.md",
+        "skills/auditor/SKILL.md"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "connects across different repos/directories; bridges separate communities; peripheral node `Auditor Skill` unexpectedly reaches hub `Governance Protocol`"
+    },
+    {
+      "source": "Skill Registry",
+      "target": "skill_catalog.py Tool",
+      "source_files": [
+        ".config/skill-registry.md",
+        "tools/skill_catalog.py"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "crosses file types (doc \u2194 code); connects across different repos/directories"
+    }
+  ],
+  "tokens": {
+    "input": 49270,
+    "output": 11685
+  }
+}

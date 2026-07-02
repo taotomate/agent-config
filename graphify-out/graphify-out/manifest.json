@@ -1,0 +1,12 @@
+{
+  ".config/analysis-state.json": {
+    "mtime": 1783024132.9185658,
+    "ast_hash": "b99be827c2774fd09f8013185b745aa8",
+    "semantic_hash": "b99be827c2774fd09f8013185b745aa8"
+  },
+  "tools/skill_catalog.py": {
+    "mtime": 1782994051.2000785,
+    "ast_hash": "2a3a3b64bdb734a76ec24979aa859538",
+    "semantic_hash": "2a3a3b64bdb734a76ec24979aa859538"
+  }
+}

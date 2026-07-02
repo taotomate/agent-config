@@ -1,54 +1,94 @@
 ---
-name: gentle-ai-chained-pr
-description: "Trigger: PRs over 400 lines, stacked PRs, review slices. Split oversized changes into chained PRs that protect review focus."
-license: Apache-2.0
-metadata:
-  author: TaoTomate
-  generator_model: gemini-1.5-pro
-  upstream_source: Gentleman-Programming/gentle-ai/skills/chained-pr
-  upstream_date: 2026-05-07
-  local_sync_date: 2026-06-15
-  version: "1.0"
+name: chained-pr
+description: Splits large changes (>400 lines) into chained PRs to protect reviewer focus. Supports Stacked PRs and Feature Branch Chain.
+version: 1.1.0
+author: TaoTomate
+generator_model: nemotron-3-ultra-free
+inherited_from: chained-pr/SKILL.md
+migrated_by: skill-optimizer@1.0.0
+model_tier: medium
 ---
 
-## Activation Contract
+## Context & Triggers
+**When to use this skill:**
+- A planned PR may exceed **400 changed lines**
+- SDD forecasts `400-line budget risk: High` or `Chained PRs recommended: Yes`
+- The user asks for chained PRs, stacked PRs, or reviewer load control
+- Triggers: "chained PR", "stacked PR", "split PR", "large PR"
 
-Load this skill when a planned PR may exceed **400 changed lines**, SDD forecasts `400-line budget risk: High` or `Chained PRs recommended: Yes`, or the user asks for chained/stacked PRs, review slices, or reviewer-load control.
+## Prerequisites
+- [ ] Know the estimated change size (additions + deletions)
+- [ ] Identify independent work units within the change
+- [ ] `gh` CLI configured with permissions to create PRs
 
-## Hard Rules
+## Execution Phases
 
-- Split PRs over **400 changed lines** unless a maintainer explicitly accepts `size:exception`.
-- Keep each PR reviewable in about **≤60 minutes**.
-- Use one deliverable work unit per PR; keep tests/docs with the unit they verify.
-- State start, end, prior dependencies, follow-up work, and out-of-scope items in every chained PR.
-- Every child PR must include a dependency diagram marking the current PR with `📍`.
-- In Feature Branch Chain, create a draft/no-merge tracker PR; child PR #1 targets the tracker branch, later children target the immediate parent branch.
-- Treat polluted diffs as base bugs: retarget or rebase until only the current work unit appears.
-- Do not mix chain strategies after the user chooses one.
+> **[UNIVERSAL DRY-RUN / SIMULATION RULE]**
+> If the user requests execution in `--dry-run` mode or asks for a "simulation", the agent will **NOT** execute commands that alter system state or call destructive MCP tools in the Action Phase. 
+> Instead, the agent will print the exact payload (JSON, code block, or parameters) it planned to execute, and will stop to wait for explicit human approval.
 
-## Decision Gates
+### 1. Diagnosis Phase
+- Estimate changed lines and identify independent work units.
+- If SDD has a `delivery_strategy`, use it. If not, ask the user for a strategy.
+- Determine the strategy according to the decision table (see Data Structures).
 
-| Condition | Action |
-|---|---|
-| PR ≤400 changed lines and focused | Keep single PR. |
-| PR >400, each slice can land independently | Use Stacked PRs to main. |
-| PR >400, feature must integrate before main | Use Feature Branch Chain with tracker. |
-| Generated/vendor/migration diff cannot split cleanly | Ask maintainer for `size:exception`. |
-| SDD provides `delivery_strategy` | Follow it before apply/PR creation. |
+### 2. Action Phase
+- Create branches/PRs using the chosen strategy.
+- Add Chain Context to each PR without replacing the repo template.
+- In Feature Branch Chain: create a tracker PR as draft/no-merge; child PR #1 points to the tracker branch, subsequent ones to the immediate parent.
 
-## Execution Steps
+### 3. Verification Phase
+- Verify each PR independently: CI/tests/docs/manual checks, rollback scope, clean diff.
+- Keep the tracker PR as draft/no-merge until all child PRs are reviewed and merged.
+- Ensure the diff only contains the current work unit (rebase/retarget if there is contamination).
 
-1. Estimate changed lines and identify independent work units.
-2. Ask for a chain strategy when none is cached and the budget is exceeded.
-3. Create branches/PRs using the chosen strategy only.
-4. Add Chain Context to each PR without replacing the repo PR template.
-5. Verify each PR independently: CI/tests/docs/manual checks, rollback scope, and clean diff.
-6. Keep tracker PR draft/no-merge until all child PRs are reviewed and integrated.
+## Guardrails (Critical Rules)
+- **ALWAYS** split PRs > 400 lines unless a maintainer explicitly accepts `size:exception`.
+- **ALWAYS** keep each PR reviewable within ≤60 minutes.
+- **ALWAYS** include in each PR: start, end, previous dependencies, follow-up, and out-of-scope.
+- **ALWAYS** include a dependency diagram marking the current PR with `📍`.
+- **NEVER** mix chaining strategies after the user has chosen one.
+- **NEVER** treat contaminated diffs as normal — retarget or rebase until only the current unit appears.
 
-## Output Contract
+## Data Structures / Examples & Commands
 
-Return the chosen strategy, PR order, current PR boundary, dependency diagram, review budget (`additions + deletions`), verification plan, and any `size:exception` rationale.
+### Strategy Decision Table
 
-## References
+| Condition | Strategy |
+|-----------|----------|
+| PR ≤400 lines and focused | Single PR |
+| PR >400, each fragment can land independently | Stacked PRs to main |
+| PR >400, feature must integrate before main | Feature Branch Chain with tracker |
+| Generated/vendor/migration diff cannot be split | Ask maintainer for `size:exception` |
+| SDD provides `delivery_strategy` | Follow it before apply/PR creation |
 
-- [references/chaining-details.md](references/chaining-details.md) — strategy diagrams, PR body section, branch commands, and reviewer guidance.
+### PR Body Format (Chain Context)
+```markdown
+## Chain Context
+- **Strategy**: {Stacked PRs | Feature Branch Chain}
+- **Order**: PR {N} of {M}
+- **Depends on**: {PR #previous} | "None (root)"
+- **Follow-up**: {PR #next} | "None (last)"
+- **Out of scope**: {what is intentionally deferred}
+- **Review budget**: {additions + deletions} lines
+{📍 current PR marker}
+```
+
+### Useful Commands
+```bash
+# Create branch for chained PR
+git checkout -b feat/my-feature-pr2 feat/my-feature-pr1
+
+# Verify clean diff (only this PR's changes)
+git diff main...HEAD
+
+# Open PR pointing to the parent branch
+gh pr create --base feat/my-feature-pr1 --title "feat(scope): description" --body "..."
+```
+
+## ⚠️ Migration Residue (Evolution Feedback)
+- `references/chaining-details.md` — external documentation not migrated. Consider integrating as a separate reference.
+
+## Troubleshooting
+- *Contaminated diff*: Rebase against the correct base branch: `git rebase --onto <parent-branch> <old-base> <current-branch>`.
+- *Chain merge conflicts*: Resolve in the oldest PR first, then rebase the dependents.

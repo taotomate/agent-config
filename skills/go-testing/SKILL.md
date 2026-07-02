@@ -6,53 +6,54 @@ author: TaoTomate
 generator_model: gemini-1.5-pro
 inherited_from: go-testing/SKILL.md
 migrated_by: skill-migrator@1.0.0
+model_tier: fast
 ---
 
-## Contexto y Triggers
-**Cuándo usar esta skill:**
-- Al escribir o refactorizar unit tests en Go (`*_test.go`).
-- Al testear componentes de consola interactivos (Bubbletea TUI).
-- Al requerir crear pruebas basadas en tablas (Table-Driven Tests).
-- Al agregar pruebas de integración o de "archivos dorados" (Golden Files).
+## Context & Triggers
+**When to use this skill:**
+- When writing or refactoring unit tests in Go (`*_test.go`).
+- When testing interactive console components (Bubbletea TUI).
+- When needing to create Table-Driven Tests.
+- When adding integration tests or Golden File tests.
 
-## Pre-requisitos
-- [ ] Entorno con Go instalado y configurado en el PATH (`go version` disponible).
-- [ ] Módulo inicializado (`go.mod` presente en la raíz del proyecto o subdirectorio activo).
-- [ ] Si se testea TUI, la dependencia `github.com/charmbracelet/bubbletea/teatest` debe estar instalada o disponible para `go get`.
+## Prerequisites
+- [ ] Environment with Go installed and configured in PATH (`go version` available).
+- [ ] Module initialized (`go.mod` present at project root or active subdirectory).
+- [ ] If testing TUI, the `github.com/charmbracelet/bubbletea/teatest` dependency must be installed or available for `go get`.
 
-## Fases de Ejecución
+## Execution Phases
 
-> **[REGLA UNIVERSAL: DRY-RUN / SIMULACRO]**
-> Si el usuario solicita la ejecución en modo `--dry-run` o pide un "simulacro", el agente **NO** ejecutará comandos que alteren el estado del sistema ni llamará a herramientas MCP destructivas en la Fase de Acción. 
-> En su lugar, el agente imprimirá el payload exacto (JSON, bloque de código o parámetros) que planeaba ejecutar, y se detendrá a esperar la aprobación explícita del humano.
+> **[UNIVERSAL DRY-RUN / SIMULATION RULE]**
+> If the user requests execution in `--dry-run` mode or asks for a "simulation", the agent will **NOT** execute commands that alter system state or call destructive MCP tools in the Action Phase. 
+> Instead, the agent will print the exact payload (JSON, code block, or parameters) it planned to execute, and will stop to wait for explicit human approval.
 
-### 1. Fase de Diagnóstico
-- Identificar la naturaleza del código a testear analizando su firma y comportamiento:
-  - ¿Es una función pura o lógica de negocio aislada? -> Aplica **Patrón 1** (Table-driven test).
-  - ¿Es un cambio de estado en un componente TUI? -> Aplica **Patrón 2** (Model Update directo).
-  - ¿Es un flujo interactivo completo de teclado en TUI? -> Aplica **Patrón 3** (Teatest).
-  - ¿Es una salida visual compleja que debe coincidir byte a byte? -> Aplica **Patrón 4** (Golden file testing).
+### 1. Diagnosis Phase
+- Identify the nature of the code to test by analyzing its signature and behavior:
+  - Is it a pure function or isolated business logic? → Apply **Pattern 1** (Table-driven test).
+  - Is it a state change in a TUI component? → Apply **Pattern 2** (Model Update direct).
+  - Is it a full interactive keyboard flow in TUI? → Apply **Pattern 3** (Teatest).
+  - Is it a complex visual output that must match byte for byte? → Apply **Pattern 4** (Golden file testing).
 
-### 2. Fase de Acción
-- Extraer el patrón de código correspondiente de la sección `Estructuras de Datos y Ejemplos`.
-- Inyectar el código en el archivo `*_test.go` adecuado según la topología del proyecto.
-- Adaptar los tipos, variables mockeadas y asserts (`t.Errorf`) a la lógica de negocio específica que se está testeando.
+### 2. Action Phase
+- Extract the corresponding code pattern from the Data Structures section.
+- Inject the code into the appropriate `*_test.go` file according to the project topology.
+- Adapt types, mocked variables, and asserts (`t.Errorf`) to the specific business logic being tested.
 
-### 3. Fase de Verificación
-- Ejecutar los comandos de testing en la terminal para validar el código escrito:
-  - `go test ./...` para una validación global.
-  - `go test -v ./ruta/...` para depuración detallada si falla un test específico.
-  - `go test -update ./...` si se introdujo o modificó un Golden File intencionalmente.
+### 3. Verification Phase
+- Run testing commands in the terminal to validate the written code:
+  - `go test ./...` for global validation.
+  - `go test -v ./path/...` for detailed debugging if a specific test fails.
+  - `go test -update ./...` if a Golden File was intentionally introduced or modified.
 
-## Guardrails (Reglas Críticas)
-- **NO** modifiques la lógica de negocio subyacente para hacer pasar un test fallido, a menos que el humano te lo pida explícitamente o haya un bug evidente y documentado.
-- **SIEMPRE** utiliza *Table-Driven Tests* cuando pruebes funciones con múltiples casos de entrada/salida.
-- **SIEMPRE** verifica ambos flujos (éxito y `error` esperado) cuando la función objetivo retorne una variable `error`.
-- **SIEMPRE** mockea el sistema de archivos (`os/exec`, `os.ReadFile`) usando `t.TempDir()` en lugar de escribir en rutas absolutas locales.
+## Guardrails (Critical Rules)
+- **DO NOT** modify the underlying business logic to make a failing test pass, unless the human explicitly asks you to or there is a clear documented bug.
+- **ALWAYS** use Table-Driven Tests when testing functions with multiple input/output cases.
+- **ALWAYS** verify both flows (success and expected `error`) when the target function returns an `error` variable.
+- **ALWAYS** mock the filesystem (`os/exec`, `os.ReadFile`) using `t.TempDir()` instead of writing to local absolute paths.
 
-## Estructuras de Datos / Ejemplos y Comandos
+## Data Structures / Examples & Commands
 
-### Patrón 1: Table-Driven Tests
+### Pattern 1: Table-Driven Tests
 ```go
 func TestSomething(t *testing.T) {
     tests := []struct {
@@ -80,7 +81,7 @@ func TestSomething(t *testing.T) {
 }
 ```
 
-### Patrón 2: Bubbletea Model Testing
+### Pattern 2: Bubbletea Model Testing
 ```go
 func TestModelUpdate(t *testing.T) {
     m := NewModel()
@@ -94,7 +95,7 @@ func TestModelUpdate(t *testing.T) {
 }
 ```
 
-### Patrón 3: Teatest Integration Tests
+### Pattern 3: Teatest Integration Tests
 ```go
 func TestInteractiveFlow(t *testing.T) {
     m := NewModel()
@@ -114,7 +115,7 @@ func TestInteractiveFlow(t *testing.T) {
 }
 ```
 
-### Patrón 4: Golden File Testing
+### Pattern 4: Golden File Testing
 ```go
 func TestOSSelectGolden(t *testing.T) {
     m := NewModel()
@@ -133,19 +134,19 @@ func TestOSSelectGolden(t *testing.T) {
 }
 ```
 
-### Organización Clásica de Archivos de Test
+### Classic Test File Organization
 ```text
 internal/tui/
 ├── model.go
-├── model_test.go           # Unit tests de Model
+├── model_test.go           # Model unit tests
 ├── view.go
-├── view_test.go            # Tests de renderizado (Golden Files)
-├── teatest_test.go         # Tests de Integración Teatest
-└── testdata/               # Carpeta para Golden Files
+├── view_test.go            # Render tests (Golden Files)
+├── teatest_test.go         # Teatest Integration Tests
+└── testdata/               # Golden Files folder
     └── TestViewGolden.golden
 ```
 
-### Comandos de Ejecución
+### Execution Commands
 ```bash
 go test ./...                           # Run all tests
 go test -v ./internal/tui/...          # Verbose TUI tests
@@ -155,6 +156,6 @@ go test -update ./...                   # Update golden files
 ```
 
 ## Troubleshooting
-- *Si ocurre Data Race:* El comando `go test` fallará o será inconsistente de forma aleatoria. Ejecutar `go test -race ./...` para localizar la colisión de rutinas.
-- *Si los Golden Files fallan (mismatch):* Verificar si el cambio visual detectado fue intencional en el código. Si lo fue, la solución es regenerar ejecutando `go test -update ./...`.
-- *Si `teatest` se cuelga (timeout):* Verificar que se esté enviando el `tea.KeyMsg` adecuado que interrumpe el bucle interno, o asegurar el uso de `tm.WaitFinished(t, teatest.WithDuration(time.Second))`.
+- *If Data Race occurs:* The `go test` command will fail or be inconsistently random. Run `go test -race ./...` to locate the goroutine collision.
+- *If Golden Files fail (mismatch):* Verify the detected visual change was intentional in the code. If it was, regenerate by running `go test -update ./...`.
+- *If `teatest` hangs (timeout):* Verify the correct `tea.KeyMsg` is being sent to interrupt the internal loop, or ensure using `tm.WaitFinished(t, teatest.WithDuration(time.Second))`.

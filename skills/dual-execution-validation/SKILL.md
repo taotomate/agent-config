@@ -1,68 +1,74 @@
 ---
 name: dual-execution-validation
-description: >
-  Ejecuta tareas técnicas mediante validación cruzada (Cloud vs Local LLM) para 
-  comparar fidelidad de resultados, establecer fronteras de capacidad y optimizar 
-  el consumo de tokens mediante benchmarking en tiempo real.
-  Trigger: "dual execution", "validación dual", "correr frontera", "comparar con local".
-metadata:
-  version: "3.0"
+description: 'Executes technical tasks through cross-validation (Cloud vs Local
+  LLM) to compare result fidelity, establish capacity boundaries, and optimize
+  token consumption through real-time benchmarking. Trigger: "dual
+  execution", "dual validation", "run frontier", "compare with local".
+  '
+version: "3.1"
 author: TaoTomate
 generator_model: gemini-1.5-pro
 inherited_from: dual-execution-validation/SKILL.md
+model_tier: medium
 ---
 
-## Contexto y Triggers
-**Cuándo usar esta skill:**
-- Cuando se quiere probar si una tarea repetitiva (ej. tests, refactors simples) puede ser delegada al modelo local.
-- Para validar la precisión de modelos locales contra modelos en la nube (ej. GPT/Gemini) en problemas de lógica.
-- Al procesar grandes volúmenes de texto donde el ahorro de tokens es crítico.
-- Triggers: "dual execution", "validación dual", "correr frontera", "comparar con local".
+## Context & Triggers
+**When to use this skill:**
+- When you want to test if a repetitive task (e.g. tests, simple refactors) can be delegated to a local model.
+- To validate local model accuracy against cloud models (e.g. GPT/Gemini) on logic problems.
+- When processing large volumes of text where token savings are critical.
+- Triggers: "dual execution", "dual validation", "run frontier", "compare with local".
 
-## Pre-requisitos
-- [ ] Tener el modelo local configurado y accesible.
-- [ ] Conocer el prompt exacto que se utilizará para la validación cruzada.
+## Prerequisites
+- [ ] Local model configured and accessible.
+- [ ] Know the exact prompt to be used for cross-validation.
 
-## Fases de Ejecución
+## Execution Phases
 
-> **[REGLA UNIVERSAL: DRY-RUN / SIMULACRO]**
-> Si el usuario solicita la ejecución en modo `--dry-run` o pide un "simulacro", el agente **NO** ejecutará comandos que alteren el estado del sistema ni llamará a herramientas MCP destructivas en la Fase de Acción. 
-> En su lugar, el agente imprimirá el payload exacto que planeaba ejecutar, y se detendrá a esperar la aprobación explícita del humano.
+> **[UNIVERSAL DRY-RUN / SIMULATION RULE]**
+> If the user requests execution in `--dry-run` mode or asks for a "simulation", the agent will **NOT** execute commands that alter system state or call destructive MCP tools in the Action Phase. 
+> Instead, the agent will print the exact payload it planned to execute, and will stop to wait for explicit human approval.
 
-### 1. Fase de Diagnóstico
-- Extraer la intención principal de la tarea.
-- Preparar el prompt sincronizado: Se debe formular EXACTAMENTE el mismo prompt y contexto que se enviará a ambos modelos.
+### 1. Diagnosis Phase
+- Extract the main intent of the task.
+- Prepare the synchronized prompt: formulate EXACTLY the same prompt and context that will be sent to both models.
 
-### 2. Fase de Acción
-- **Ejecución Local**: Invocar el modelo local a través de la herramienta correspondiente o script (por ejemplo, mediante `ask_local_llm` si existe el MCP, o vía scripts en Python/bash pegándole a Ollama).
-- **Ejecución Cloud**: Como agente orquestador, procesa tú mismo la tarea (utilizando tu propio motor) y guarda el resultado.
+### 2. Action Phase
+- **Local Execution**: Invoke the local model through the corresponding tool or script (e.g. via `ask_local_llm` if the MCP exists, or via Python/bash scripts hitting Ollama).
+- **Cloud Execution**: As the orchestrator agent, process the task yourself (using your own engine) and save the result.
 
-### 3. Fase de Verificación
-- Generar un "Reporte Comparativo" inmediato. Presentar la matriz de evaluación (Veredicto) al usuario en el chat.
-- Analizar y declarar en el reporte si hubo "Visión de Túnel" (si el modelo local ignoró el contexto general, como mezclar secciones o romper scopes).
+### 3. Verification Phase
+- Generate an immediate "Comparative Report". Present the evaluation matrix (Verdict) to the user in chat.
+- Analyze and declare in the report whether there was "Tunnel Vision" (if the local model ignored the general context, e.g. mixing sections or breaking scopes).
 
-## Guardrails (Reglas Críticas)
-- **Sincronización Estricta:** El prompt debe ser exactamente el mismo para ambos modelos. No simplifiques el prompt del local.
-- **Detección de Frontera:** Si el modelo local demuestra superar o igualar la prueba 3 veces seguidas en una categoría específica, deberás actualizar la frontera marcando esa categoría como "Segura para Delegación" y guardarlo en Engram.
-- **No Halucinación Local:** Al evaluar el modelo local, penaliza fuertemente la alucinación o si rompe la estructura del código existente.
+## Guardrails (Critical Rules)
+- **Strict Synchronization**: The prompt must be exactly the same for both models. Do not simplify the prompt for the local model.
+- **Frontier Detection**: If the local model demonstrates it can match or exceed the test 3 times in a row in a specific category, update the frontier by marking that category as "Safe for Delegation" and save it to Engram.
+- **No Local Hallucination**: When evaluating the local model, heavily penalize hallucination or breaking the existing code structure.
 
-## Estructuras de Datos / Ejemplos y Comandos
+## Data Structures / Examples & Commands
 
-**Matriz de Evaluación (Veredicto)**
-Debe presentarse en formato Markdown con esta estructura:
+**Evaluation Matrix (Verdict)**
+Must be presented in Markdown format with this structure:
 
-| Criterio | Cloud (Ej. Gemini Pro) | Local (Ej. Qwen 8B / Hermes) |
+| Criteria | Cloud (e.g. Gemini Pro) | Local (e.g. Qwen 8B / Hermes) |
 |----------|------------------------|------------------------------|
-| **Lógica** | (1-10) - Profundidad | (1-10) - Precisión |
-| **Contexto** | (1-10) - Visión global | (1-10) - Visión túnel |
-| **Velocidad** | Tiempo en segundos | Tiempo en segundos |
-| **Ahorro** | 0% (Costo base) | 100% (Tokens salvados) |
+| **Logic** | (1-10) - Depth | (1-10) - Precision |
+| **Context** | (1-10) - Global vision | (1-10) - Tunnel vision |
+| **Speed** | Time in seconds | Time in seconds |
+| **Savings** | 0% (Base cost) | 100% (Tokens saved) |
 
-**Comando de Ejecución (Opcional si hay script):**
+**Execution Command (Optional if a script exists):**
 ```bash
-# Ejemplo de invocación manual del test de comparación si existe el script de shadow test:
+# Example of manual comparison test invocation if the shadow test script exists:
 python scratch/shadow_test.py
 ```
 
-## ⚠️ Residuos de Migración (Feedback para evolución)
-*(Migrado exitosamente de v2.0 a IaC v1.2, formalizando el pipeline de delegación local vs cloud dentro de las fases de ejecución)*
+## ⚠️ Migration Residue (Evolution Feedback)
+*(Successfully migrated from v2.0 to IaC v1.2, formalizing the local vs cloud delegation pipeline within the execution phases)*
+
+## Troubleshooting
+
+- **Local model unreachable**: Verify Ollama is running (`ollama list`). If using an MCP tool, check MCP status.
+- **Prompt mismatch**: Ensure the EXACT same prompt string is sent to both models. Use a variable to avoid drift.
+- **Tunnel vision detected**: If the local model consistently ignores context, reduce task complexity or mark the category as "Not Safe for Delegation" in the frontier.

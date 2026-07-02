@@ -24,11 +24,7 @@ Cuando el proyecto o la tarea requiera cambios substanciales, la arquitectura ex
 3. **Especificación y Tareas (`sdd-spec` / `sdd-tasks`)**: Documentar la especificación técnica en Markdown (`openspec/` o plan) y desglosar el ticket en tareas atómicas (`task.md`).
 4. **Implementación y Verificación (`sdd-apply` / `sdd-verify`)**: Escribir el código y validar estrictamente que cumpla la especificación.
 
-> **Principio de Herencia de Identidad (Taotomate):** 
-> **Personality:** Senior Architect, 20+ years experience, GDE & MVP. Passionate teacher who genuinely wants people to learn and grow. Uses the Feynman technique and Socratic questioning to guide the user. Gets frustrated when someone can do better but isn't — not out of anger, but because you CARE about their growth.
-> **Philosophy:**
-> - CONCEPTS > CODE: call out people who code without understanding fundamentals
-> - AI IS A TOOL: we direct, AI executes; the human always leads
+
 
 ---
 
@@ -62,9 +58,10 @@ Todo intercambio de información debe pasar por una validación estricta. Antes 
 
 - **Paths:** Siempre relativos al root del proyecto usando `pathlib`. Nunca hardcodear rutas absolutas.
 - **Dependencias explícitas:** Prohibido instalar librerías al vuelo sin registrarlas. Si un script nuevo requiere paquetes externos, deben quedar documentados (ej. `requirements.txt`).
-- **Reglas de Git:**
+- **Reglas de Git y Control de Versiones:**
   - **Evitar Basura:** Prohibido subir binarios, ejecutables, volcados de datos gigantes (`.har`, `.json` pesados) o logs al repositorio. Todo archivo temporal o pesado debe registrarse obligatoriamente en `.gitignore`.
   - **Commits:** Usar siempre *Conventional Commits* (`feat(...)`, `fix(...)`). Está estrictamente prohibido incluir firmas como "Co-Authored-By" de asistentes de IA.
+  - **Versionado de Instrucciones:** Cuando actualices o modifiques un archivo de instrucciones (L1, L2, L3, Skills), DEBÉS actualizar su número de versión (ej: v1.0 a v1.1) y registrar en los metadatos el nombre de quien hace la revisión. Si el archivo es heredado, la referencia en `inherited_from` debe incluir la ruta o proyecto exacto de origen para no perder trazabilidad (ej: `gentleman-programming/gga/AGENTS.md`, NO solo el nombre del autor).
 - **Archivos:**
   - Outputs finales (Entregables) → `research_reports/` o Cloud/Drive.
   - Datos temporales → `.tmp/` (volátil, no persistente).
@@ -74,6 +71,9 @@ Todo intercambio de información debe pasar por una validación estricta. Antes 
 ---
 
 ## Cuando algo falla
+
+> [!CAUTION]
+> Ante CUALQUIER fallo (L2 o L3), el agente NO improvisará. Debe seguir obligatoriamente el protocolo Black Box definido en `.atl/GOVERNANCE_PROTOCOL.md` (Freeze → Snapshot → Recovery).
 
 ### Fallo de script (L3):
 1. Leer el log en `.tmp/last_error.log`.
@@ -86,6 +86,12 @@ Todo intercambio de información debe pasar por una validación estricta. Antes 
 1. Registrar en `directives/errors_learned.md` con la firma del LLM utilizado y el tipo de tarea.
 2. Revisar el *harness*: ¿El prompt es ambiguo? ¿La temperatura es correcta? ¿El schema está bien definido?
 3. Si el problema persiste, consultar `directives/routing.md` para cambiar de modelo de forma autónoma.
+
+### Intervención Manual y Self-Correction (L1/L2):
+*(Cuando el usuario corrige una desviación del protocolo base, una alucinación o una improvisación no autorizada)*
+1. **Freno Inmediato:** Suspender cualquier acción iterativa o adivinanza.
+2. **Registro de Auditoría (Error Log):** Escribir obligatoriamente el fallo en el log de auditoría del proyecto (ej: `.atl/error_log.md`) detallando la regla violada, la acción errónea y la causa raíz. Esta escritura precede a cualquier intento de corrección.
+3. **Re-sincronización:** Leer nuevamente el registro de reglas o skills correspondientes antes de reanudar la ejecución.
 
 ---
 

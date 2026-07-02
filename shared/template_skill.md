@@ -1,46 +1,47 @@
 ---
-name: [nombre-de-la-skill]
-description: [Descripción breve de 1 o 2 líneas]
+name: [skill-name]
+description: [Brief 1-2 line description]
 version: 1.0.0
-author: [Tu Nombre]
+author: [Your Name]
+model_tier: [high|medium|fast]
 ---
 
-## Contexto y Triggers
-**Cuándo usar esta skill:**
-- Detalla los escenarios específicos donde el orquestador debe invocar esta skill.
-- *Ejemplo: "Cuando el usuario pida crear un ticket en GitHub o reportar un bug".*
+## Context & Triggers
+**When to use this skill:**
+- Detail the specific scenarios where the orchestrator should invoke this skill.
+- *Example: "When the user asks to create a GitHub ticket or report a bug."*
 
-## Pre-requisitos
-Lista de condiciones de entorno que deben cumplirse **antes** de empezar.
-- [ ] Herramienta instalada (ej. `gh cli`).
-- [ ] Directorios específicos existentes.
-- [ ] Variables de entorno configuradas.
+## Prerequisites
+List of environment conditions that must be met **before** starting.
+- [ ] Installed tool (e.g. `gh cli`).
+- [ ] Existing specific directories.
+- [ ] Configured environment variables.
 
-## Fases de Ejecución
-Desglosa el proceso en pasos deterministas. No dejes espacio para la improvisación.
+## Execution Phases
+Break down the process into deterministic steps. Leave no room for improvisation.
 
-> **[REGLA UNIVERSAL: DRY-RUN / SIMULACRO]**
-> Si el usuario solicita la ejecución en modo `--dry-run` o pide un "simulacro", el agente **NO** ejecutará comandos que alteren el estado del sistema ni llamará a herramientas MCP destructivas en la Fase de Acción. 
-> En su lugar, el agente imprimirá el payload exacto (JSON, bloque de código o parámetros) que planeaba ejecutar, y se detendrá a esperar la aprobación explícita del humano.
+> **[UNIVERSAL DRY-RUN / SIMULATION RULE]**
+> If the user requests execution in `--dry-run` mode or asks for a "simulation", the agent will **NOT** execute commands that alter system state or call destructive MCP tools in the Action Phase. 
+> Instead, the agent will print the exact payload (JSON, code block, or parameters) it planned to execute, and will wait for explicit human approval.
 
-### 1. Fase de Diagnóstico
-- Qué investigar o leer antes de actuar (ej. leer `.clauderules` o verificar duplicados).
-### 2. Fase de Acción
-- Los comandos o modificaciones a realizar sobre el código o sistema.
-### 3. Fase de Verificación
-- Cómo probar objetivamente que la acción fue exitosa (ej. correr `npm test`, validar JSON contra un schema).
+### 1. Diagnosis Phase
+- What to investigate or read before acting (e.g. read `.clauderules` or check for duplicates).
+### 2. Action Phase
+- The commands or modifications to perform on the code or system.
+### 3. Verification Phase
+- How to objectively test that the action was successful (e.g. run `npm test`, validate JSON against a schema).
 
-## Guardrails (Reglas Críticas)
-Restricciones innegociables para el modelo de IA.
-- **NO** [Comportamiento prohibido o asunción peligrosa].
-- **SIEMPRE** [Regla estricta a seguir obligatoriamente].
+## Guardrails (Critical Rules)
+Non-negotiable restrictions for the AI model.
+- **DO NOT** [Prohibited behavior or dangerous assumption].
+- **ALWAYS** [Strict rule to follow without exception].
 
-## Estructuras de Datos / Ejemplos y Comandos
-Provee contexto rico para el LLM para evitar alucinaciones de formato.
-- Ejemplos de comandos (`bash` o scripts).
-- Formatos esperados (JSON schemas, plantillas Markdown exactas).
-- Árbol de decisión (Decision Tree) si la lógica tiene ramificaciones complejas.
+## Data Structures / Examples & Commands
+Provides rich context for the LLM to avoid format hallucinations.
+- Command examples (`bash` or scripts).
+- Expected formats (JSON schemas, exact Markdown templates).
+- Decision tree if the logic has complex branches.
 
 ## Troubleshooting
-Guía de recuperación rápida para errores comunes y específicos de esta skill.
-- *Si ocurre [Error X], la causa probable es [Causa Y]. Ejecuta [Comando Z] para resolverlo.*
+Quick recovery guide for common and skill-specific errors.
+- *If [Error X] occurs, the probable cause is [Cause Y]. Run [Command Z] to resolve.*

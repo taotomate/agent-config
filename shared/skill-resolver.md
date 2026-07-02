@@ -12,6 +12,32 @@ Before EVERY sub-skill launch that involves **reading, writing, or reviewing cod
 
 ## The Protocol
 
+### Step 0: Resolve Model Tier for Delegation
+
+Before loading skills, determine the **model tier** needed for this sub-skill:
+
+| Delegation Type | Model Tier | Rationale |
+|-----------------|------------|-----------|
+| Architecture, design, complex analysis, proposal writing | `high` | Needs maximum reasoning capacity |
+| Orchestration, routing, error handling, coordination, PR creation | `medium` | Balanced reasoning + speed |
+| Code implementation, test writing, linting, refactoring, script execution | `fast` | Prefer scripts (L3); if LLM needed, use free cloud/local |
+
+**Resolution order:**
+1. Check sub-skill's frontmatter `model_tier` field (source of truth)
+2. Fallback: infer from delegation type using table above
+3. Default: `medium`
+
+**Action:** Call `execution/resolve_model.py <tier>` to get the actual model string. Inject into sub-skill prompt:
+```
+## Model Configuration (auto-resolved)
+MODEL_TIER: <tier>
+MODEL: <resolved-model-string>
+```
+
+The sub-skill uses this to know its budget/constraints. If it needs to spawn further delegations, it repeats Step 0.
+
+---
+
 ### Step 1: Obtain the Skill Registry (once per session)
 
 The registry contains a **Compact Rules** section with pre-digested rules per skill (5-15 lines each). This is what you inject — NOT full SKILL.md paths.
@@ -19,7 +45,7 @@ The registry contains a **Compact Rules** section with pre-digested rules per sk
 Resolution order:
 1. Already cached from earlier in this session? → use cache
 2. `mem_search(query: "skill-registry", project: "{project}")` → `mem_get_observation(id)` for full content
-3. Fallback: read `.atl/skill-registry.md` from the project root if it exists
+3. Fallback: read `.config/skill-registry.md` from the project root if it exists
 4. No registry found? → proceed without skills (but warn the user: "No skill registry found — sub-skills will work without project-specific standards. Run `skill-registry` to fix this.")
 
 ### Step 2: Match Relevant Skills
@@ -112,3 +138,13 @@ This prevents silent degradation where the orchestrator forgets skills after com
 - **double-blind-review**: follows this protocol before launching Auditor A, Auditor B, and Fix Skill
 - **pr-review**: already has internal skill loading — should migrate to this protocol for consistency
 - **Any future skill that delegates**: MUST reference this protocol
+
+## Helper: execution/resolve_model.py
+
+```bash
+python execution/resolve_model.py <high|medium|fast> [--prefer-local]
+```
+Returns JSON: `{"status":"success","data":{"model":"...","tier":"..."},"error_log":""}`
+
+Priority: free cloud (renewable) → local (on-demand via `--prefer-local`) → configured fallback.
+No paid APIs used unless explicitly configured in `opencode.json`.

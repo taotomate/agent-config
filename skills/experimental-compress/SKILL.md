@@ -1,77 +1,112 @@
 ---
 name: experimental-compress
-description: >
-  Motor experimental de Destilación Continua. Soporta dos modos principales a pedido del usuario: 
-  'status' (para ver el progreso de los chunks procesados en segundo plano) y 'reduce' (para 
-  inyectar el SOTA Sync Point en el hilo actual).
-  Trigger: "prueba compress", "distill experimental", "telemetria de destilacion".
-metadata:
-  version: "3.0"
+description: 'Synapse Distillation Engine (replaces Proj-Distill). Multi-topic, BTW-aware,
+  async map/reduce with free cloud tier support. Backends: ollama, lm-studio, groq, gemini.
+  Triggers: "prueba compress", "distill experimental", "telemetria de destilacion".
+  '
+version: "4.1"
 author: TaoTomate
-generator_model: gemini-1.5-pro
+generator_model: gemini-2.0-flash
 inherited_from: experimental-compress/SKILL.md
-migrated_by: skill-migrator@1.0.0
+migrated_by: synapse-engine
+model_tier: fast
 ---
 
-## Contexto y Triggers
-**Cuándo usar esta skill:**
-- Cuando el usuario pide ver el progreso de los chunks procesados en segundo plano (`'status'`).
-- Cuando se requiere inyectar el SOTA Sync Point en el hilo actual (`'reduce'`).
+## Context & Triggers
+**When to use this skill:**
+- When the user asks to view the progress of chunks processed in the background (`'status'`).
+- When the SOTA Sync Point needs to be injected into the current thread (`'reduce'` or `'map' + 'reduce'`).
 - Triggers: "prueba compress", "distill experimental", "telemetria de destilacion".
 
-## Pre-requisitos
-- [ ] Acceso de ejecución al script `D:\Engram_SDD\Proj-Distill\distill_experimental.py`.
-- [ ] Tener acceso al ID real de la conversación actual (`<conversation_id>`).
+## Prerequisites
+- [ ] Python 3.10+ available with aiohttp installed (`pip install aiohttp`).
+- [ ] Access to the actual current conversation ID (`<conversation_id>`).
 
-## Fases de Ejecución
+## Execution Phases
 
-> **[REGLA UNIVERSAL: DRY-RUN / SIMULACRO]**
-> Si el usuario solicita la ejecución en modo `--dry-run` o pide un "simulacro", el agente **NO** ejecutará comandos que alteren el estado del sistema ni llamará a herramientas MCP destructivas en la Fase de Acción. 
-> En su lugar, el agente imprimirá el payload exacto (JSON, bloque de código o parámetros) que planeaba ejecutar, y se detendrá a esperar la aprobación explícita del humano.
+> **[UNIVERSAL DRY-RUN / SIMULATION RULE]**
+> If the user requests execution in `--dry-run` mode or asks for a "simulation", the agent will **NOT** execute commands that alter system state or call destructive MCP tools in the Action Phase.
+> Instead, the agent will print the exact payload (JSON, code block, or parameters) it planned to execute, and will stop to wait for explicit human approval.
 
-### 1. Fase de Diagnóstico
-- Identificar la intención del usuario basándose en el trigger: ¿Es una consulta de telemetría (Status Check) o una ejecución manual de la compresión (SOTA Injection)?
+### 1. Diagnosis Phase
+- Identify the user's intent: Status Check (`status`), Map Extraction (`map`), or Dossier Synthesis (`reduce`).
 
-### 2. Fase de Acción
-- **Si es Status Check (Telemetría):**
-  - Ejecutar el script en modo status (ver sección Comandos).
-- **Si es SOTA Injection (Manual):**
-  - Ejecutar primero el script en modo `map-only` apuntando a esta conversación para procesar sus chunks pendientes. Puede ser Mapeo Completo o Parcial.
-  - Ejecutar inmediatamente después el script en modo `reduce` para generar el dossier consolidado, incluso si no se mapeó todo el hilo.
+### 2. Action Phase
+- **If Status Check (Telemetry):**
+  - Execute the `status` command (see Commands section).
+- **If Map Extraction:**
+  - Run `map` to extract claims from the thread. Claims are grouped by topic automatically (BTW detection built-in).
+  - Supports `--max-chunks` for quick partial mapping.
+  - Supports `--backend groq` for fast cloud extraction.
+- **If Dossier Synthesis:**
+  - Run `reduce` to generate the consolidated dossier from previously mapped claims.
+  - Optionally use `--inject-root` to write the dossier to the thread root (visible in Antigravity UI).
 
-### 3. Fase de Verificación
-- **Para Status Check:** Leer el stdout de la consola y mostrar el reporte de hilos procesados y pendientes, formateándolo limpiamente en el chat.
-- **Para SOTA Injection:** El script en modo `reduce` devolverá un JSON. Extraer el campo `summary` (UX Sync). Escupir el contenido *exacto* de ese `summary` en el chat de inmediato.
+### 3. Verification Phase
+- **For Status Check:** Read the console stdout and display the report of processed threads, topics, claims, and pending lines.
+- **For SOTA Injection:** The `reduce` command returns JSON. Extract the `summary` field (the dossier markdown). Output the *exact* content of that `summary` into the chat immediately.
 
-## Guardrails (Reglas Críticas)
-- **SIEMPRE** debes usar el ID real de este chat al reemplazar `<conversation_id>`.
-- **NUNCA** resumas ni escondas en un artefacto el contenido del `summary` devuelto en el modo `reduce`. Debes imprimirlo exactamente como viene; esto sirve como el ancla de memoria.
-- **SIEMPRE** ejecuta la fase de `reduce` después del `map-only` para inyecciones manuales.
+## Guardrails (Critical Rules)
+- **ALWAYS** use the actual chat ID when replacing `<conversation_id>`.
+- **NEVER** summarize or hide in an artifact the content of the `summary` returned in `reduce` mode. You must print it exactly as it comes.
+- **ALWAYS** execute `reduce` after `map` for complete dossiers.
 
-## Estructuras de Datos / Ejemplos y Comandos
+## Data Structures / Examples & Commands
 
-### Comandos de Ejecución
+### Execution Commands
 
-**Status Check (Telemetría):**
+**Status Check (Telemetry):**
 ```bash
-python D:\Engram_SDD\Proj-Distill\distill_experimental.py --mode status
+python D:\Engram_SDD\Proj-Synapse\src\cli.py status
 ```
 
-**SOTA Injection - Mapeo Completo:**
+**Map Extraction (Default - local Ollama):**
 ```bash
-python D:\Engram_SDD\Proj-Distill\distill_experimental.py --mode map-only --conversation-id <conversation_id>
+python D:\Engram_SDD\Proj-Synapse\src\cli.py map --thread-id <conversation_id>
 ```
 
-**SOTA Injection - Mapeo Parcial (Panorámica Rápida):**
+**Map Extraction (Fast - Groq free tier):**
 ```bash
-python D:\Engram_SDD\Proj-Distill\distill_experimental.py --mode map-only --conversation-id <conversation_id> --max-chunks 5
+python D:\Engram_SDD\Proj-Synapse\src\cli.py map --backend groq --thread-id <conversation_id>
 ```
 
-**SOTA Injection - Reducción (Dossier Consolidado):**
+**Map Extraction (Partial - first 5 chunks):**
 ```bash
-python D:\Engram_SDD\Proj-Distill\distill_experimental.py --mode reduce --conversation-id <conversation_id>
+python D:\Engram_SDD\Proj-Synapse\src\cli.py map --max-chunks 5 --thread-id <conversation_id>
 ```
-*(Nota: Si hay un modelo de map/reduce específico configurado, se puede añadir `--map-models <modelo>` o `--reduce-model <modelo>` respectivamente a los comandos).*
 
-## ⚠️ Residuos de Migración (Feedback para evolución)
-*(Toda la información ha sido mapeada satisfactoriamente, adaptando las lógicas de scripts externos a los nuevos Guardrails y Fases)*
+**Dossier Synthesis (Default):**
+```bash
+python D:\Engram_SDD\Proj-Synapse\src\cli.py reduce --thread-id <conversation_id>
+```
+
+**Dossier Synthesis (Injected to thread root for UI visibility):**
+```bash
+python D:\Engram_SDD\Proj-Synapse\src\cli.py reduce --inject-root --thread-id <conversation_id>
+```
+
+**Dossier Synthesis (Fast - Groq):**
+```bash
+python D:\Engram_SDD\Proj-Synapse\src\cli.py reduce --backend groq --thread-id <conversation_id>
+```
+
+### Backend Options
+| Backend | Flag | Speed | Cost |
+|---------|------|-------|------|
+| Ollama (local) | `--backend ollama` | Slow | Free |
+| LM Studio (local) | `--backend lm-studio` | Medium | Free |
+| Groq (cloud) | `--backend groq` | Fast | Free tier |
+| Gemini (cloud) | `--backend gemini` | Fast | Free tier |
+
+## Migration Notes
+- Replaces the old `Proj-Distill/distill_experimental.py` script.
+- Key improvements: multi-topic detection (BTW-aware), cross-thread synthesis, typed claims with relations, portable paths (no hardcoded `C:\Users\user\...`), multiple LLM backends.
+- State is stored in `~/.gemini/antigravity/knowledge/synapse_state_<thread_id>.json`.
+- Dossiers are written to `~/.gemini/antigravity/knowledge/` by default.
+
+## Troubleshooting
+
+- **Backend not responding**: Verify the backend is running (`ollama list` for local, check API key for cloud). Use a different backend with `--backend`.
+- **Thread not found**: Confirm the thread ID or path is correct. The engine expects valid conversation files in the brain directory.
+- **Empty output**: The input may have no detectable topics. Check the thread content length and quality.
+- **Quality gate failed**: Review the output claims — they may lack supporting evidence or relations. Re-run with more specific focus.

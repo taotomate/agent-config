@@ -2,18 +2,28 @@
 
 Este documento detalla todas las ubicaciones locales donde se encontraban los archivos de agentes duplicados, mapeados a su versión consolidada en este repositorio de backups.
 
-## v4.7 (Última versión conocida)
-Hash SHA256: `258230240CBF431A706D36E4C097E658BFDF4F8EFC2FBDF36C6B5E48952E309E`
-Ubicaciones locales encontradas:
-- `D:\Engram_SDD\AGENTS.md` (Copia principal respaldada aquí)
-- `C:\Users\user\.gemini\antigravity\brain\5cc77de3-deb6-4b5b-812f-5cfa818324b0\scratch\agent-config\shared\agents.md`
+## v4.8 (Orquestadores L2 Activos - GEMINI.md / CLAUDE.md)
+Hash SHA256: `61E0C62A308E3DF1FDF83F39E407A626F22734D05C21546DF87C0A326FE5F46F`
+Ubicaciones locales sincronizadas:
+- `C:\Users\user\.gemini\GEMINI.md` (Punto de entrada primario)
+- `C:\Users\user\.gemini\CLAUDE.md` (Punto de entrada primario)
+- `C:\Users\user\.gemini\config\GEMINI.md` (Espejo local)
+- `C:\Users\user\.gemini\config\CLAUDE.md` (Espejo local)
+- `D:\TaoTomate.Dots\agent-config\GEMINI.md` (Copia en repo)
+- `D:\TaoTomate.Dots\agent-config\CLAUDE.md` (Copia en repo)
 
-## v4.3
+## v4.7 (Source of Truth - AGENTS.md)
+Hash SHA256: `EC4D830042908A73416301E4FDF829D2D79FCDB03AD9638F5E7AC6ACE98AAF87`
+Ubicaciones locales sincronizadas:
+- `D:\TaoTomate.Dots\agent-config\AGENTS_L1.md` (Copia maestra del repo)
+- `D:\TaoTomate.Dots\agent-config\backups\v4.7\AGENTS.md` (Backup oficial)
+- `C:\Users\user\.gemini\config\AGENTS.md` (Espejo activo en plataforma)
+
+## v4.3 (Zombis Deprecados)
 Hash SHA256: `F69F0B9BAF98EE7C6A04EE51F30445A399A8084C46878FA95A9BB4AEC08B224D`
 Ubicaciones locales encontradas:
 - `C:\Users\user\.config\opencode\AGENTS.md` (Copia principal respaldada aquí)
 - `C:\Users\user\.gemini\config\skills\_shared\agents.md`
-- `C:\Users\user\TaoTomate.Dots\agent-config\shared\agents.md`
 
 *Nota:* `D:\TaoTomate.Dots\agent-config\shared\agents.md` tiene un hash ligeramente diferente (`AAA39CB...`), posiblemente por line endings.
 
@@ -32,7 +42,6 @@ Ubicaciones locales encontradas:
 
 ## Otros (Project Specific / Core Rules)
 Archivos respaldados en la carpeta `otros/` que no pertenecen al estándar v4.x pero son propios:
-- `C:\Users\user\.gemini\GEMINI.md` -> `otros/GEMINI.md` (Reglas core vivas, sin tag explícito)
 - `C:\Users\user\.config\gga\AGENTS.md` -> `otros/gga_AGENTS.md` (Reglas de Code Review React/TS)
 - `D:\Engram_SDD\Hermes-Nous\hermes-agent\AGENTS.md` -> `otros/hermes_AGENTS.md` (Guía de desarrollo de Hermes)
 - `D:\Voveda\00_Specs\AGENTS.md` -> `otros/voveda_AGENTS.md` (Directivas Zettelkasten)

@@ -157,3 +157,14 @@ python tools/skill_catalog.py --scan skills/ --active-agent-config skills/
 
 Or load `shared/audit-framework.md` and check the 7 axioms:
 Consistency, Economy, Traceability, Correctness, Completeness, Degradability, Evolvibility.
+
+## Documentation
+
+Detailed guides in `docs/`:
+
+| Document | Purpose |
+|----------|---------|
+| `docs/architecture.md` | How the system fits together — layer model, data flow, key relationships |
+| `docs/components.md` | Reference for every file and directory — what each does, who loads it |
+| `docs/load-flow.md` | How agents discover and load configs — startup sequence, skill discovery, context budget |
+| `docs/contributing.md` | How to add skills, modify configs, maintain the system |

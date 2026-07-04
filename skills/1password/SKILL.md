@@ -43,8 +43,6 @@ setup:
 Use this skill when the user wants secrets managed through 1Password instead of plaintext env vars or files.
 
 
-## Requirements
-
 - 1Password account
 - 1Password CLI (`op`) installed
 - One of: desktop app integration, service account token (`OP_SERVICE_ACCOUNT_TOKEN`), or Connect server

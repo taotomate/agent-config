@@ -74,7 +74,6 @@ Topics that require current docs (do not rely on local skill text alone):
 
 If the docs fetch fails or times out, continue with the local skill and live API/script output. Prefer live API behavior for active operations.
 
-## Requirements
 
 - Required binaries: `curl`, `file`, `jq`
 - Optional environment variable: `$HERENOW_API_KEY`

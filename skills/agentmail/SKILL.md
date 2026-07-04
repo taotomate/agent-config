@@ -32,8 +32,6 @@ metadata:
 # AgentMail — Agent-Owned Email Inboxes
 
 
-## Requirements
-
 - **AgentMail API key** (required) — sign up at https://console.agentmail.to (free tier: 3 inboxes, 3,000 emails/month; paid plans from $20/mo)
 - Node.js 18+ (for the MCP server)
 

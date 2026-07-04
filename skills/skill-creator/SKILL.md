@@ -89,8 +89,6 @@ model_tier: {high|medium|fast}
 - {situation 1}
 - {situation 2}
 
-## Prerequisites
-- [ ] {requirement 1}
 
 ## Execution Phases
 

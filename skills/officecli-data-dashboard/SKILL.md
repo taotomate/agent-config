@@ -101,7 +101,6 @@ Five non-negotiable principles. If any one is violated the output is not a dashb
 
 5. **Data-size-aware complexity.** A 10-row dataset does not get 5 KPIs and 4 charts. A 200-row dataset does not get 1 KPI and 1 chart. Scale up the composition with the input (table in §Design Ideas). Overbuilding is as wrong as underbuilding.
 
-## Requirements
 
 All `officecli-xlsx` requirements apply (→ see officecli-xlsx §Requirements for Outputs). Dashboards add these:
 

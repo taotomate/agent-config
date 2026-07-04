@@ -45,7 +45,6 @@ Hunt down social media accounts by username across 400+ social networks using th
 - User is conducting OSINT or reconnaissance research
 - User asks "where is this username registered?" or similar
 
-## Requirements
 
 - Sherlock CLI installed: `pipx install sherlock-project` or `pip install sherlock-project`
 - Alternatively: Docker available (`docker run -it --rm sherlock/sherlock`)

@@ -1,49 +1,61 @@
 ---
 name: auditor
-description: Protocolo de recuperación y análisis ante fallos del sistema o violaciones de guardrails.
+description: Recovery and analysis protocol for system failures or guardrail violations.
 version: 1.0.0
 author: TaoTomate
 generator_model: gemini-1.5-pro
 inherited_from: auditor/SKILL.md
 migrated_by: skill-migrator@1.0.0
+model_tier: medium
 ---
 
-## Contexto y Triggers
-**Cuándo usar esta skill:**
-- Cuando un script o comando en ejecución devuelve un error `exit code != 0`.
-- Cuando un proceso de validación o linting falla espectacularmente.
-- Cuando el agente violó un guardrail definido en la skill activa.
+## Context & Triggers
+**When to use this skill:**
+- When a script or running command returns an error `exit code != 0`.
+- When a validation or linting process fails catastrophically.
+- When the agent violated a guardrail defined in the active skill.
 
-## Pre-requisitos
-- Acceso de lectura a los logs de error (ej. `.tmp/last_error.log`, `.atl/error_log.md`, o salida de consola).
+## Prerequisites
+- Read access to error logs (e.g. `.tmp/last_error.log`, `.config/error_log.md`, or console output).
 
-## Fases de Ejecución
+## Execution Phases
 
-> **[REGLA UNIVERSAL: DRY-RUN / SIMULACRO]**
-> Si el usuario solicita la ejecución en modo `--dry-run` o pide un "simulacro", el agente **NO** ejecutará comandos que alteren el estado del sistema ni llamará a herramientas MCP destructivas en la Fase de Acción. 
-> En su lugar, el agente imprimirá el payload exacto (JSON, bloque de código o parámetros) que planeaba ejecutar, y se detendrá a esperar la aprobación explícita del humano.
 
-### 1. Captura (Snapshot)
-Extrae el error exacto y el contexto (últimos comandos ejecutados o tokens de salida). No intentes adivinar el error.
+### 1. Capture (Snapshot)
+Extract the exact error and context (last executed commands or output tokens). Do not guess the error.
 
-### 2. Análisis (Mismatch Report)
-Compara el error ocurrido con la Skill que se estaba ejecutando:
-- ¿Faltó un parámetro?
-- ¿Se violó una restricción de la sección `Guardrails`?
-- ¿El entorno no cumple los `Pre-requisitos`?
+### 2. Analysis (Mismatch Report)
+Compare the error with the skill being executed:
+- Was a parameter missing?
+- Was a restriction from the `Guardrails` section violated?
+- Does the environment fail the `Prerequisites`?
 
-### 3. Categorización y Acción
-Clasifica el error y actúa en consecuencia:
-- **LogicError (Recuperable):** El código o prompt tiene un bug subsanable. *Acción:* Aplica el parche y re-ejecuta. Registra el aprendizaje en `directives/errors_learned.md`.
-- **ContextOverflow (Falla del LLM):** El agente perdió el hilo de ejecución o alucinó. *Acción:* Limpiar contexto, resumir estado y reintentar con un prompt más acotado.
-- **SystemError (Falla fatal):** Error de permisos, caída de red, falta de dependencias crónicas. *Acción:* Suspender la ejecución y escalar al Arquitecto humano.
+### 3. Categorization & Action
+Classify the error and act accordingly:
+- **LogicError (Recoverable):** The code or prompt has a fixable bug. *Action:* Apply the patch and re-execute. Record the learning in `directives/errors_learned.md`.
+- **ContextOverflow (LLM Failure):** The agent lost the execution thread or hallucinated. *Action:* Clear context, summarize state, and retry with a more focused prompt.
+- **SystemError (Fatal Failure):** Permission error, network outage, chronic missing dependencies. *Action:* Suspend execution and escalate to the Human Architect.
+
+### Validation
+After completing analysis, verify:
+
+**Output Validation:**
+- Error message captured verbatim (not paraphrased)
+- Root cause identified (not just symptoms)
+- Category assigned (LogicError / ContextOverflow / SystemError)
+- Action plan documented
+
+**Error Handling:**
+- If error can't be read → STOP, report "unable to access error logs"
+- If category unclear → default to LogicError, note uncertainty
+- If 3+ retries failed → escalate to SystemError
 
 ## Guardrails
-- **NO** intentes aplicar parches iterativos ciegos (más de 3 reintentos sin éxito indica fallo fatal).
-- **SIEMPRE** documenta la causa raíz antes de proponer y aplicar la solución.
+- **DO NOT** attempt blind iterative patches (more than 3 retries without success indicates a fatal failure).
+- **ALWAYS** document the root cause before proposing and applying a solution.
 
-## Ejemplos y Comandos
-N/A - Esta skill dicta un proceso de razonamiento y orquestación cognitiva, no comandos de terminal específicos.
+## Data Structures / Examples & Commands
+N/A — This skill dictates a reasoning and cognitive orchestration process, not specific terminal commands.
 
 ## Troubleshooting
-Si el auditor mismo falla al intentar leer los logs, abortar todas las operaciones, crear un archivo `FATAL_CRASH.md` y solicitar intervención manual.
+If the auditor itself fails while trying to read logs, abort all operations, create a `FATAL_CRASH.md` file, and request manual intervention.

@@ -1,61 +1,60 @@
 ---
 name: conversation-distillation
-description: >
-  Realiza una destilación técnica de alto nivel (Senior Architect mode), priorizando el 
-  "Qué" y el "Para qué". Filtra el ruido técnico y las idas y vueltas, consolidando 
-  solo las decisiones finales y su justificación arquitectónica.
-  Trigger: "destilar hilo", "destilación técnica", "extraer contexto", "crear dossier".
-metadata:
-  version: "3.0"
+description: 'Performs high-level technical distillation (Senior Architect mode),
+  prioritizing the "What" and the "Why". Filters technical noise and back-and-forth,
+  consolidating only the final decisions and their architectural rationale. Trigger:
+  "distill thread", "technical distillation", "extract context", "create dossier".
+  '
+version: "3.1"
 author: TaoTomate
 generator_model: gemini-1.5-pro
 inherited_from: conversation-distillation/SKILL.md
+model_tier: high
 ---
 
-## Contexto y Triggers
-**Cuándo usar esta skill:**
-- Cuando el usuario pide destilar, resumir o crear un dossier arquitectónico de la conversación actual.
-- Triggers: "destilar hilo", "destilación técnica", "extraer contexto", "crear dossier".
+## Context & Triggers
+**When to use this skill:**
+- When the user asks to distill, summarize, or create an architectural dossier of the current conversation.
+- Triggers: "distill thread", "technical distillation", "extract context", "create dossier".
 
-## Pre-requisitos
-- [ ] Acceso de ejecución al script `D:\Engram_SDD\Proj-Distill\distill.py`.
-- [ ] Tener el ID real de la conversación actual (`<conversation_id>`).
-- [ ] El usuario debe especificar un `<topic_name>` o deberás derivarlo del contexto principal de la sesión.
 
-## Fases de Ejecución
+## Execution Phases
 
-> **[REGLA UNIVERSAL: DRY-RUN / SIMULACRO]**
-> Si el usuario solicita la ejecución en modo `--dry-run` o pide un "simulacro", el agente **NO** ejecutará comandos que alteren el estado del sistema ni llamará a herramientas MCP destructivas en la Fase de Acción. 
-> En su lugar, el agente imprimirá el payload exacto (JSON, bloque de código o parámetros) que planeaba ejecutar, y se detendrá a esperar la aprobación explícita del humano.
 
-### 1. Fase de Diagnóstico
-- Identificar el `<topic_name>` a destilar de acuerdo con la conversación, o preguntar al usuario si no es evidente.
-- Extraer la intención principal ("Para qué"): el dossier DEBE centrarse en el propósito original.
+### 1. Diagnosis Phase
+- Identify the `<topic_name>` to distill based on the conversation, or ask the user if not obvious.
+- Extract the main intent ("Why"): the dossier MUST focus on the original purpose.
 
-### 2. Fase de Acción
-- **Delegate to Unified Distiller**: Ejecutar la herramienta central de destilación:
+### 2. Action Phase
+- **Delegate to Unified Distiller**: Execute the central distillation tool:
   ```bash
   python D:\Engram_SDD\Proj-Distill\distill.py --conversation-id <conversation_id> --topic <topic_name>
   ```
-- El script procesará automáticamente la conversación en capas, construirá referencias, preservará trade-offs y escribirá el archivo en `C:\Users\user\.gemini\antigravity\knowledge\`, además de persistirlo en Engram.
+- The script will automatically process the conversation in layers, build references, preserve trade-offs, and write the file to `~\.gemini\antigravity\knowledge\`, also persisting it to Engram.
 
-### 3. Fase de Verificación
-- Leer el output o revisar el archivo markdown generado.
-- **Artifact Creation**: Crear un artefacto markdown (`.md`) para presentarle al usuario el contenido devuelto por el script, de modo que pueda revisarlo y validarlo.
+### 3. Verification Phase
+- Read the output or review the generated markdown file.
+- **Artifact Creation**: Create a markdown artifact (`.md`) to present the script's returned content to the user so they can review and validate it.
 
-## Guardrails (Reglas Críticas)
-- **Philosophy - Intent over Noise:** No listar cambios mecánicos, sino explicar decisiones y trade-offs ("Se eligió X porque Y"). Descartar idas y vueltas de debugging.
-- **For Future Self:** El contenido debe estar escrito asumiendo que alguien retomará el proyecto en 6 meses sin necesidad de releer el chat original.
-- **Output Identity:** El artefacto debe comenzar obligatoriamente con `Distilled by: Cloud LLM via Antigravity`.
-- **Absolute Paths:** Las rutas de archivos referenciadas deben ser SIEMPRE absolutas.
-- **Mermaid Diagrams:** Son requeridos para visualizar decisiones de arquitectura dentro del dossier.
+## Guardrails (Critical Rules)
+- **Philosophy - Intent over Noise:** Do not list mechanical changes, but explain decisions and trade-offs ("X was chosen because Y"). Discard debugging back-and-forth.
+- **For Future Self:** The content must be written assuming someone will pick up the project in 6 months without needing to re-read the original chat.
+- **Output Identity:** The artifact must start with `Distilled by: Cloud LLM via Antigravity`.
+- **Absolute Paths:** Referenced file paths must ALWAYS be absolute.
+- **Mermaid Diagrams:** Required for visualizing architecture decisions within the dossier.
 
-## Estructuras de Datos / Ejemplos y Comandos
+## Data Structures / Examples & Commands
 
-**Comando de Ejecución:**
+**Execution Command:**
 ```bash
 python D:\Engram_SDD\Proj-Distill\distill.py --conversation-id <conversation_id> --topic <topic_name>
 ```
 
-## ⚠️ Residuos de Migración (Feedback para evolución)
-*(Migrado exitosamente desde v2.0 a IaC v1.2, manteniendo las filosofías de "Noise Cancellation" y "Purpose First" intactas)*
+## ⚠️ Migration Residue (Evolution Feedback)
+*(Successfully migrated from v2.0 to IaC v1.2, keeping the "Noise Cancellation" and "Purpose First" philosophies intact)*
+
+## Troubleshooting
+
+- **`distill.py` not found**: The referenced script no longer exists in the repository. Either restore it or update the skill to use the Synapse skill or an alternative distillation method.
+- **No conversation ID available**: Ask the user explicitly for the conversation ID or session reference.
+- **Output file not generated**: Check stderr output from the script. Verify the topic name is valid and the conversation ID is correct.

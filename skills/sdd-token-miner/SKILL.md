@@ -1,58 +1,73 @@
------
+---
 name: sdd-token-miner
-description: >
-  Guides the user through obtaining and managing free LLM credits from various providers.
-  Ensures the "LLM Proxy Service Arsenal" is always stocked with low-cost or free tokens.
-  Trigger: "buscar créditos", "token miner", "renovar tokens", "free tokens", "minar tokens".
+description: Guides the user through obtaining and managing free LLM credits from various providers. Ensures the "LLM Proxy Service Arsenal" is always stocked with low-cost or free tokens. Trigger: "find credits", "token miner", "renew tokens", "free tokens", "mine tokens".
+version: "1.2"
+author: gentleman-programming
 license: MIT
-metadata:
-  author: gentleman-programming
-  version: "1.1"
+model_tier: fast
 ---
 
-## Rules
-1. **Diversity**: Always prioritize providers with generous free tiers (Google, Groq).
-2. **Efficiency**: Recommend Flash/Small models for high-volume tasks (research, distillation).
-3. **Safety**: Never store raw API keys in this file. Use environment variables or system-specific secrets.
+## Context & Triggers
+**When to use this skill:**
+- When the user needs free or low-cost LLM API tokens.
+- When existing tokens are expired or running low.
+- Triggers: "find credits", "token miner", "renew tokens", "free tokens", "mine tokens".
 
-## Provider Configuration Guide
 
-### 1. Google AI Studio (Gemini)
-- **Site**: [aistudio.google.com](https://aistudio.google.com)
-- **Why**: 1500 RPM on Gemini 1.5 Flash (Free Tier).
-- **Steps**:
-  1. Login with any Google account.
-  2. Click "Get API key".
-  3. Create API key in new/existing project.
+## Execution Phases
 
-### 2. Groq Cloud (Llama/Mixtral)
-- **Site**: [console.groq.com](https://console.groq.com)
-- **Why**: Fastest inference in the market, great free tier.
-- **Steps**:
-  1. Login/Signup.
-  2. Go to "API Keys".
-  3. Create key.
 
-### 3. Together AI
-- **Site**: [together.ai](https://together.ai)
-- **Why**: Access to almost all Open Source models (Llama 3, Qwen, DBRX).
-- **Steps**:
-  1. Sign up for $5-$25 initial credit.
-  2. Copy API key from settings.
+### 1. Diagnosis Phase
+- Ask the user which provider they want to set up, or recommend based on need:
+  - High volume, low cost → Google AI Studio (Gemini) or Groq
+  - Model diversity → Together AI or OpenRouter
+  - Maximum intelligence → Anthropic (Claude)
 
-### 4. OpenRouter
-- **Site**: [openrouter.ai](https://openrouter.ai)
-- **Why**: Unified API for all models. Best for tracking multi-model usage.
-- **Steps**:
-  1. Sign up.
-  2. Create "Key" with specific permissions/limits.
+### 2. Action Phase
+- Guide the user through the chosen provider's signup and key generation steps (see Data Structures).
+- Confirm the key works by suggesting a test command.
 
-### 5. Anthropic Console
-- **Site**: [console.anthropic.com](https://console.anthropic.com)
-- **Why**: Highest intelligence (Claude 3.5 Sonnet).
-- **Steps**:
-  1. Sign up.
-  2. Check for free initial credits in "Billing".
+### 3. Verification Phase
+- Ask the user to store the key in an environment variable or secure config.
+- Recommend running `sdd-telemetry` to track usage.
 
-## Pro Tip
-Use the `sdd-telemetry` skill to monitor which provider gives you the best "Intelligence per Dollar" ratio.
+## Guardrails (Critical Rules)
+- **ALWAYS** prioritize providers with generous free tiers (Google, Groq) for volume tasks.
+- **ALWAYS** recommend Flash/Small models for high-volume tasks (research, distillation).
+- **NEVER** ask the user to paste API keys into this SKILL.md file — use environment variables or system-specific secrets.
+- **ALWAYS** direct users to the provider's official site for signup — never store credentials.
+
+## Data Structures / Examples & Commands
+
+### Provider Quick Reference
+
+| Provider | Free Tier | Best For | Sign Up |
+|----------|-----------|----------|---------|
+| Google AI Studio | 1500 RPM Gemini 1.5 Flash | High volume, free | aistudio.google.com |
+| Groq Cloud | Generous free tier | Fastest inference | console.groq.com |
+| Together AI | $5-$25 initial credit | Open Source models | together.ai |
+| OpenRouter | Pay-per-use, no minimum | Multi-model unified API | openrouter.ai |
+| Anthropic | Initial free credits | Maximum intelligence | console.anthropic.com |
+
+### Setup Steps
+
+**Google AI Studio (Gemini):**
+```bash
+# 1. Go to https://aistudio.google.com
+# 2. Login with any Google account
+# 3. Click "Get API key" → Create in new/existing project
+# 4. Set env var: $env:GEMINI_API_KEY="your-key"
+```
+
+**Groq Cloud:**
+```bash
+# 1. Go to https://console.groq.com
+# 2. Login/Signup
+# 3. Go to "API Keys" → Create key
+# 4. Set env var: $env:GROQ_API_KEY="your-key"
+```
+
+## Troubleshooting
+- *Key not working*: Verify the env var name matches what the provider expects. Restart the terminal after setting.
+- *Quota exceeded*: Check the provider's free tier limits. Use sdd-telemetry to monitor consumption.
+- *Provider down*: Use `sdd-token-miner` to find an alternative provider from the table above.

@@ -1,72 +1,80 @@
 ---
 name: skill-registry
-description: Crea o actualiza el registro de skills compactas (skill-registry.md) escaneando las skills disponibles e indexando convenciones del proyecto.
+description: Creates or updates the compact skill registry (skill-registry.md) by scanning available skills and indexing project conventions.
 version: 1.1.0
 author: TaoTomate
 generator_model: gemini-1.5-pro
 inherited_from: skill-registry/SKILL.md
 migrated_by: skill-migrator@1.0.0
+model_tier: fast
 ---
 
-## Contexto y Triggers
-**Cuándo usar esta skill:**
-- Después de instalar o eliminar skills en el entorno del usuario o proyecto.
-- Al configurar un proyecto nuevo (como parte integrada de `sdd-init`).
-- Cuando el humano pida explícitamente "actualizar skills", "update registry" o "skill registry".
+## Context & Triggers
+**When to use this skill:**
+- After installing or removing skills in the user's or project's environment.
+- When setting up a new project (as an integrated part of `sdd-init`).
+- When the human explicitly asks "update skills", "update registry", or "skill registry".
 
-## Pre-requisitos
-- [ ] El agente orquestador debe tener permisos de lectura en el file system para escanear directorios de configuración globales y locales.
-- [ ] Debe existir capacidad para escribir en el directorio raíz del proyecto (`.atl/`).
 
-## Fases de Ejecución
+## Execution Phases
 
-> **[REGLA UNIVERSAL: DRY-RUN / SIMULACRO]**
-> Si el usuario solicita la ejecución en modo `--dry-run` o pide un "simulacro", el agente **NO** ejecutará comandos que alteren el estado del sistema ni llamará a herramientas MCP destructivas en la Fase de Acción. 
-> En su lugar, el agente imprimirá el payload exacto (JSON, bloque de código o parámetros) que planeaba ejecutar, y se detendrá a esperar la aprobación explícita del humano.
 
-### 1. Fase de Diagnóstico
-- Escanear de forma recursiva buscando archivos `SKILL.md` en ubicaciones globales (ej. `~/.gemini/skills/`, `~/.claude/skills/`, `~/.config/opencode/skills/`) y ubicaciones locales del proyecto (ej. `{project-root}/.service/skills/`).
-- Escanear la raíz del proyecto buscando archivos de convención (ej. `CONSTITUTION.md`, `CLAUDE.md`, `.cursorrules`).
-- Si se encuentra un archivo índice de convenciones (`CONSTITUTION.md`), leerlo para extraer todas las rutas de archivos referenciadas en él.
+### 1. Diagnosis Phase
+- Recursively scan for `SKILL.md` files in global locations (e.g. `~/.gemini/skills/`, `~/.claude/skills/`, `~/.config/opencode/skills/`) and local project locations (e.g. `{project-root}/.service/skills/`).
+- Scan the project root for convention files (e.g. `CONSTITUTION.md`, `CLAUDE.md`, `.cursorrules`).
+- If a conventions index file (`CONSTITUTION.md`) is found, read it to extract all referenced file paths.
 
-### 2. Fase de Acción
-- Extraer los metadatos de las skills encontradas (`name` y `trigger`) leyendo el frontmatter de cada archivo `SKILL.md`.
-- Generar un bloque de **Compact Rules** para cada skill, extrayendo únicamente las restricciones accionables y saltándose el ruido.
-- Formatear todo el resultado en tablas Markdown (Ver la sección Estructuras de Datos).
+### 2. Action Phase
+- Extract metadata from discovered skills (`name` and `trigger`) by reading each `SKILL.md` file's frontmatter.
+- Generate a **Compact Rules** block for each skill, extracting only the actionable constraints and skipping noise.
+- Format the full result in Markdown tables (see Data Structures section).
 
-### 3. Fase de Verificación
-- Escribir obligatoriamente el resultado compilado en el archivo `{project-root}/.atl/skill-registry.md`.
-- Si la herramienta `mem_save` está disponible (Integración MCP de Engram), invocarla para persistir el contenido del registro en memoria persistente usando el `topic_key: "skill-registry"`.
-- Mostrar un resumen conciso en consola indicando cuántas skills de usuario y cuántas convenciones de proyecto fueron indexadas.
+### 3. Verification Phase
+- Compulsorily write the compiled result to `{project-root}/.config/skill-registry.md`.
+- If the `mem_save` tool is available (Engram MCP integration), invoke it to persist the registry content to persistent memory using `topic_key: "skill-registry"`.
+- Display a concise console summary indicating how many user skills and project conventions were indexed.
 
-## Guardrails (Reglas Críticas)
-- **SIEMPRE** ignora y salta los directorios `sdd-*`, `_shared` y `skill-registry` durante el escaneo. No contienen "skills de código accionables", sino protocolos meta del orquestador. Inyectarlas gastaría tokens inútilmente.
-- **NUNCA** excedas las 15 líneas por cada bloque de "Compact Rules". Deben ser directivas estrictas ("Hacer X", "Nunca Y"), sin tutoriales, explicaciones de motivación, ni ejemplos de código largos.
-- **SIEMPRE** escribe el archivo físico `.atl/skill-registry.md`, independientemente de si la persistencia en la base de datos Engram falla, no existe, o está deshabilitada.
+### Validation
+After generating the registry, verify:
 
-## Estructuras de Datos / Ejemplos y Comandos
+**Output Validation:**
+- `.config/skill-registry.md` exists and is non-empty
+- Registry has at least 1 skill entry
+- Each entry has: trigger, skill name, path
+- No duplicate skill names in registry
 
-### Formato Esperado para "Compact Rules"
-*Ejemplo para una skill de React 19:*
+**Error Handling:**
+- If no skills found → WARNING: "No skills discovered. Check scan paths."
+- If registry empty after scan → STOP, report what went wrong
+
+## Guardrails (Critical Rules)
+- **ALWAYS** skip `sdd-*`, `_shared`, and `skill-registry` directories during scanning. They do not contain "actionable code skills", but orchestrator meta-protocols. Injecting them would waste tokens uselessly.
+- **NEVER** exceed 15 lines per "Compact Rules" block. They must be strict directives ("Do X", "Never Y"), without tutorials, motivation explanations, or long code examples.
+- **ALWAYS** write the physical file `.config/skill-registry.md`, regardless of whether Engram database persistence fails, does not exist, or is disabled.
+
+## Data Structures / Examples & Commands
+
+### Expected "Compact Rules" Format
+*Example for a React 19 skill:*
 ```markdown
 ### react-19
-- No uses useMemo/useCallback — React Compiler maneja la memoización automáticamente.
-- Usa el hook use() para promesas/contexto.
-- Server Components por defecto, usa 'use client' solo para hooks de estado/interactividad.
-- `ref` ahora es un prop regular, no uses forwardRef.
+- Do NOT use useMemo/useCallback — the React Compiler handles memoization automatically.
+- Use the use() hook for promises/context.
+- Server Components by default, use 'use client' only for state/interactivity hooks.
+- `ref` is now a regular prop, do not use forwardRef.
 ```
 
-### Formato Final del Archivo `skill-registry.md`
-El archivo final generado debe verse así:
+### Final `skill-registry.md` File Format
+The generated file should look like this:
 
 ```markdown
 # Skill Registry
-**Uso exclusivo del Delegador.**
+**Exclusive use of the Delegator.**
 
 ## User Skills
 | Trigger | Skill | Path |
 |---------|-------|------|
-| "crear PR" | branch-pr | ~/.gemini/skills/branch-pr/SKILL.md |
+| "create PR" | branch-pr | ~/.gemini/skills/branch-pr/SKILL.md |
 
 ## Compact Rules
 

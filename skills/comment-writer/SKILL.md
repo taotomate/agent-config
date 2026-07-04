@@ -1,78 +1,86 @@
 ---
 name: comment-writer
-description: "Write warm, direct collaboration comments. Trigger: PR feedback, issue replies, reviews, Slack messages, or GitHub comments."
-license: Apache-2.0
-metadata:
-  author: TaoTomate
-  generator_model: gemini-1.5-pro
-  upstream_source: Gentleman-Programming/gentle-ai/skills/comment-writer
-  upstream_date: 2026-06-02
-  local_sync_date: 2026-06-15
-  version: "1.0"
+description: Writes warm, direct collaboration comments. For PRs, issues, reviews, Slack, or GitHub comments.
+version: 1.1.0
+author: TaoTomate
+generator_model: nemotron-3-ultra-free
+inherited_from: comment-writer/SKILL.md
+migrated_by: skill-optimizer@1.0.0
+model_tier: fast
 ---
 
-## When to Use
+## Context & Triggers
+**When to use this skill:**
+- Writing comments that another human will read (PRs, issues, reviews)
+- Maintainer replies, project updates
+- Triggers: "comment PR", "review feedback", "reply issue", "write comment"
 
-Load this skill whenever you write a comment that another human will read.
 
-Use it for:
+## Execution Phases
 
-- GitHub PR or issue comments.
-- Review feedback and requested changes.
-- Maintainer replies.
-- Slack, Discord, or async project updates.
 
-## Voice Rules
+### 1. Diagnosis Phase
+- Identify the comment type: PR feedback, issue reply, maintainer note, Slack/Discord update.
+- Determine context language (follow the target thread's language).
 
-| Rule | Requirement |
-|------|-------------|
-| Be useful fast | Start with the actionable point. Do not recap the whole PR before feedback. |
-| Be warm and direct | Sound like a thoughtful teammate, not a corporate bot. |
-| Keep it short | Prefer 1 to 3 short paragraphs or a tight bullet list. |
-| Explain why | Give the technical reason when asking for a change. |
-| Avoid pile-ons | Comment on the highest-value issue, not every tiny preference. |
-| Match target context language | Write in the target context language by default: Spanish issue/thread -> Spanish comment, English issue/thread -> English comment, mixed context -> target message language. If the user explicitly requests a language or tone, follow that request. For Spanish comments, use neutral/professional Spanish by default unless the user or target context clearly calls for regional tone. |
-| No em dashes | Use commas, periods, or parentheses instead. |
+### 2. Action Phase
+- Apply formula: direct observation → why it matters (optional) → next concrete action.
+- Apply voice rules (see Guardrails).
 
-## Comment Formula
+### 3. Verification Phase
+- Is the comment quickly useful? (start with the concrete action, don't summarize the PR)
+- Is it warm and direct? (sounds like a colleague, not a corporate bot)
+- Is it short? (1-3 paragraphs or a tight list)
 
-```text
+## Guardrails (Critical Rules)
+- **ALWAYS** start with the concrete action — don't summarize the entire PR before feedback.
+- **ALWAYS** sound like an attentive colleague, not a corporate bot.
+- **ALWAYS** prefer 1-3 short paragraphs or a tight list.
+- **ALWAYS** explain the technical why when requesting a change.
+- **NEVER** pile criticism — comment only on the highest-value issue, not every minor preference.
+- **NEVER** use em dashes — use commas, periods, or parentheses.
+- **ALWAYS** keep the context language: thread in Spanish → comment in Spanish.
+
+## Data Structures / Examples & Commands
+
+### Comment Formula
+```
 <Direct observation or request>
 
-<Why it matters, only if needed>
+<Why it matters, only if necessary>
 
-<Concrete next action>
+<Next concrete action>
 ```
 
-## Examples
+### Examples
 
-### Request change
-
+**Requesting a change:**
 ```markdown
-Good approach overall. I'd split this into a separate commit because it mixes validation logic with UI wiring.
+Good approach overall. I'd separate this into a separate commit because it mixes validation logic with UI wiring.
 
-That keeps the reviewer's focus narrower and makes rollback cleaner if the integration fails.
+That keeps the reviewer's focus more contained and makes rollback easier if integration fails.
 ```
 
-### Approve with a note
-
+**Approving with a note:**
 ```markdown
-Approved. The scope is clear and the change is well-contained.
+Approved. Scope is clear and the change is well-contained.
 
-For the next PR, add links to the previous and following PRs so the chain stays navigable.
+For the next PR, add links to the previous and next PRs so the chain is navigable.
 ```
 
-### Ask for split
-
+**Requesting a split:**
 ```markdown
-This PR exceeds the 400-line budget, so we need to split it or justify `size:exception`.
+This PR exceeds the 400-line budget, we need to split it or justify `size:exception`.
 
-Suggested order: foundation + tests first, then integration, then docs. That gives each review a clear start and end.
+Suggested order: foundation + tests first, then integration, then docs. That gives each review clear start and end points.
 ```
 
-## Commands
-
+### Commands
 ```bash
-# Inspect a PR before writing review feedback
+# Inspect PR before writing review
 gh pr view <PR_NUMBER> --json title,body,additions,deletions,changedFiles
 ```
+
+## Troubleshooting
+- *Comment too long*: Apply the 1-3 paragraph rule. If there are multiple issues, prioritize the highest-value one.
+- *Wrong tone*: Review that it sounds like a colleague. Avoid corporate jargon or passive-aggressive language.

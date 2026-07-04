@@ -1,43 +1,61 @@
 ---
 name: fast-file-locator
-description: Instruye a la IA sobre cómo buscar archivos en Windows de forma instantánea usando el servidor HTTP local de Everything.
+description: Instantly finds files on Windows via Everything HTTP API (MFT). Thin wrapper over execution/fast_file_locator.py.
+version: 1.2.0
 author: TaoTomate
-generator_model: gemini-3.5-flash
-version: 1.1.0
-inherited_from: custom local architecture
+generator_model: nemotron-3-ultra-free
+inherited_from: fast-file-locator/SKILL.md
+migrated_by: skill-optimizer@1.0.0
+model_tier: fast
 ---
 
-# Fast File Locator (Everything HTTP API)
+## Context & Triggers
+**When to use this skill:**
+- Find files quickly on Windows without iterating directories.
+- Locate the absolute path of a specific file by name or extension.
+- Triggers: "find file", "locate file", "Everything", "fast file"
 
-## Contexto
-No uses herramientas lentas de iteración de directorios o búsqueda estándar cuando necesites encontrar la ruta absoluta de un archivo en el disco duro.
-En su lugar, realiza peticiones al servidor HTTP local de Everything que consulta la Master File Table (MFT) directamente y devuelve resultados en milisegundos, salteando el aislamiento de Window Station.
+## Prerequisites
+- [ ] **Everything** running with HTTP server enabled (Tools → Options → HTTP Server → Enable HTTP server)
+- [ ] Environment variables (optional):
+  - `EVERYTHING_URL` (default: http://localhost/)
+  - `EVERYTHING_USER` (default: user)
+  - `EVERYTHING_PASS` (default: 123456 — it is recommended to change)
 
-## Credenciales y Endpoint
-- **Base URL**: `http://localhost/` (puerto 80)
-- **Usuario**: `user`
-- **Contraseña**: `123456`
+## Execution Phases
 
-## Reglas de Ejecución
-1. **Nunca iteres directorios** para encontrar un archivo si conocés su nombre o extensión. Usá esta herramienta.
-2. **Petición HTTP**: Realizá una llamada HTTP GET usando PowerShell (`Invoke-RestMethod`) o curl.
-3. **Parámetros Obligatorios**:
-   - `search=<query>`: El término a buscar (soporta la sintaxis de búsqueda de Everything).
-   - `json=1`: Fuerza la respuesta en formato JSON.
-   - `path_column=1`: Obliga a incluir el directorio del archivo en el campo `"path"`.
-   - `count=<limit>`: Limitá siempre los resultados (ej. `count=10`) para no inundar el contexto.
-4. **Comando para Agentes**: Utilizá la herramienta `run_command` con PowerShell para ejecutar la consulta.
 
-## Ejemplos
-- Buscar un archivo por nombre exacto en PowerShell:
-  ```powershell
-  $secpasswd = ConvertTo-SecureString "123456" -AsPlainText -Force
-  $mycreds = New-Object System.Management.Automation.PSCredential ("user", $secpasswd)
-  Invoke-RestMethod -Uri "http://localhost/?search=docker-compose.yml&json=1&path_column=1&count=1" -Credential $mycreds
+### 1. Action Phase
+- Execute the script:
+  ```bash
+  python execution/fast_file_locator.py "<query>" <count>
   ```
-- Buscar todos los `.log` pesados en un proyecto:
-  ```powershell
-  $secpasswd = ConvertTo-SecureString "123456" -AsPlainText -Force
-  $mycreds = New-Object System.Management.Automation.PSCredential ("user", $secpasswd)
-  Invoke-RestMethod -Uri "http://localhost/?search=ext:log C:\Users\user\antigravity&json=1&path_column=1&count=5" -Credential $mycreds
-  ```
+- Parameters:
+  - `query`: file name or pattern (supports Everything syntax: `ext:log`, `*.py`, `!folder:`)
+  - `count`: result limit (default 10)
+
+### 2. Verification Phase
+- Validate the script returns `{"status": "success"}` with results.
+- If it fails, verify that Everything is running with HTTP server enabled.
+
+## Guardrails (Critical Rules)
+- **ALWAYS** validate the script returns valid JSON before presenting results.
+- **NEVER** iterate directories with `os.walk` as fallback — Everything search is the only path.
+- **NEVER** hardcode credentials — use environment variables.
+
+## Data Structures / Examples & Commands
+
+### CLI
+```bash
+python execution/fast_file_locator.py docker-compose.yml 5
+python execution/fast_file_locator.py "ext:log C:\Users\user\project" 10
+```
+
+### Expected Output
+```json
+{"status": "success", "data": {"query": "docker-compose.yml", "count": 1, "results": [{"filename": "docker-compose.yml", "path": "C:\\Users\\user\\project", "full_path": "C:\\Users\\user\\project\\docker-compose.yml", "size": "1234", "date_modified": "2025-01-01 12:00:00"}]}, "error_log": ""}
+```
+
+## Troubleshooting
+- *Error "Everything unavailable"*: Everything is not running or HTTP server is disabled. Open Everything → Tools → Options → HTTP Server → Enable.
+- *Error 401*: Incorrect credentials. Verify `EVERYTHING_USER` and `EVERYTHING_PASS`.

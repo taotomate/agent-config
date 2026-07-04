@@ -1,79 +1,76 @@
 ---
 name: skill-migrator
-description: Meta-herramienta para migrar skills antiguas al nuevo estándar de máquina de estado (IaC v1.2), soportando modo individual y por lotes (batch) con análisis de residuos.
-version: 1.0.0
+description: Meta-tool for migrating legacy skills to the new state-machine standard (IaC v1.2), supporting individual and batch mode with residue analysis. Includes a post-migration phase that updates the skill-registry automatically.
+version: 1.1.0
 author: TaoTomate
-generator_model: gemini-1.5-pro
+generator_model: nemotron-3-ultra-free
 inherited_from: skill-migrator/SKILL.md
-migrated_by: skill-migrator@1.0.0
+migrated_by: skill-migrator@1.1.0
+model_tier: fast
 ---
 
-## Contexto y Triggers
-**Cuándo usar esta skill:**
-- Al refactorizar skills antiguas (arquitectura v1.0) hacia el nuevo formato determinista de máquina de estado (IaC v1.2+).
-- Para aplicar un proceso de migración de forma masiva en un directorio completo.
-- Triggers: "migrar skill", "refactorizar skill vieja", "aplicar skill-migrator", "actualizar arquitectura de skill".
+## Context & Triggers
+**When to use this skill:**
+- When refactoring legacy skills (v1.0 architecture) toward the new deterministic state-machine format (IaC v1.2+).
+- To apply a migration process in bulk across an entire directory.
+- Triggers: "migrate skill", "refactor old skill", "apply skill-migrator", "update skill architecture".
 
-## Pre-requisitos
-- [ ] La plantilla base de la arquitectura destino (`skills/_shared/template_skill.md`) debe existir y ser legible por el agente.
-- [ ] El agente debe tener permisos de lectura y escritura en el archivo objetivo (`target: path`) o en el directorio objetivo (`batch: path`).
-- [ ] El agente no debe tener restricciones activas que le impidan sobrescribir archivos Markdown o generar nuevas estructuras.
 
-## Fases de Ejecución
+## Execution Phases
 
-> **[REGLA UNIVERSAL: DRY-RUN / SIMULACRO]**
-> Si el usuario solicita la ejecución en modo `--dry-run` o pide un "simulacro", el agente **NO** ejecutará comandos que alteren el estado del sistema ni llamará a herramientas MCP destructivas en la Fase de Acción. 
-> En su lugar, el agente imprimirá el payload exacto (JSON, bloque de código o parámetros) que planeaba ejecutar, y se detendrá a esperar la aprobación explícita del humano.
 
-### 1. Fase de Diagnóstico
-- Identificar el modo de ejecución solicitado: Individual (`target: path/to/skill`) o Lote (`batch: path/to/dir/`).
-- Si es modo Lote, realizar un escaneo (glob) de todos los archivos `SKILL.md` dentro del directorio indicado.
-- **Filtro de Complejidad (Guardrail Activo):** Analizar superficialmente el contenido de cada skill objetivo antes de intervenirla.
-  - Si la skill delega agresivamente a sub-agentes, invoca scripts externos (ej. `node script.js`, `python script.py`) o pertenece a la suite de orquestación (`sdd-*`): **MARCAR COMO SKIPPED**.
-  - Si el modo es Lote, reportar el salto y continuar con la siguiente. Si el modo es Individual, **abortar inmediatamente** y solicitar que un humano la reescriba a mano.
+### 1. Diagnosis Phase
+- Identify the requested execution mode: Individual (`target: path/to/skill`) or Batch (`batch: path/to/dir/`).
+- If Batch mode, perform a glob scan of all `SKILL.md` files within the indicated directory.
+- **Complexity Filter (Active Guardrail):** Superficially analyze each target skill's content before intervening.
+  - If the skill delegates aggressively to sub-agents, invokes external scripts (e.g. `node script.js`, `python script.py`), or belongs to the orchestration suite (`sdd-*`): **MARK AS SKIPPED**.
+  - If Batch mode, report the skip and continue with the next. If Individual mode, **abort immediately** and request a human rewrite it manually.
 
-### 2. Fase de Acción
-- Para cada skill que pase el filtro, aplicar el **Mapeo Semántico** hacia la nueva plantilla:
-  - Lo que antes era *When to use / Triggers* ➔ Mover a `Contexto y Triggers`.
-  - Los requisitos implícitos del entorno ➔ Mover a `Pre-requisitos`.
-  - Los *Workflow / Steps* ➔ Distribuir lógicamente entre `Fases de Ejecución` (Diagnóstico, Acción, Verificación).
-  - Las *Critical Rules* ➔ Convertir en prohibiciones/obligaciones en `Guardrails (Reglas Críticas)`.
-  - Los *Ejemplos de código / Comandos Bash* ➔ Encapsular estrictamente en `Estructuras de Datos / Ejemplos y Comandos`.
-- **Inyección de Trazabilidad:** Inyectar obligatoriamente el **Sello de Trazabilidad** en el frontmatter YAML de la nueva skill (ver sección de Estructuras de Datos).
-- **Inyección de Regla Dry-Run:** Inyectar el bloque de la regla universal de Dry-Run bajo el título de Fases de Ejecución (ver Estructuras de Datos).
-- **Análisis de Residuos (Lost & Found):** Comparar el texto original completo con el texto mapeado. Cualquier bloque o concepto que no encaje lógicamente en el nuevo molde DEBE ser anexado al final del nuevo archivo bajo la cabecera `## ⚠️ Residuos de Migración (Feedback para evolución)`.
-- Sobrescribir el `SKILL.md` antiguo con el nuevo contenido.
+### 2. Action Phase
+- For each skill passing the filter, apply **Semantic Mapping** to the new template:
+  - What was previously *When to use / Triggers* ➔ Move to `Context & Triggers`.
+  - Implicit environment requirements ➔ Move to `Prerequisites`.
+  - *Workflow / Steps* ➔ Distribute logically among `Execution Phases` (Diagnosis, Action, Verification).
+  - *Critical Rules* ➔ Convert into prohibitions/obligations in `Guardrails (Critical Rules)`.
+  - *Code Examples / Bash Commands* ➔ Strictly encapsulate in `Data Structures / Examples & Commands`.
+- **Traceability Injection:** Inject the **Traceability Seal** into the new skill's YAML frontmatter (see Data Structures section).
+- **Dry-Run Rule Injection:** Inject the universal Dry-Run rule block under the Execution Phases title (see Data Structures).
+- **Residue Analysis (Lost & Found):** Compare the full original text with the mapped text. Any block or concept that does not logically fit into the new mold MUST be appended at the end of the new file under the heading `## ⚠️ Migration Residue (Evolution Feedback)`.
+- Overwrite the old `SKILL.md` with the new content.
 
-### 3. Fase de Verificación
-- Si se ejecutó en modo Lote, presentar una tabla resumen en consola indicando:
-  - `Skills Migradas Exitosamente` vs `Skills Skipped (Con motivo de la complejidad)`.
-- Si se ejecutó en modo Individual, sugerir al humano invocar la skill recién migrada con la bandera `--dry-run` para validar que el agente puede parsearla correctamente sin ejecutar acciones destructivas.
+### 3. Verification Phase
+- If executed in Batch mode, present a console summary table indicating:
+  - `Successfully Migrated Skills` vs `Skipped Skills (With complexity reason)`.
+- If executed in Individual mode, suggest the human invoke the newly migrated skill with the `--dry-run` flag to validate the agent can parse it correctly without executing destructive actions.
 
-## Guardrails (Reglas Críticas)
-- **NUNCA** elimines de forma silenciosa el código de ejemplo, comandos o links de documentación de una skill. Si no logras ubicarlos en la sección correcta, envíalos forzosamente al bloque de Residuos de Migración.
-- **SIEMPRE** debes inyectar la regla de `--dry-run` literal en las skills que migres.
-- **NUNCA** modifiques o intentes migrar automáticamente las skills que activen el Filtro de Complejidad. La heurística no puede refactorizar scripts externos de Node o Python.
-- **SIEMPRE** incluye el sello de trazabilidad exacto en el frontmatter YAML; sin él, la migración es nula y el archivo será considerado corrupto por el registro.
+### 4. Post-Migration Phase: Update Registry
+- **Only if NOT `--dry-run` mode** and at least one skill was successfully migrated:
+  - Invoke the `skill-registry` skill via the `skill` tool to regenerate `.atl/skill-registry.md` with the updated skills.
+  - Show confirmation: "Registry updated: X user skills indexed."
+- If `--dry-run` mode: skip this phase and report: "[DRY-RUN] Registry not updated (simulation)."
 
-## Estructuras de Datos / Ejemplos y Comandos
+## Guardrails (Critical Rules)
+- **NEVER** silently delete code examples, commands, or documentation links from a skill. If you cannot place them in the correct section, forcibly move them to the Migration Residue block.
+- **ALWAYS** inject the literal `--dry-run` rule into the skills you migrate.
+- **NEVER** modify or attempt to auto-migrate skills that trigger the Complexity Filter. The heuristic cannot refactor external Node or Python scripts.
+- **ALWAYS** include the exact traceability seal in the YAML frontmatter; without it, the migration is null and the file will be considered corrupt by the registry.
 
-### Sello de Trazabilidad (Inyección en Frontmatter)
-Debes inyectar estos campos obligatoriamente en la cabecera YAML, reemplazando los corchetes con los datos dinámicos de la sesión actual:
+## Data Structures / Examples & Commands
+
+### Traceability Seal (Frontmatter Injection)
+You must inject these fields into the YAML header, replacing the brackets with the current session's dynamic data:
 ```yaml
-generator_model: [el modelo LLM crudo que usas, ej. gemini-1.5-pro]
-inherited_from: [Ruta absoluta o relativa del archivo SKILL.md original]
+generator_model: [the raw LLM model you use, e.g. gemini-1.5-pro]
+inherited_from: [Absolute or relative path of the original SKILL.md file]
 migrated_by: skill-migrator@1.0.0
 ```
 
-### Inyección de la Regla de Dry-Run
-Copia e inserta este bloque exactamente como está, justo debajo del título `## Fases de Ejecución` en la skill que estás migrando:
+### Dry-Run Rule Injection
+Copy and insert this block exactly as-is, right below the `## Execution Phases` title in the skill you are migrating:
 
 ```markdown
-> **[REGLA UNIVERSAL: DRY-RUN / SIMULACRO]**
-> Si el usuario solicita la ejecución en modo `--dry-run` o pide un "simulacro", el agente **NO** ejecutará comandos que alteren el estado del sistema ni llamará a herramientas MCP destructivas en la Fase de Acción. 
-> En su lugar, el agente imprimirá el payload exacto (JSON, bloque de código o parámetros) que planeaba ejecutar, y se detendrá a esperar la aprobación explícita del humano.
 ```
 
 ## Troubleshooting
-- *Si ocurre una pérdida grave de contexto y la skill se vacía:* El orquestador debe detenerse, restaurar el archivo original desde su fuente y solicitar al humano que procese esa skill manualmente.
-- *Si el modo Batch (Lote) crashea:* Asegurarse de que el agente tenga permisos recursivos de lectura sobre la carpeta objetivo, y revisar en los logs qué skill específica causó la excepción para ignorarla en el próximo ciclo.
+- *If a severe context loss occurs and the skill is emptied:* The orchestrator should stop, restore the original file from its source, and request the human process that skill manually.
+- *If Batch mode crashes:* Ensure recursive read permissions on the target folder, and check logs for which specific skill caused the exception to skip it in the next cycle.

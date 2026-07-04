@@ -1,13 +1,13 @@
 ---
-name: distill
+name: workflow-miner
 description: "Discover repeated workflows and package them into reusable skills, subagents, or commands. Self-improvement through automation."
-version: 1.0.0
+version: 1.1.0
 author: TaoTomate
 generator_model: mimo-auto
 inherited_from: mimocode/distill + custom extensions
 ---
 
-# Distill — Workflow Discovery & Skill Creation
+# Workflow-Miner — Workflow Discovery & Skill Creation
 
 ## When to Use
 

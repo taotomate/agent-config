@@ -1,32 +1,46 @@
-# Routing de herramientas y modelos
+<!-- v2.1 | last edited: 2026-06-23 -->
+# Tool & Model Routing
 
-## Agente vs Script
-- Si la tarea es predecible y repetible → script en `execution/`
-- Si la tarea necesita decisión o tiene pasos variables → agente
-- Si el script no existe:
-  1. Crealo en `execution/nombre_tarea.py`
-  2. Creá su `test_nombre_tarea.py`
-  3. Verificá que pasa el test antes de ejecutar
-- El modelo se usa para generar el script, no para ejecutar la tarea
+## Agent vs Script
+- If the task is predictable and repeatable → script in `execution/`
+- If the task requires decision-making or has variable steps → agent
+- If the script does not exist:
+  1. Create it in `execution/task_name.py`
+  2. Create its `test_task_name.py`
+  3. Verify it passes the test before executing
+- The model is used to generate the script, not to execute the task
 
-## Modelos por capa
+## Models by Layer
 
-### L1 — Planificación / Arquitectura
-- Principal: Gemini Pro / Opus
+### L1 — Planning / Architecture
+- Primary: Gemini Pro / Opus
 - Fallback: Sonnet
-- Cuando: diseño, arquitectura, análisis complejo
+- When: design, architecture, complex analysis
 
-### L2 — Orquestación / Decisiones
-- Principal: Gemini Flash / Sonnet
+### L2 — Orchestration / Decisions
+- Primary: Gemini Flash / Sonnet
 - Fallback: Haiku
-- Cuando: routing de tareas, manejo de errores, coordinación
+- When: task routing, error handling, coordination
 
-### L3 — Ejecución
-- Principal: script Python en `execution/`
-- Fallback: modelos locales (Ollama / LM Studio) o free tier
-- Modelos pagos solo si los anteriores no alcanzan
+### L3 — Execution
+- Primary: Python script in `execution/`
+- Fallback: local models (Ollama / LM Studio) or free tier
+- Paid models only if the above options are insufficient
 
-## Cambio de modelo por fallo
-Si un modelo genera errores repetidos en un tipo de tarea específico,
-consultá `directives/errors_learned.md` para ver el historial
-y reasignalo a una capa o tarea donde tenga mejor rendimiento.
+## Model Change on Failure
+If a model generates repeated errors on a specific task type,
+consult `directives/errors_learned.md` for history
+and reassign it to a layer or task where it performs better.
+
+## Small Model Support
+
+When using local/small models (tier: fast), load the skill's
+`references/small-model-guide.md` after loading the main SKILL.md.
+This inlines key logic so the model doesn't need to resolve
+external references or make complex decisions.
+
+Available guides:
+- `skills/sdd-apply/references/small-model-guide.md`
+- `skills/sdd-design/references/small-model-guide.md`
+- `skills/sdd-spec/references/small-model-guide.md`
+- `skills/sdd-tasks/references/small-model-guide.md`

@@ -1,6 +1,6 @@
 # SDD Phase — Common Protocol
 
-Boilerplate identical across all SDD phase skills. sub-skills MUST load this alongside their phase-specific SKILL.md.
+Boilerplate identical across all SDD phase skills. Sub-skills MUST load this alongside their phase-specific SKILL.md.
 
 Executor boundary: every SDD phase executor is an EXECUTOR, not an orchestrator. Do the phase work yourself. Do NOT launch sub-skills, do NOT call `delegate`/`task`, and do NOT bounce work back unless the phase skill explicitly says to stop and report a blocker.
 
@@ -10,7 +10,7 @@ Executor boundary: every SDD phase executor is an EXECUTOR, not an orchestrator.
 2. If no Project Standards block was provided, check for `SKILL: Load` instructions. If present, load those exact skill files.
 3. If neither was provided, search for the skill registry as a fallback:
    a. `mem_search(query: "skill-registry", project: "{project}")` — if found, `mem_get_observation(id)` for full content
-   b. Fallback: read `.atl/skill-registry.md` from the project root if it exists
+   b. Fallback: read `.config/skill-registry.md` from the project root if it exists
    c. From the registry's **Compact Rules** section, apply rules whose triggers match your current task.
 4. If no registry exists, proceed with your phase skill only.
 
@@ -75,6 +75,7 @@ Every phase MUST return a structured envelope to the orchestrator:
 - `next_recommended`: the next SDD phase to run, or "none"
 - `risks`: risks discovered, or "None"
 - `skill_resolution`: how skills were loaded — `injected` (received Project Standards from orchestrator), `fallback-registry` (self-loaded from registry), `fallback-path` (loaded via SKILL: Load path), or `none` (no skills loaded)
+- `triggers`: list of trigger phrases that would invoke this skill — for user learning
 
 Example:
 
@@ -85,5 +86,6 @@ Example:
 **Next**: sdd-spec or sdd-design
 **Risks**: None
 **Skill Resolution**: injected — 3 skills (react-19, typescript, tailwind-4)
+**Triggers**: `"create proposal"`, `"sdd propose"`, `"new change"`
 (other values: `fallback-registry`, `fallback-path`, or `none — no registry found`)
 ```

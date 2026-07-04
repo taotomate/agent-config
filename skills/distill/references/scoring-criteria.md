@@ -1,5 +1,17 @@
 # Distill Scoring Criteria
 
+## Counting Rules
+
+**ACUMULATIVO**: El conteo es sobre TODAS las sesiones disponibles, no por semana o mes.
+
+Ejemplo:
+- Enero: patrón apareció 2 veces
+- Febrero: patrón apareció 1 vez
+- Marzo: patrón apareció 3 veces
+- **Total: 6 veces** (no 3)
+
+El software debe contar todas las ocurrencias en el historial completo.
+
 ## Weight Explanation
 
 | Criterion | Weight | Rationale |

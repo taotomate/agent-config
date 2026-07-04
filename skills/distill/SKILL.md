@@ -29,12 +29,17 @@ Distill analyzes recent work and:
 ### 1. Scan Recent Work
 
 ```
-Scope: Last N sessions or explicit timeframe
+Scope: ALL available session history (cumulative, not just recent)
 Sources:
 - Conversation history (tool calls, sequences)
 - Task completions
 - Manual steps the user guided
 - Workarounds or repeated corrections
+- MEMORY.md patterns (already documented)
+- Notes (scratch observations)
+
+Counting: Accumulative across ALL sessions, not per-week.
+If a pattern occurred 2 times in January and 3 times in March = 5 total.
 ```
 
 ### 2. Identify Patterns

@@ -148,7 +148,7 @@ agent-config/
 | agents/gemini-cli.md | 5.1.0 | 2026-07-04 |
 | agents/antigravity.md | 5.1.0 | 2026-07-04 |
 | Entry points (CLAUDE/GEMINI/AGENTS) | 5.0.0 | 2026-07-04 |
-| GOVERNANCE_PROTOCOL | 2.0.0 | 2026-07-04 |
+| GOVERNANCE_PROTOCOL | 3.0.0 | 2026-07-04 |
 | skill-registry | 2.1.0 | 2026-07-04 |
 | shared/VISION.md | 3.2 | 2026-06-03 |
 | shared/routing.md | 2.1 | 2026-06-23 |

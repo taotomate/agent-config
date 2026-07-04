@@ -1,10 +1,10 @@
 ---
 name: governance-protocol
 description: Delegation, failure handling, and resilience rules for the agent ecosystem.
-version: 2.0.0
+version: 3.0.0
 author: TaoTomate
 generator_model: mimo-auto
-inherited_from: gentleman-programming/gentle-ai/.atl/GOVERNANCE_PROTOCOL.md + custom extensions
+inherited_from: gentleman-programming/gentle-ai/.atl/GOVERNANCE_PROTOCOL.md + opencode/permissions + custom extensions
 ---
 
 # Governance Protocol
@@ -87,3 +87,110 @@ Any task involving paid APIs (Vision, Bulk Search, high-tier LLMs):
 - Request confirmation BEFORE retrying failed loops
 - Never loop autonomously on paid endpoints
 - Log token consumption for audit
+
+---
+
+## 8. Permission System
+
+Granular control over what actions agents can take. Each permission key can be:
+- `"allow"` — Allow without approval
+- `"ask"` — Prompt for approval
+- `"deny"` — Disable entirely
+
+### Permission Keys
+
+| Key | Controls |
+|-----|----------|
+| `read` | File reading |
+| `edit` | File writes, edits, patches |
+| `glob` | File pattern matching |
+| `grep` | Content search |
+| `list` | Directory listing |
+| `bash` | Shell commands |
+| `task` | Sub-agent invocation |
+| `external_directory` | Files outside project |
+| `webfetch` | URL fetching |
+| `websearch` | Web search |
+| `skill` | Skill loading |
+
+### Default Permissions
+
+```yaml
+permissions:
+  read: allow
+  edit: ask
+  glob: allow
+  grep: allow
+  list: allow
+  bash:
+    "*": ask
+    "git status": allow
+    "git diff": allow
+    "git log": allow
+    "git add": ask
+    "git commit": ask
+    "git push": ask
+    "rm -rf": deny
+  task:
+    "*": allow
+  external_directory: ask
+  webfetch: allow
+  websearch: allow
+  skill: allow
+```
+
+### Bash Permission Patterns
+
+Use glob patterns for fine-grained bash control:
+
+```yaml
+bash:
+  "*": ask                    # Default: ask
+  "git status *": allow       # Allow git status
+  "git diff *": allow         # Allow git diff
+  "git log *": allow          # Allow git log
+  "git add *": ask            # Ask for git add
+  "git commit *": ask         # Ask for git commit
+  "git push *": ask           # Ask for git push
+  "npm test": allow           # Allow tests
+  "npm run build": ask        # Ask for builds
+  "rm -rf *": deny            # Never allow recursive delete
+  "chmod *": deny             # Never allow chmod
+  "sudo *": deny              # Never allow sudo
+```
+
+### Task Permissions
+
+Control which sub-agents can be invoked:
+
+```yaml
+task:
+  "*": allow                  # Allow all by default
+  "dangerous-*": deny         # Deny dangerous agents
+  "audit": ask                # Ask before auditing
+```
+
+### Per-Agent Permissions
+
+Override permissions for specific agents:
+
+```yaml
+agents:
+  plan:
+    permissions:
+      edit: deny
+      bash: deny
+  build:
+    permissions:
+      edit: allow
+      bash:
+        "*": allow
+        "rm -rf": deny
+```
+
+### Permission Precedence
+
+1. Agent-specific permissions (highest)
+2. Project permissions
+3. Global permissions
+4. Default permissions (lowest)

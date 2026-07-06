@@ -18,3 +18,13 @@ Thumbs.db
 # Runtime artifacts (skill-optimizer, audit scripts)
 .config/*.json
 .config/*-report.md
+
+# Graphify cache
+graphify-out/
+
+# Python
+__pycache__/
+*.pyc
+
+# Node
+node_modules/

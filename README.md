@@ -1,7 +1,7 @@
 ---
 name: agent-config-readme
 description: Load map, structure guide, and installation instructions for the agent configuration system.
-version: 5.0.0
+version: 5.1.0
 author: TaoTomate
 generator_model: mimo-auto
 inherited_from: custom
@@ -49,6 +49,114 @@ cp agent-config/GEMINI.md /path/to/your/project/GEMINI.md
 - Skills are in `skills/` — the agent discovers them via `.config/skill-registry.md`
 - Governance is in `.config/GOVERNANCE_PROTOCOL.md` — loaded on failure or delegation
 - VISION.md is human reference only — agents do NOT load it
+
+## Agent Self-Configuration
+
+When an agent reads this README, it should configure itself to use the full agent-config structure.
+
+### Base path
+
+All references resolve from: `D:\TaoTomate.Dots\agent-config\`
+
+### Required files (always loaded)
+
+| File | Path | Purpose |
+|------|------|---------|
+| Entry point | `AGENTS.md` in project root | Thin wrapper, inherits from base |
+| Source of Truth | `agents/base.md` | Universal rules, behavior, personality, SDD, engram |
+
+### Skill discovery
+
+| File | Path | Purpose |
+|------|------|---------|
+| Skill registry | `.config/skill-registry.md` | Maps triggers → skill paths (375 skills) |
+| Skills directory | `skills/*/SKILL.md` | Individual skill definitions |
+
+### On-demand files
+
+| File | Path | When to load |
+|------|------|--------------|
+| Governance | `.config/GOVERNANCE_PROTOCOL.md` | On ANY error, or before creating sub-agents |
+| Audit framework | `shared/audit-framework.md` | When running self-audit |
+| Routing | `shared/routing.md` | When deciding model assignment |
+| Style guide | `shared/skill-style-guide.md` | When creating/refactoring skills |
+| SDD common | `shared/sdd-phase-common.md` | When executing SDD phases |
+
+### Platform overrides (optional)
+
+| File | Path | When to load |
+|------|------|--------------|
+| Claude Code | `agents/claude-code.md` | Only if platform is Claude Code |
+| Gemini CLI | `agents/gemini-cli.md` | Only if platform is Gemini CLI |
+| Antigravity | `agents/antigravity.md` | Only if platform is Antigravity |
+
+### Full directory tree
+
+```
+D:\TaoTomate.Dots\agent-config\
+├── AGENTS.md                    # MiMoCode/OpenCode entry point
+├── CLAUDE.md                    # Claude Code entry point
+├── GEMINI.md                    # Gemini CLI entry point
+├── README.md                    # This file
+├── CHANGELOG.md                 # Version history
+├── skills-report.md             # Auto-generated skill catalog
+├── sync-agent-config.bat        # Sync script for projects
+│
+├── agents/
+│   ├── base.md                  # SOURCE OF TRUTH — load this
+│   ├── claude-code.md           # Platform override
+│   ├── gemini-cli.md            # Platform override
+│   └── antigravity.md           # Platform override
+│
+├── shared/
+│   ├── VISION.md                # Human reference only
+│   ├── routing.md               # Model routing rules
+│   ├── audit-framework.md       # 7 axioms for auditing
+│   ├── skill-style-guide.md     # SKILL.md standards
+│   ├── sdd-phase-common.md      # SDD protocol
+│   └── skill-resolver.md        # Skill injection protocol
+│
+├── skills/                      # 375 skills — load on trigger
+│   └── */SKILL.md
+│
+├── .config/
+│   ├── skill-registry.md        # Skill index — load once per session
+│   ├── GOVERNANCE_PROTOCOL.md   # Failure handling — load on error
+│   └── error_log.md             # Runtime errors
+│
+├── tools/
+│   └── skill_catalog.py         # Registry generator
+│
+├── docs/                        # Human reference only
+│   ├── architecture.md
+│   ├── components.md
+│   ├── load-flow.md
+│   └── contributing.md
+│
+├── hermes-profiles/             # Hermes worker profiles
+│
+└── backups/                     # Config snapshots
+```
+
+### Agent config template
+
+For agents that support configuration files:
+
+```yaml
+# opencode.json / .claude/config.yaml / etc.
+agent_config:
+  base_path: "D:\TaoTomate.Dots\agent-config"
+  source_of_truth: "agents/base.md"
+  skill_registry: ".config/skill-registry.md"
+  governance: ".config/GOVERNANCE_PROTOCOL.md"
+  skills_path: "skills/"
+  shared_path: "shared/"
+  inherit: true  # Load base.md via AGENTS.md inheritance
+```
+
+### Verification
+
+Ask the agent: "What is your configuration source?" — it should reference `agents/base.md` from `D:\TaoTomate.Dots\agent-config`.
 
 ## Load Map
 
@@ -99,50 +207,6 @@ cp agent-config/GEMINI.md /path/to/your/project/GEMINI.md
 | `docs/validation-framework.md` | Validation patterns for skills |
 | `docs/distillation-protocol.md` | How to extract decisions from sessions |
 | `docs/template_skill.md` | Template for new skills |
-
-## Structure
-
-```
-agent-config/
-  AGENTS.md                  OpenCode/MiMoCode entry point (thin)
-  CLAUDE.md                  Claude Code entry point (thin)
-  GEMINI.md                  Gemini CLI entry point (thin)
-  README.md                  This file
-
-  agents/
-    base.md                  Source of Truth (all universal rules)
-    claude-code.md           Claude-specific overrides
-    gemini-cli.md            Gemini-specific overrides
-    antigravity.md           Antigravity-specific overrides
-
-  shared/
-    VISION.md                Philosophy (human reference)
-    routing.md               Model routing by layer
-    audit-framework.md       Audit framework
-    skill-style-guide.md     SKILL.md standards
-    sdd-phase-common.md      SDD common protocol
-    skill-resolver.md        Skill resolution protocol
-
-  docs/
-    trigger-rules.md         Trigger system docs
-    persistence-contract.md  Persistence modes docs
-    engram-convention.md     Engram naming docs
-    openspec-convention.md   OpenSpec structure docs
-    validation-framework.md  Validation patterns
-    distillation-protocol.md Session distillation docs
-    template_skill.md        Skill template
-
-  skills/                    370+ skills
-  .config/
-    GOVERNANCE_PROTOCOL.md   Delegation + failure handling
-    skill-registry.md        Skill index for orchestrator
-    error_log.md             Runtime error log
-
-  tools/
-    skill_catalog.py         Scan, hash, deduplicate, version-track skills
-
-  backups/                   Auto-generated config snapshots
-```
 
 ## Versioning
 

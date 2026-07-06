@@ -9,8 +9,8 @@ inherited_from: skill-registry/SKILL.md
 
 # Skill Registry
 
-**Auto-generated:** 2026-07-05 09:40
-**Total skills:** 370
+**Auto-generated:** 2026-07-06 23:15
+**Total skills:** 375
 
 ## Skills
 
@@ -47,6 +47,7 @@ inherited_from: skill-registry/SKILL.md
 | Control Blender directly from Hermes via socket connection to the blender-mcp ad | blender-mcp | `skills/blender-mcp/SKILL.md` |
 | Monitor blogs and RSS/Atom feeds via blogwatcher-cli tool. | blogwatcher | `skills/blogwatcher/SKILL.md` |
 | When creating a pull request, opening a PR, or preparing changes for review | branch-pr | `skills/branch-pr/SKILL.md` |
+| check broken references', 'validate references', 'fix broken links', 'scan refer | broken-reference-fixer | `skills/broken-reference-fixer/SKILL.md` |
 | This skill should be used when the user wants to build an "MCP app", add "intera | build-mcp-app | `skills/build-mcp-app/SKILL.md` |
 | This skill should be used when the user asks to "build an MCP server", "create a | build-mcp-server | `skills/build-mcp-server/SKILL.md` |
 | This skill should be used when the user wants to "package an MCP server", "bundl | build-mcpb | `skills/build-mcpb/SKILL.md` |
@@ -104,6 +105,7 @@ inherited_from: skill-registry/SKILL.md
 | Exploratory QA of web apps: find bugs, evidence, reports. | dogfood | `skills/dogfood/SKILL.md` |
 | Passive domain reconnaissance using Python stdlib. Subdomain discovery, SSL cert | domain-intel | `skills/domain-intel/SKILL.md` |
 | double-blind review", "adversarial review", "audit" | double-blind-review | `skills/double-blind-review/SKILL.md` |
+| Scan session traces, extract persistent knowledge, remove outdated entries. Self | dream | `skills/dream/SKILL.md` |
 | Pharmaceutical research assistant for drug discovery workflows. Search bioactive | drug-discovery | `skills/drug-discovery/SKILL.md` |
 | DSPy: declarative LM programs, auto-optimize prompts, RAG. | dspy | `skills/dspy/SKILL.md` |
 | dual execution", "dual validation", "run frontier", "compare with local" | dual-execution-validation | `skills/dual-execution-validation/SKILL.md` |
@@ -294,6 +296,7 @@ inherited_from: skill-registry/SKILL.md
 | Migrated skill: schedule | schedule | `skills/schedule/SKILL.md` |
 | Shared Python package for Science Skills, currently containing http_client -- a  | science-skills-common | `skills/science_skills_common/SKILL.md` |
 | Shared Python package for Science Skills, currently containing http_client -- a  | scienceskillscommon | `skills/scienceskillscommon/SKILL.md` |
+| Read-only agent for external docs and dependency research. Clone repos, inspect  | scout | `skills/scout/SKILL.md` |
 | Web scraping with Scrapling - HTTP fetching, stealth browser automation, Cloudfl | scrapling | `skills/scrapling/SKILL.md` |
 | When the orchestrator launches you to implement one or more tasks from a change. | sdd-apply | `skills/sdd-apply/SKILL.md` |
 | When the orchestrator launches you to archive a change after implementation and  | sdd-archive | `skills/sdd-archive/SKILL.md` |
@@ -301,14 +304,11 @@ inherited_from: skill-registry/SKILL.md
 | When the orchestrator launches you to think through a feature, investigate the c | sdd-explore | `skills/sdd-explore/SKILL.md` |
 | When user wants to initialize SDD in a project, or says 'sdd init', 'openspec in | sdd-init | `skills/sdd-init/SKILL.md` |
 | destilar local", "compresión local", "local distiller" | sdd-local-distiller | `skills/sdd-local-distiller/SKILL.md` |
-| Orchestrates the full SDD pipeline from exploration to archive. | sdd-orchestrator | `skills/sdd-orchestrator/SKILL.md` |
 | When the orchestrator launches you to onboard a user through the full SDD cycle. | sdd-onboard | `skills/sdd-onboard/SKILL.md` |
+| sdd orchestrator', 'run sdd', 'start sdd pipeline', 'full sdd cycle' | sdd-orchestrator | `skills/sdd-orchestrator/SKILL.md` |
 | When the orchestrator launches you to create or update a proposal for a change.  | sdd-propose | `skills/sdd-propose/SKILL.md` |
 | When the orchestrator launches you to write or update specs for a change. Create | sdd-spec | `skills/sdd-spec/SKILL.md` |
 | When the orchestrator launches you to create or update the task breakdown for a  | sdd-tasks | `skills/sdd-tasks/SKILL.md` |
-| Tracks tokens, execution time, and comparative market value per turn. | telemetry | `skills/telemetry/SKILL.md` |
-| Performs historical token and cost auditing across all conversation th | telemetry-backfill | `skills/telemetry-backfill/SKILL.md` |
-| Guides the user through obtaining and managing free LLM credits from v | token-miner | `skills/token-miner/SKILL.md` |
 | When the orchestrator launches you to verify a completed (or partially completed | sdd-verify | `skills/sdd-verify/SKILL.md` |
 | Free meta-search via SearXNG — aggregates results from 70+ search engines. Self- | searxng-search | `skills/searxng-search/SKILL.md` |
 | SAM: zero-shot image segmentation via points, boxes, masks. | segment-anything-model | `skills/segment-anything/SKILL.md` |
@@ -350,10 +350,13 @@ inherited_from: skill-registry/SKILL.md
 | 4-phase root cause debugging: understand bugs before fixing. | systematic-debugging | `skills/systematic-debugging/SKILL.md` |
 | Operate the Teams meeting summary pipeline via Hermes CLI — summarize meetings,  | teams-meeting-pipeline | `skills/teams-meeting-pipeline/SKILL.md` |
 | Configurar, verificar y troubleshoot del gateway de Telegram en Hermes Agent — t | telegram-gateway-setup | `skills/telegram/SKILL.md` |
+| N/A | telemetry | `skills/telemetry/SKILL.md` |
+| N/A | telemetry-backfill | `skills/telemetry-backfill/SKILL.md` |
 | Give Hermes phone capabilities without core tool changes. Provision and persist  | telephony | `skills/telephony/SKILL.md` |
 | Optimizes LLM inference with NVIDIA TensorRT for maximum throughput and lowest l | tensorrt-llm | `skills/tensorrt-llm/SKILL.md` |
 | TDD: enforce RED-GREEN-REFACTOR, tests before code. | test-driven-development | `skills/test-driven-development/SKILL.md` |
 | create dossier", "thread dossier", "extract decisions", "technical summary" | thread-dossier | `skills/thread-dossier/SKILL.md` |
+| N/A | token-miner | `skills/token-miner/SKILL.md` |
 | Control a running TouchDesigner instance via twozero MCP — create operators, set | touchdesigner-mcp | `skills/touchdesigner-mcp/SKILL.md` |
 | Investigate unexpected chat agent behavior by analyzing direct debug logs in JSO | troubleshoot | `skills/troubleshoot/SKILL.md` |
 | How to set up a new TypeScript project | typescript-setup | `skills/typescript-setup/SKILL.md` |
@@ -373,6 +376,7 @@ inherited_from: skill-registry/SKILL.md
 | Use when the user wants a local file or image sent back, such as "send me the fi | weixin-file-send | `skills/weixin-file-send/SKILL.md` |
 | OpenAI's general-purpose speech recognition model. Supports 99 languages, transc | whisper | `skills/whisper/SKILL.md` |
 | Plans commits as reviewable work units. For implementation, commit splitting, ch | work-unit-commits | `skills/work-unit-commits/SKILL.md` |
+| Discover repeated workflows and package them into reusable skills, subagents, or | workflow-miner | `skills/workflow-miner/SKILL.md` |
 | Distills a completed user workflow or interaction into a reusable agent skill. U | workflow-skill-creator | `skills/workflow_skill_creator/SKILL.md` |
 | Single-agent mission orchestrator. Decomposes a mission into tasks, spawns one w | workspace-dispatch | `skills/workspace-dispatch/SKILL.md` |
 | This skill should be used when the user asks to "create a hookify rule", "write  | writing-hookify-rules | `skills/writing-rules/SKILL.md` |

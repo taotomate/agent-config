@@ -21,7 +21,7 @@ __export(traceErrors_exports, {
   traceErrors: () => traceErrors
 });
 module.exports = __toCommonJS(traceErrors_exports);
-var import_traceUtils = require("./traceUtils");
+var import_traceUtils = require("trace\traceUtils.js");
 async function traceErrors() {
   const trace = await (0, import_traceUtils.loadTrace)();
   const model = trace.model;

@@ -6,7 +6,7 @@ description: 'Performs chat distillation via local LLMs (Qwen/LM Studio). Trigge
   '
 license: MIT
 version: "1.1"
-author: gentleman-programming
+author: TaoTomate
 model_tier: fast
 ---
 

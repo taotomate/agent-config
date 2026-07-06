@@ -33,7 +33,7 @@ __export(traceRequests_exports, {
 });
 module.exports = __toCommonJS(traceRequests_exports);
 var import_path = __toESM(require("path"));
-var import_traceUtils = require("./traceUtils");
+var import_traceUtils = require("trace\traceUtils.js");
 var import_formatUtils = require("../../utils/isomorphic/formatUtils");
 async function traceRequests(options) {
   const trace = await (0, import_traceUtils.loadTrace)();

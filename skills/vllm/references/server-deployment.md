@@ -141,8 +141,8 @@ server {
     }
 
     # Metrics endpoint
-    location /metrics {
-        proxy_pass http://localhost:9090/metrics;
+    location neuroskill-bci\references\metrics.md {
+        proxy_pass http://localhost:9090neuroskill-bci\references\metrics.md;
     }
 }
 ```

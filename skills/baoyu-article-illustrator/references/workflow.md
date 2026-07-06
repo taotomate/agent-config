@@ -113,7 +113,7 @@ Use the `clarify` tool. Since `clarify` handles one question at a time, ask the 
 
 ### Q1: Preset or Type (highest priority)
 
-Based on Step 2 content analysis, recommend a preset first (sets both type & style). Look up [style-presets.md](style-presets.md) "Content Type → Preset Recommendations" table.
+Based on Step 2 content analysis, recommend a preset first (sets both type & style). Look up [baoyu-article-illustrator\references\baoyu-article-illustrator\references\style-presets.md](style-presets.md) "Content Type → Preset Recommendations" table.
 
 - [Recommended preset] — [brief: type + style + why]
 - [Alternative preset] — [brief]
@@ -149,7 +149,7 @@ Present Core Styles first:
 | `scene` | warm/watercolor | Narratives, emotional, lifestyle |
 | `poster` | screen-print | Opinion, editorial, cultural, cinematic |
 
-Style selection based on Type × Style compatibility matrix ([styles.md](styles.md)).
+Style selection based on Type × Style compatibility matrix ([baoyu-article-illustrator\references\baoyu-article-illustrator\references\baoyu-article-illustrator\references\baoyu-article-illustrator\references\styles.md](styles.md)).
 **In Step 5**, read `styles/<style>.md` for visual elements and rendering rules.
 
 ### Q4: Palette (optional)
@@ -248,7 +248,7 @@ For each illustration in the outline:
    ```
 3. **Load style specs**: Read `styles/<style>.md` (via `read_file`) for visual elements, style rules, and rendering instructions
 4. **Load palette specs** (if palette specified): Read `palettes/<palette>.md` for colors and background. Palette colors **replace** the style's default Color Palette. If no palette specified, use the style's built-in colors.
-5. **Follow type-specific template** from [prompt-construction.md](prompt-construction.md), using rendering from style + colors from palette (or style default)
+5. **Follow type-specific template** from [baoyu-article-illustrator\references\baoyu-article-illustrator\references\prompt-construction.md](prompt-construction.md), using rendering from style + colors from palette (or style default)
 6. **Prompt quality requirements** (all REQUIRED):
    - `Layout`: Describe overall composition (grid / radial / hierarchical / left-right / top-down)
    - `ZONES`: Describe each visual area with specific content, not vague descriptions

@@ -45,7 +45,7 @@ The CLI is [open-source](https://github.com/blackboxaicode/cli) (GPL-3.0, TypeSc
   git clone https://github.com/blackboxaicode/cli.git
   cd cli && npm install && npm install -g .
   ```
-- API key from [app.blackbox.ai/dashboard](https://app.blackbox.ai/dashboard)
+- API key from [baoyu-infographic\references\layouts\dashboard.md](https://baoyu-infographic\references\layouts\dashboard.md)
 - Configured: run `blackbox configure` and enter your API key
 - Use `pty=true` in terminal calls — Blackbox CLI is an interactive terminal app
 

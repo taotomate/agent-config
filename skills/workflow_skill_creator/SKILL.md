@@ -289,12 +289,12 @@ install locally, globally, or use a custom install path.
 
 Skill paths by agent CLI (local paths relative to project root):
 
--   **Claude Code**: local `.claude/skills/`, global `~/.claude/skills/`
--   **Codex**: local `.agents/skills/`, global `~/.agents/skills/`
+-   **Claude Code**: local `.claude/skills/`, global `agent-customization\references\skills.md`
+-   **Codex**: local `.agents/skills/`, global `agent-customization\references\skills.md`
 -   **Antigravity 2.0**: local `.agents/skills/`, global
-    `~/.gemini/config/skills/`
--   **Gemini CLI**: local `.gemini/skills/`, global `~/.gemini/skills/`
--   **OpenCode**: local `.opencode/skills/`, global `~/.config/opencode/skills/`
+    `agent-customization\references\skills.md`
+-   **Gemini CLI**: local `.gemini/skills/`, global `agent-customization\references\skills.md`
+-   **OpenCode**: local `.opencode/skills/`, global `agent-customization\references\skills.md`
 
 For other CLIs, find out local and global skill paths by yourself.
 

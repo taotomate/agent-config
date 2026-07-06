@@ -9,7 +9,7 @@ inherited_from: skill-registry/SKILL.md
 
 # Skill Registry
 
-**Auto-generated:** 2026-07-02 14:07
+**Auto-generated:** 2026-07-05 09:40
 **Total skills:** 370
 
 ## Skills
@@ -64,9 +64,9 @@ inherited_from: skill-registry/SKILL.md
 | Use when needing clinical significance, pathogenicity classifications (e.g., Pat | clinvar-database | `skills/clinvar_database/SKILL.md` |
 | OpenAI's model connecting vision and language. Enables zero-shot image classific | clip | `skills/clip/SKILL.md` |
 | Deploy a Worker live, no account, via wrangler --temporary. | cloudflare-temporary-deploy | `skills/cloudflare-temporary-deploy/SKILL.md` |
-| Migrated skill: code-reviewer-go | code-reviewer-go | `skills/code-reviewer-go/SKILL.md` |
-| Migrated skill: code-reviewer-python | code-reviewer-python | `skills/code-reviewer-python/SKILL.md` |
-| Migrated skill: code-reviewer-typescript | code-reviewer-typescript | `skills/code-reviewer-typescript/SKILL.md` |
+| When reviewing .go files | code-reviewer-go | `skills/code-reviewer-go/SKILL.md` |
+| When reviewing .py files | code-reviewer-python | `skills/code-reviewer-python/SKILL.md` |
+| When reviewing .ts, .tsx, .js or .jsx files | code-reviewer-typescript | `skills/code-reviewer-typescript/SKILL.md` |
 | Generate wiki docs + Mermaid diagrams for any codebase. | code-wiki | `skills/code-wiki/SKILL.md` |
 | Inspect codebases w/ pygount: LOC, languages, ratios. | codebase-inspection | `skills/codebase-inspection/SKILL.md` |
 | Delegate coding to OpenAI Codex CLI (features, PRs). | codex | `skills/codex/SKILL.md` |
@@ -80,7 +80,6 @@ inherited_from: skill-registry/SKILL.md
 | Generate flat, minimal light/dark-aware SVG diagrams as standalone HTML files, u | concept-diagrams | `skills/concept-diagrams/SKILL.md` |
 | Set up the Telegram channel — save the bot token and review access policy. Use w | configure | `skills/configure/SKILL.md` |
 | Reflective pass over your memory files — merge duplicates, fix stale facts, prun | consolidate-memory | `skills/consolidate-memory/SKILL.md` |
-| distill thread", "technical distillation", "extract context", "create dossier" | conversation-distillation | `skills/conversation-distillation/SKILL.md` |
 | Core agent-browser usage guide. Read this before running any agent-browser comma | core | `skills/core/SKILL.md` |
 | Create a custom agent (.agent.md) for a specific job. | create-agent | `skills/create-agent/SKILL.md` |
 | Create a draft pull request for the current session. Use when the user wants to  | create-draft-pr | `skills/create-draft-pr/SKILL.md` |
@@ -302,13 +301,14 @@ inherited_from: skill-registry/SKILL.md
 | When the orchestrator launches you to think through a feature, investigate the c | sdd-explore | `skills/sdd-explore/SKILL.md` |
 | When user wants to initialize SDD in a project, or says 'sdd init', 'openspec in | sdd-init | `skills/sdd-init/SKILL.md` |
 | destilar local", "compresión local", "local distiller" | sdd-local-distiller | `skills/sdd-local-distiller/SKILL.md` |
+| Orchestrates the full SDD pipeline from exploration to archive. | sdd-orchestrator | `skills/sdd-orchestrator/SKILL.md` |
 | When the orchestrator launches you to onboard a user through the full SDD cycle. | sdd-onboard | `skills/sdd-onboard/SKILL.md` |
 | When the orchestrator launches you to create or update a proposal for a change.  | sdd-propose | `skills/sdd-propose/SKILL.md` |
 | When the orchestrator launches you to write or update specs for a change. Create | sdd-spec | `skills/sdd-spec/SKILL.md` |
 | When the orchestrator launches you to create or update the task breakdown for a  | sdd-tasks | `skills/sdd-tasks/SKILL.md` |
-| N/A | sdd-telemetry | `skills/sdd-telemetry/SKILL.md` |
-| N/A | sdd-telemetry-backfill | `skills/sdd-telemetry-backfill/SKILL.md` |
-| N/A | sdd-token-miner | `skills/sdd-token-miner/SKILL.md` |
+| Tracks tokens, execution time, and comparative market value per turn. | telemetry | `skills/telemetry/SKILL.md` |
+| Performs historical token and cost auditing across all conversation th | telemetry-backfill | `skills/telemetry-backfill/SKILL.md` |
+| Guides the user through obtaining and managing free LLM credits from v | token-miner | `skills/token-miner/SKILL.md` |
 | When the orchestrator launches you to verify a completed (or partially completed | sdd-verify | `skills/sdd-verify/SKILL.md` |
 | Free meta-search via SearXNG — aggregates results from 70+ search engines. Self- | searxng-search | `skills/searxng-search/SKILL.md` |
 | SAM: zero-shot image segmentation via points, boxes, masks. | segment-anything-model | `skills/segment-anything/SKILL.md` |
@@ -353,6 +353,7 @@ inherited_from: skill-registry/SKILL.md
 | Give Hermes phone capabilities without core tool changes. Provision and persist  | telephony | `skills/telephony/SKILL.md` |
 | Optimizes LLM inference with NVIDIA TensorRT for maximum throughput and lowest l | tensorrt-llm | `skills/tensorrt-llm/SKILL.md` |
 | TDD: enforce RED-GREEN-REFACTOR, tests before code. | test-driven-development | `skills/test-driven-development/SKILL.md` |
+| create dossier", "thread dossier", "extract decisions", "technical summary" | thread-dossier | `skills/thread-dossier/SKILL.md` |
 | Control a running TouchDesigner instance via twozero MCP — create operators, set | touchdesigner-mcp | `skills/touchdesigner-mcp/SKILL.md` |
 | Investigate unexpected chat agent behavior by analyzing direct debug logs in JSO | troubleshoot | `skills/troubleshoot/SKILL.md` |
 | How to set up a new TypeScript project | typescript-setup | `skills/typescript-setup/SKILL.md` |

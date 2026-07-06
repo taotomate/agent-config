@@ -420,7 +420,7 @@ Use the `#` prefix in interactive mode to quickly add to memory: `# Always use 2
 | `/release-notes` | Interactive picker for version release notes |
 
 ### Custom Slash Commands
-Create `.claude/commands/<name>.md` (project-shared) or `~/.claude/commands/<name>.md` (personal):
+Create `.claude/commands/<name>.md` (project-shared) or `core\references\commands.md<name>.md` (personal):
 
 ```markdown
 # .claude/commands/deploy.md
@@ -569,12 +569,12 @@ Claude automatically stores learned project context in `~/.claude/projects/<proj
 
 ## Custom Subagents
 
-Define specialized agents in `.claude/agents/` (project), `~/.claude/agents/` (personal), or via `--agents` CLI flag (session):
+Define specialized agents in `.claude/agents/` (project), `agent-customization\references\agents.md` (personal), or via `--agents` CLI flag (session):
 
 ### Agent Location Priority
 1. `.claude/agents/` — project-level, team-shared
 2. `--agents` CLI flag — session-specific, dynamic
-3. `~/.claude/agents/` — user-level, personal
+3. `agent-customization\references\agents.md` — user-level, personal
 
 ### Creating an Agent
 ```markdown

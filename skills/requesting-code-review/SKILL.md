@@ -107,7 +107,7 @@ npm test -- --passWithNoTests 2>&1 | tail -5
 cargo test 2>&1 | tail -5
 
 # Go
-go test ./... 2>&1 | tail -5
+go test .\... 2>&1 | tail -5
 ```
 
 **Linting and type checking** (run only if installed):
@@ -124,7 +124,7 @@ which npx && npx tsc --noEmit 2>&1 | tail -10
 cargo clippy -- -D warnings 2>&1 | tail -10
 
 # Go
-which go && go vet ./... 2>&1 | tail -10
+which go && go vet .\... 2>&1 | tail -10
 ```
 
 **Baseline comparison:** If baseline was clean and your changes introduce failures,

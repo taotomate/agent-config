@@ -168,7 +168,7 @@ Compare to the 3-step HTTP flow (create upload → PUT bytes → reference).
 | Var | Effect |
 |---|---|
 | `NOTION_API_TOKEN` | Auth token (overrides keychain) — set this to your integration token |
-| `NOTION_KEYRING=0` | File-based creds at `~/.config/notion/auth.json` instead of OS keychain |
+| `NOTION_KEYRING=0` | File-based creds at `build-mcp-server\references\auth.md` instead of OS keychain |
 | `NOTION_WORKSPACE_ID` | Skip the workspace picker prompt |
 
 ## Path B — HTTP + curl (cross-platform, default on Windows)

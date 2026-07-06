@@ -8,7 +8,7 @@ Validates `hooks.json` configuration files for correct structure and common issu
 
 **Usage:**
 ```bash
-./validate-hook-schema.sh path/to/hooks.json
+.\validate-hook-schema.sh path/to/hooks.json
 ```
 
 **Checks:**
@@ -23,7 +23,7 @@ Validates `hooks.json` configuration files for correct structure and common issu
 **Example:**
 ```bash
 cd my-plugin
-./validate-hook-schema.sh hooks/hooks.json
+.\validate-hook-schema.sh hooks/hooks.json
 ```
 
 ## test-hook.sh
@@ -32,7 +32,7 @@ Tests individual hook scripts with sample input before deploying to Claude Code.
 
 **Usage:**
 ```bash
-./test-hook.sh [options] <hook-script> <test-input.json>
+.\test-hook.sh [options] <hook-script> <test-input.json>
 ```
 
 **Options:**
@@ -43,13 +43,13 @@ Tests individual hook scripts with sample input before deploying to Claude Code.
 **Example:**
 ```bash
 # Create sample test input
-./test-hook.sh --create-sample PreToolUse > test-input.json
+.\test-hook.sh --create-sample PreToolUse > test-input.json
 
 # Test a hook script
-./test-hook.sh my-hook.sh test-input.json
+.\test-hook.sh my-hook.sh test-input.json
 
 # Test with verbose output and custom timeout
-./test-hook.sh -v -t 30 my-hook.sh test-input.json
+.\test-hook.sh -v -t 30 my-hook.sh test-input.json
 ```
 
 **Features:**
@@ -65,7 +65,7 @@ Checks hook scripts for common issues and best practices violations.
 
 **Usage:**
 ```bash
-./hook-linter.sh <hook-script.sh> [hook-script2.sh ...]
+.\hook-linter.sh <hook-script.sh> [hook-script2.sh ...]
 ```
 
 **Checks:**
@@ -83,10 +83,10 @@ Checks hook scripts for common issues and best practices violations.
 **Example:**
 ```bash
 # Lint single script
-./hook-linter.sh ../examples/validate-write.sh
+.\hook-linter.sh ..\examples\validate-write.sh
 
 # Lint multiple scripts
-./hook-linter.sh ../examples/*.sh
+.\hook-linter.sh ..\examples\*.sh
 ```
 
 ## Typical Workflow
@@ -98,18 +98,18 @@ Checks hook scripts for common issues and best practices violations.
 
 2. **Lint the script**
    ```bash
-   ./hook-linter.sh my-plugin/scripts/my-hook.sh
+   .\hook-linter.sh my-plugin/scripts/my-hook.sh
    ```
 
 3. **Create test input**
    ```bash
-   ./test-hook.sh --create-sample PreToolUse > test-input.json
+   .\test-hook.sh --create-sample PreToolUse > test-input.json
    # Edit test-input.json as needed
    ```
 
 4. **Test the hook**
    ```bash
-   ./test-hook.sh -v my-plugin/scripts/my-hook.sh test-input.json
+   .\test-hook.sh -v my-plugin/scripts/my-hook.sh test-input.json
    ```
 
 5. **Add to hooks.json**
@@ -119,7 +119,7 @@ Checks hook scripts for common issues and best practices violations.
 
 6. **Validate configuration**
    ```bash
-   ./validate-hook-schema.sh my-plugin/hooks/hooks.json
+   .\validate-hook-schema.sh my-plugin/hooks/hooks.json
    ```
 
 7. **Test in Claude Code**

@@ -69,7 +69,7 @@ TIER_FALLBACK_MAP: dict[str, str] = {
     "skill-creator": "high",
     "skill-optimizer": "fast",
     "cognitive-doc-design": "high",
-    "conversation-distillation": "high",
+    "thread-dossier": "high",
     "skill-migrator": "fast",
     "skill-registry": "fast",
     "comment-writer": "fast",

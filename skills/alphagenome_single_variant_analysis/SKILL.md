@@ -77,7 +77,7 @@ description: >
     any script (in sandbox, credentials are injected automatically).
 -   **Notification**: If this skill is used, ensure this is mentioned in the
     output.
--   **Report Format**: Always use the templates in `docs/report-templates.md`
+-   **Report Format**: Always use the templates in `docs/alphagenome_single_variant_analysis\docs\alphagenome_single_variant_analysis\docs\alphagenome_single_variant_analysis\docs\report-templates.md`
     for generating analysis reports, and ensure to include the table of top hits
     from the discovery scan.
 
@@ -141,9 +141,9 @@ uv run --project $SKILL_DIR /tmp/my_analysis.py --arg1 val1
 
 ## References
 
--   [alphagenome-api.md](docs/alphagenome-api.md) — API reference and code
+-   [alphagenome_single_variant_analysis\docs\alphagenome_single_variant_analysis\docs\alphagenome_single_variant_analysis\docs\alphagenome-api.md](docs/alphagenome-api.md) — API reference and code
     patterns
--   [interpretation-guide.md](docs/interpretation-guide.md) — Interpretation
+-   [alphagenome_single_variant_analysis\docs\alphagenome_single_variant_analysis\docs\alphagenome_single_variant_analysis\docs\alphagenome_single_variant_analysis\docs\alphagenome_single_variant_analysis\docs\alphagenome_single_variant_analysis\docs\interpretation-guide.md](docs/interpretation-guide.md) — Interpretation
     guide, score magnitude rules, ISM, and checklist.
 -   [report-templates.md](docs/report-templates.md) — Full report templates
 -   [`scripts/visualize_variant_effects.py`](scripts/visualize_variant_effects.py)

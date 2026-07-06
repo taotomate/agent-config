@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const { runLocalAudit } = require('./local_runner');
+const { runLocalAudit } = require('local-auditor\scripts\local_runner.js');
 
 /**
  * Main entry point for local-auditor CLI execution.

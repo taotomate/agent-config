@@ -413,11 +413,11 @@ OWL también cuenta independientemente para verificar.
 
 ## References
 
-- [openrouter-models-db.md](references/openrouter-models-db.md) — esquema DB, ejemplos de registros, scripts
-- [health-check-results-20260608.md](references/health-check-results-20260608.md) — resultados del primer health check completo
-- [openrouter-free-models.md](references/openrouter-free-models.md) — lista de modelos gratuitos, IDs inválidos conocidos
-- [config-yaml-pitfalls.md](references/config-yaml-pitfalls.md) — bugs de serialización YAML y resolución de providers
-- [telegram-commands.md](references/telegram-commands.md) — referencia rápida de comandos de Telegram
+- [hermes-multi-provider-routing\references\hermes-multi-provider-routing\references\hermes-multi-provider-routing\references\openrouter-models-db.md](references/openrouter-models-db.md) — esquema DB, ejemplos de registros, scripts
+- [hermes-multi-provider-routing\references\hermes-multi-provider-routing\references\hermes-multi-provider-routing\references\health-check-results-20260608.md](references/health-check-results-20260608.md) — resultados del primer health check completo
+- [hermes-multi-provider-routing\references\hermes-multi-provider-routing\references\hermes-multi-provider-routing\references\openrouter-free-models.md](references/openrouter-free-models.md) — lista de modelos gratuitos, IDs inválidos conocidos
+- [hermes-multi-provider-routing\references\hermes-multi-provider-routing\references\hermes-multi-provider-routing\references\config-yaml-pitfalls.md](references/config-yaml-pitfalls.md) — bugs de serialización YAML y resolución de providers
+- [hermes-multi-provider-routing\references\hermes-multi-provider-routing\references\hermes-multi-provider-routing\references\telegram-commands.md](references/telegram-commands.md) — referencia rápida de comandos de Telegram
 
 
 ## Guardrails (Critical Rules)

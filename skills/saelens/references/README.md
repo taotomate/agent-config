@@ -5,7 +5,7 @@ This directory contains comprehensive reference materials for SAELens.
 ## Contents
 
 - [api.md](api.md) - Complete API reference for SAE, TrainingSAE, and configuration classes
-- [tutorials.md](tutorials.md) - Step-by-step tutorials for training and analyzing SAEs
+- [saelens\references\saelens\references\tutorials.md](tutorials.md) - Step-by-step tutorials for training and analyzing SAEs
 
 ## Quick Links
 

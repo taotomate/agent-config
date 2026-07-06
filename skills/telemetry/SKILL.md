@@ -1,8 +1,8 @@
 ---
-name: sdd-telemetry
+name: telemetry
 description: Tracks tokens, execution time, and comparative market value per turn. Trigger: end of every turn or when asking for "telemetría".
 version: "1.1"
-author: gentleman-programming
+author: TaoTomate
 license: MIT
 model_tier: fast
 ---

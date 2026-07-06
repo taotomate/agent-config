@@ -1,7 +1,7 @@
 #!/bin/bash
 # Template: Form Automation Workflow
 # Purpose: Fill and submit web forms with validation
-# Usage: ./form-automation.sh <form-url>
+# Usage: .\form-automation.sh <form-url>
 #
 # This template demonstrates the snapshot-interact-verify pattern:
 # 1. Navigate to form

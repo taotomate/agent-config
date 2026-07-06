@@ -157,7 +157,7 @@ function getPipenvVirtualenvsPath(): string {
 
 **Unix:**
 
-- `~/.pyenv/versions/` (default)
+- `build-mcp-server\references\versions.md` (default)
 - `$PYENV_ROOT/versions/` (if PYENV_ROOT set)
 
 **Windows (pyenv-win):**

@@ -57,9 +57,9 @@ for interactive sessions.
     npm path avoids that dependency entirely.
 - **Auth — SuperGrok / X Premium+ subscription (primary path):**
   - Run `grok login` once → opens a browser for OAuth → token cached in
-    `~/.grok/auth.json`. This uses your **SuperGrok or X Premium+** subscription
+    `build-mcp-server\references\auth.md`. This uses your **SuperGrok or X Premium+** subscription
     (no per-token API billing).
-  - Check sign-in state by looking for `~/.grok/auth.json`, or run a cheap
+  - Check sign-in state by looking for `build-mcp-server\references\auth.md`, or run a cheap
     headless smoke test: `grok --no-auto-update -p "Say ok."`
   - In the TUI, `/logout` signs out and `/login` (or relaunching) signs back in.
 - **No git repo required** — unlike Codex, Grok runs fine outside a git
@@ -280,11 +280,11 @@ Put global preferences in `~/.grok/config.toml` (not project-scoped
 ## Pitfalls & Gotchas
 
 1. **Auth is subscription-gated.** `grok login` requires a SuperGrok or X
-   Premium+ subscription. If login fails or there's no `~/.grok/auth.json`,
+   Premium+ subscription. If login fails or there's no `build-mcp-server\references\auth.md`,
    confirm the subscription is active before falling back to `XAI_API_KEY`.
 2. **Don't conflate Hermes' xAI auth with the `grok` CLI's auth.** Hermes'
    `x_search` runs on its own xAI OAuth; the standalone `grok` CLI has a
-   separate token in `~/.grok/auth.json`. A working `x_search` does NOT mean
+   separate token in `build-mcp-server\references\auth.md`. A working `x_search` does NOT mean
    `grok` is logged in.
 3. **Always pass `--no-auto-update` in automation** — otherwise Grok phones home
    for update checks (and `x.ai`/`storage.googleapis.com` may be unreachable).
@@ -313,7 +313,7 @@ Put global preferences in `~/.grok/config.toml` (not project-scoped
    monitor via the `process` tool.
 6. **Use tmux for multi-turn interactive work** and monitor with
    `tmux capture-pane -t <session> -p -S -50`.
-7. **Verify auth before relying on it** — check `~/.grok/auth.json` or run a
+7. **Verify auth before relying on it** — check `build-mcp-server\references\auth.md` or run a
    cheap `grok -p "Say ok."` smoke test; don't assume Hermes' xAI auth carries
    over.
 8. **Report results to the user** — summarize what Grok changed and what's left.

@@ -89,7 +89,7 @@ The first example tells Claude what to do. The second tells the user what will h
 
 **Personal commands** (available everywhere):
 
-- Location: `~/.claude/commands/`
+- Location: `core\references\commands.md`
 - Scope: Available in all projects
 - Label: Shown as "(user)" in `/help`
 - Use for: Personal workflows, cross-project utilities

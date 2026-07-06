@@ -2,7 +2,7 @@
 
 Copy-paste ready recipes for common PyMOL visualization tasks. Each recipe
 assumes the init boilerplate has already been set up (see
-[PYMOL_REFERENCE.md](PYMOL_REFERENCE.md)).
+[pymol\references\pymol\references\PYMOL_REFERENCE.md](PYMOL_REFERENCE.md)).
 
 ### Cartoon with secondary structure coloring
 
@@ -341,7 +341,7 @@ cmd.save("output/session.pse")
 ```
 
 To run any of these recipes, place the code in a Python script with the required
-header and boilerplate (see [SKILL.md](../SKILL.md)) and run it with:
+header and boilerplate (see [SKILL.md](..\SKILL.md)) and run it with:
 
 ```bash
 uv run your_script.py

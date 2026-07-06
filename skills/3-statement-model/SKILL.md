@@ -196,7 +196,7 @@ Use a scenario toggle (dropdown) in the Assumptions tab with CHOOSE or INDEX/MAT
 
 ## SEC Filings Data Extraction
 
-If the template specifically requires pulling data from SEC filings (10-K, 10-Q), see [references/sec-filings.md](references/sec-filings.md) for detailed extraction guidance. This reference is only needed when populating templates with public company data from regulatory filings.
+If the template specifically requires pulling data from SEC filings (10-K, 10-Q), see [references\sec-filings.md](references\sec-filings.md) for detailed extraction guidance. This reference is only needed when populating templates with public company data from regulatory filings.
 
 ## Completing Model Templates
 
@@ -329,7 +329,7 @@ This section consolidates all validation checks and audit procedures for complet
 
 ### Core Linkages (Must Always Hold)
 
-See [references/formulas.md](references/formulas.md) for all formula details.
+See [references\formulas.md](references\formulas.md) for all formula details.
 
 | Check | Formula | Expected Result |
 |-------|---------|-----------------|

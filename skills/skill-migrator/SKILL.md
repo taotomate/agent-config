@@ -45,7 +45,7 @@ model_tier: fast
 
 ### 4. Post-Migration Phase: Update Registry
 - **Only if NOT `--dry-run` mode** and at least one skill was successfully migrated:
-  - Invoke the `skill-registry` skill via the `skill` tool to regenerate `.atl/skill-registry.md` with the updated skills.
+  - Invoke the `skill-registry` skill via the `skill` tool to regenerate `.config/skill-registry.md` with the updated skills.
   - Show confirmation: "Registry updated: X user skills indexed."
 - If `--dry-run` mode: skip this phase and report: "[DRY-RUN] Registry not updated (simulation)."
 

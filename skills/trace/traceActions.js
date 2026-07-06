@@ -24,7 +24,7 @@ __export(traceActions_exports, {
 module.exports = __toCommonJS(traceActions_exports);
 var import_traceModel = require("../../utils/isomorphic/trace/traceModel");
 var import_locatorGenerators = require("../../utils/isomorphic/locatorGenerators");
-var import_traceUtils = require("./traceUtils");
+var import_traceUtils = require("trace\traceUtils.js");
 var import_formatUtils = require("../../utils/isomorphic/formatUtils");
 async function traceActions(options) {
   const trace = await (0, import_traceUtils.loadTrace)();

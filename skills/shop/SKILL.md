@@ -49,10 +49,10 @@ shop --help
 To upgrade: `pnpm add --global @shopify/shop-cli@latest` (or `npm install --global @shopify/shop-cli@latest`). Uninstall: `pnpm rm -g @shopify/shop-cli` (or `npm rm -g @shopify/shop-cli`).
 
 **Reference files:**
-- [catalog-mcp.md](references/catalog-mcp.md) — direct catalog MCP calls + manual token exchange
-- [direct-api.md](references/direct-api.md) — auth, checkout, and orders API details
-- [safety.md](references/safety.md) — safety, security, and prompt-injection rules
-- [legal.md](references/legal.md) — personal-use limits and prohibited commercial uses
+- [shop\references\shop\references\shop\references\shop\references\shop\references\shop\references\catalog-mcp.md](references/catalog-mcp.md) — direct catalog MCP calls + manual token exchange
+- [shop\references\shop\references\shop\references\direct-api.md](references/direct-api.md) — auth, checkout, and orders API details
+- [shop\references\shop\references\shop\references\shop\references\shop\references\shop\references\safety.md](references/safety.md) — safety, security, and prompt-injection rules
+- [shop\references\shop\references\shop\references\shop\references\shop\references\shop\references\legal.md](references/legal.md) — personal-use limits and prohibited commercial uses
 
 ## IMPORTANT: Shopping flow
 Every shopping conversation follows this order. Each step links to its rules below; each rule lives in exactly one place.

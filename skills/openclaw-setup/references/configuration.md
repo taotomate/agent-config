@@ -7,7 +7,7 @@
 - **配置文件**: `~/.openclaw/openclaw.json`
 - **工作区**: `~/.openclaw/workspace`（默认）
 - **凭证**: `~/.openclaw/credentials/`
-- **会话**: `~/.openclaw/agents/<agentId>/sessions/`
+- **会话**: `agent-customization\references\agents.md<agentId>/sessions/`
 - **状态**: `~/.openclaw/`（整个目录）
 
 ### 环境变量

@@ -1,8 +1,8 @@
 ---
-name: sdd-telemetry-backfill
+name: telemetry-backfill
 description: Performs historical token and cost auditing across all conversation threads in the brain. Identifies projects and estimates real vs shadow costs. Trigger: "backfill telemetry", "token archaeology", "audit history".
 version: "1.1"
-author: gentleman-programming
+author: TaoTomate
 license: MIT
 model_tier: fast
 ---

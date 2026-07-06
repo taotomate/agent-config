@@ -1,21 +1,19 @@
 ---
-name: conversation-distillation
-description: 'Performs high-level technical distillation (Senior Architect mode),
-  prioritizing the "What" and the "Why". Filters technical noise and back-and-forth,
-  consolidating only the final decisions and their architectural rationale. Trigger:
-  "distill thread", "technical distillation", "extract context", "create dossier".
+name: thread-dossier
+description: 'Creates technical dossiers from conversation threads — extracts architectural
+  decisions, rationale, and trade-offs. Senior Architect mode: What and Why over How.
+  Trigger: "create dossier", "thread dossier", "extract decisions", "technical summary".
   '
-version: "3.1"
+version: "4.0"
 author: TaoTomate
-generator_model: gemini-1.5-pro
-inherited_from: conversation-distillation/SKILL.md
 model_tier: high
 ---
 
 ## Context & Triggers
 **When to use this skill:**
-- When the user asks to distill, summarize, or create an architectural dossier of the current conversation.
-- Triggers: "distill thread", "technical distillation", "extract context", "create dossier".
+- When the user asks to create a technical dossier, extract architectural decisions, or summarize a conversation thread.
+- Triggers: "create dossier", "thread dossier", "extract decisions", "technical summary".
+- Do NOT use for workflow discovery (use distill agent) or memory consolidation (use dream agent).
 
 
 ## Execution Phases
@@ -55,6 +53,6 @@ python D:\Engram_SDD\Proj-Distill\distill.py --conversation-id <conversation_id>
 
 ## Troubleshooting
 
-- **`distill.py` not found**: The referenced script no longer exists in the repository. Either restore it or update the skill to use the Synapse skill or an alternative distillation method.
 - **No conversation ID available**: Ask the user explicitly for the conversation ID or session reference.
-- **Output file not generated**: Check stderr output from the script. Verify the topic name is valid and the conversation ID is correct.
+- **Output file not generated**: Verify the topic name is valid and the conversation ID is correct.
+- **Script not found**: The original `distill.py` no longer exists. Use the Synapse skill or perform inline extraction.

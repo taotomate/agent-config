@@ -71,7 +71,7 @@ Invoke through the `terminal` tool from the target repo's root, then use `read_f
 | 6 | Write per-module docs in `modules/` |
 | 7 | Write `diagrams/class-diagram.md` (Mermaid classDiagram) |
 | 8 | Write `diagrams/sequences.md` (Mermaid sequenceDiagram, 2–4 workflows) |
-| 9 | Write `getting-started.md` |
+| 9 | Write `code-wiki\templates\code-wiki\templates\code-wiki\templates\getting-started.md` |
 | 10 | Write `api.md` if applicable, else skip |
 | 11 | Write `.codewiki-state.json` |
 | 12 | Report paths to user |

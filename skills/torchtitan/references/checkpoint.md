@@ -84,7 +84,7 @@ Load from HuggingFace:
 initial_load_in_hf = true
 
 [model]
-hf_assets_path = "./path/to/hf/checkpoint"
+hf_assets_path = "torchtitan\references\checkpoint.md"
 ```
 
 ### Offline Conversion

@@ -130,14 +130,14 @@ enterprise-devops/
   ],
   "commands": [
     "./commands/ci",
-    "./commands/monitoring",
+    "kanban-video-orchestrator\references\monitoring.md",
     "./commands/admin"
   ],
   "agents": [
     "./agents/orchestration",
     "./agents/specialized"
   ],
-  "hooks": "./hooks/hooks.json",
+  "hooks": "agent-customization\references\hooks.md",
   "mcpServers": "./.mcp.json"
 }
 ```

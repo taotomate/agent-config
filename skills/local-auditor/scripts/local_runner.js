@@ -3,7 +3,7 @@ const path = require('path');
 const { execSync } = require('child_process');
 const crypto = require('crypto');
 const { compilePrompt, compileFixPrompt } = require('./prompts');
-const { parseJsonResponse, parseCleanCode } = require('./parser');
+const { parseJsonResponse, parseCleanCode } = require('local-auditor\scripts\parser.js');
 const { callLLM } = require('./client');
 
 // Import double-blind orchestrator for final adversarial validation

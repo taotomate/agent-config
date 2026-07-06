@@ -243,8 +243,8 @@ If no matches → empty output (exit code 0).
 
 9. **User skills vs repo skills.** Hermes loads skills from multiple directories:
    - **Repo skills**: `<HERMES_HOME>/skills/` and `<HERMES_HOME>/hermes-agent/skills/` — bundled with Hermes, overwritten on update
-   - **User skills**: `~/.hermes/skills/` — personal/custom skills, safe from updates
-   - **External skill repos**: some users keep skills in git repos like `~/TaoTomate.Dots/agent-config/skills/` (not auto-loaded by Hermes)
+   - **User skills**: `agent-customization\references\skills.md` — personal/custom skills, safe from updates
+   - **External skill repos**: some users keep skills in git repos like `agent-customization\references\skills.md` (not auto-loaded by Hermes)
    When `skill_manage` says "not found", the skill may be a user skill in a non-standard location. Use `search_files` or direct file reads to locate it.
 
 10. **User's skill library pattern.** This user keeps a separate skill repo (`TaoTomate.Dots`) with SDD workflow skills. To apply operations to ALL installed skills across all locations, enumerate directories from all three sources:
@@ -252,7 +252,7 @@ If no matches → empty output (exit code 0).
     sources = [
         "<HERMES_HOME>/skills",
         "<HERMES_HOME>/hermes-agent/skills",
-        "~/.hermes/skills",
+        "agent-customization\references\skills.md",
     ]
     ```
     Deduplicate by skill name, prioritizing user skills over repo skills when names collide.

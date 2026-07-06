@@ -73,7 +73,7 @@ workflow-commands/     # Workflow automation
 ```json
 {
   "commands": [
-    "./commands",
+    "core\references\commands.md",
     "./admin-commands",
     "./workflow-commands"
   ]
@@ -113,7 +113,7 @@ commands/
 ```json
 {
   "commands": [
-    "./commands/ci",
+    "core\references\commands.md/ci",
     "./commands/deployment",
     "./commands/management"
   ]
@@ -522,9 +522,9 @@ plugin/
 ```json
 {
   "commands": [
-    "./core/commands",
-    "./extensions/extension-a/commands",
-    "./extensions/extension-b/commands"
+    "core\references\commands.md",
+    "core\references\commands.md",
+    "core\references\commands.md"
   ]
 }
 ```

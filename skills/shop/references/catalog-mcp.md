@@ -14,7 +14,7 @@ User-Agent: shop-cli/0.1.0
 
 The `shop` CLI does this automatically: when the buyer is signed in (`shop auth status`), it mints a catalog token and authenticates every catalog call; otherwise it searches unauthenticated. Only do the steps below by hand when the CLI cannot be installed.
 
-Signing in is **not required** — unauthenticated calls (profile only, no `Authorization`) still work. When you have an `access_token` (see device authorization in [direct-api.md](direct-api.md)), exchange it for a catalog token and send that as `Authorization: Bearer` on the MCP calls below:
+Signing in is **not required** — unauthenticated calls (profile only, no `Authorization`) still work. When you have an `access_token` (see device authorization in [shop\references\shop\references\direct-api.md](direct-api.md)), exchange it for a catalog token and send that as `Authorization: Bearer` on the MCP calls below:
 
 ```text
 POST https://shop.app/oauth/token

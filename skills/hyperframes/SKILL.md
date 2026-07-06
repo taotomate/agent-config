@@ -71,12 +71,12 @@ npx hyperframes doctor                      # diagnose environment issues
 
 Render flags: `--quality draft|standard|high` · `--fps 24|30|60` · `--format mp4|webm` · `--docker` (reproducible) · `--strict`.
 
-Full CLI reference: [references/cli.md](references/cli.md).
+Full CLI reference: [references\cli.md](references\cli.md).
 
 ## Setup (one-time)
 
 ```bash
-bash "$(dirname "$(find ~/.hermes/skills -path '*/hyperframes/SKILL.md' 2>/dev/null | head -1)")/scripts/setup.sh"
+bash "$(dirname "$(find agent-customization\references\skills.md -path '*/hyperframes/SKILL.md' 2>/dev/null | head -1)")/scripts/setup.sh"
 ```
 
 The script:
@@ -85,7 +85,7 @@ The script:
 3. Pre-caches `chrome-headless-shell` via Puppeteer — **required** for best-quality rendering via Chrome's `HeadlessExperimental.beginFrame` capture path.
 4. Runs `npx hyperframes doctor` and reports the result.
 
-See [references/troubleshooting.md](references/troubleshooting.md) if setup fails.
+See [references\troubleshooting.md](references\troubleshooting.md) if setup fails.
 
 ## Procedure
 
@@ -122,7 +122,7 @@ Write the static HTML+CSS for the **hero frame first** — no GSAP yet. The `.sc
 
 Only after the hero frame looks right, add `gsap.from()` entrances (animate **to** the CSS position) and `gsap.to()` exits (animate **from** it).
 
-See [references/composition.md](references/composition.md) for the full data-attribute schema and composition rules.
+See [references\composition.md](references\composition.md) for the full data-attribute schema and composition rules.
 
 ### 4. Animate with GSAP
 
@@ -133,7 +133,7 @@ Every composition must:
 - Be deterministic — no `Math.random()`, `Date.now()`, or wall-clock logic. Use a seeded PRNG if you need pseudo-randomness.
 - Build synchronously — no `async`/`await`, `setTimeout`, or Promises around timeline construction.
 
-See [references/gsap.md](references/gsap.md) for the core GSAP API (tweens, eases, stagger, timelines).
+See [references\hyperframes\references\hyperframes\references\hyperframes\references\gsap.md](references\gsap.md) for the core GSAP API (tweens, eases, stagger, timelines).
 
 ### 5. Transitions between scenes
 
@@ -149,7 +149,7 @@ Use `npx hyperframes add <transition-name>` to install shader transitions (`flas
 
 - **Audio:** always a separate `<audio>` element (video is `muted playsinline`).
 - **TTS:** `npx hyperframes tts "Script text" --voice af_nova --output narration.wav`. List voices with `--list`. Voice ID first letter encodes language (`a`/`b`=English, `e`=Spanish, `f`=French, `j`=Japanese, `z`=Mandarin, etc.) — the CLI auto-infers the phonemizer locale; pass `--lang` only to override. Non-English phonemization requires `espeak-ng` installed system-wide.
-- **Captions:** `npx hyperframes transcribe narration.wav` → word-level transcript. Pick style from the transcript tone (hype / corporate / tutorial / storytelling / social — see the table in `references/features.md`). **Language rule:** never use `.en` whisper models unless the audio is confirmed English — `.en` translates non-English audio instead of transcribing it. Every caption group MUST have a hard `tl.set(el, { opacity: 0, visibility: "hidden" }, group.end)` kill after its exit tween — otherwise groups leak visible into later ones.
+- **Captions:** `npx hyperframes transcribe narration.wav` → word-level transcript. Pick style from the transcript tone (hype / corporate / tutorial / storytelling / social — see the table in `references/hyperframes\references\hyperframes\references\hyperframes\references\features.md`). **Language rule:** never use `.en` whisper models unless the audio is confirmed English — `.en` translates non-English audio instead of transcribing it. Every caption group MUST have a hard `tl.set(el, { opacity: 0, visibility: "hidden" }, group.end)` kill after its exit tween — otherwise groups leak visible into later ones.
 - **Audio-reactive visuals:** pre-extract audio bands (bass / mid / treble) and sample per-frame inside the timeline with a `for` loop of `tl.call(draw, [], f / fps)` — a single long tween does NOT react to audio. Map bass → `scale` (pulse), treble → `textShadow`/`boxShadow` (glow), overall amplitude → `opacity`/`y`/`backgroundColor`. Avoid equalizer-bar clichés — let content guide the visual, audio drive its behavior.
 - **Marker-style highlighting:** highlight, circle, burst, scribble, sketchout effects for text emphasis are deterministic CSS+GSAP — see `references/features.md#marker-highlighting`. Fully seekable, no animated SVG filters.
 - **Scene transitions:** every multi-scene composition MUST use transitions (no jump cuts). Pick from CSS primitives (push slide, blur crossfade, zoom through, staggered blocks) or shader transitions (`flash-through-white`, `liquid-wipe`, `cross-warp-morph`, `chromatic-split`, etc.) via `npx hyperframes add`. Mood and energy tables live in `references/features.md#transitions`. Do not mix CSS and shader transitions in the same composition.
@@ -169,11 +169,11 @@ npx hyperframes render --quality high --output final.mp4     # final delivery
 
 ### 8. Website-to-video (if the user gives a URL)
 
-Use the 7-step capture-to-video workflow in [references/website-to-video.md](references/website-to-video.md): capture → DESIGN.md → SCRIPT.md → storyboard → composition → render → deliver.
+Use the 7-step capture-to-video workflow in [references\hyperframes\references\hyperframes\references\hyperframes\references\website-to-video.md](references\website-to-video.md): capture → DESIGN.md → SCRIPT.md → storyboard → composition → render → deliver.
 
 ## Pitfalls
 
-- **`HeadlessExperimental.beginFrame' wasn't found`** — Chromium 147+ removed this protocol. Ensure you're on `hyperframes@>=0.4.2` (auto-detects and falls back to screenshot mode). Escape hatch: `export PRODUCER_FORCE_SCREENSHOT=true`. See [hyperframes#294](https://github.com/heygen-com/hyperframes/issues/294) and [references/troubleshooting.md](references/troubleshooting.md).
+- **`HeadlessExperimental.beginFrame' wasn't found`** — Chromium 147+ removed this protocol. Ensure you're on `hyperframes@>=0.4.2` (auto-detects and falls back to screenshot mode). Escape hatch: `export PRODUCER_FORCE_SCREENSHOT=true`. See [hyperframes#294](https://github.com/heygen-com/hyperframes/issues/294) and [references\troubleshooting.md](references\troubleshooting.md).
 - **System Chrome (not `chrome-headless-shell`)** — renders hang for 120s then timeout. Run `npx puppeteer browsers install chrome-headless-shell` (setup.sh does this). `hyperframes doctor` reports which binary will be used.
 - **`repeat: -1` anywhere** — breaks the capture engine. Always compute a finite repeat count.
 - **`gsap.set()` on clip elements that enter later** — the element doesn't exist at page load. Use `tl.set(selector, vars, timePosition)` inside the timeline instead, at or after the clip's `data-start`.
@@ -204,12 +204,12 @@ If `hyperframes render` fails, run `npx hyperframes doctor` and attach its outpu
 
 ## References
 
-- [composition.md](references/composition.md) — data attributes, timeline contract, non-negotiable rules, typography/asset rules
-- [cli.md](references/cli.md) — every CLI command (init, capture, lint, validate, inspect, preview, render, transcribe, tts, doctor, browser, info, upgrade, benchmark)
-- [gsap.md](references/gsap.md) — GSAP core API for HyperFrames (tweens, eases, stagger, timelines, matchMedia)
+- [composition.md](references\composition.md) — data attributes, timeline contract, non-negotiable rules, typography/asset rules
+- [cli.md](references\cli.md) — every CLI command (init, capture, lint, validate, inspect, preview, render, transcribe, tts, doctor, browser, info, upgrade, benchmark)
+- [gsap.md](references\gsap.md) — GSAP core API for HyperFrames (tweens, eases, stagger, timelines, matchMedia)
 - [features.md](references/features.md) — captions, TTS, audio-reactive, marker highlighting, transitions (load on demand)
-- [website-to-video.md](references/website-to-video.md) — 7-step capture-to-video workflow
-- [troubleshooting.md](references/troubleshooting.md) — OpenClaw fix, env vars, common render errors
+- [website-to-video.md](references\website-to-video.md) — 7-step capture-to-video workflow
+- [troubleshooting.md](references\troubleshooting.md) — OpenClaw fix, env vars, common render errors
 
 
 ## Guardrails (Critical Rules)

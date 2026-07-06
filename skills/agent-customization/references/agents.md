@@ -119,7 +119,7 @@ You are a specialist at {specific task}. Your job is to {clear purpose}.
 
 ## Inline Hooks
 
-Custom agents support inline `hooks` in frontmatter. These hooks execute shell commands at agent lifecycle points and are scoped to this agent only. The format matches standalone hook files (see [hooks reference](../hooks.md)).
+Custom agents support inline `hooks` in frontmatter. These hooks execute shell commands at agent lifecycle points and are scoped to this agent only. The format matches standalone hook files (see [hooks reference](agent-customization\references\hooks.md)).
 
 ### Supported Events
 

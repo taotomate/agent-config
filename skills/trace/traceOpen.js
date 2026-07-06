@@ -21,7 +21,7 @@ __export(traceOpen_exports, {
   traceOpen: () => traceOpen
 });
 module.exports = __toCommonJS(traceOpen_exports);
-var import_traceUtils = require("./traceUtils");
+var import_traceUtils = require("trace\traceUtils.js");
 var import_formatUtils = require("../../utils/isomorphic/formatUtils");
 async function traceOpen(traceFile) {
   await (0, import_traceUtils.openTrace)(traceFile);

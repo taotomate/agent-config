@@ -1,6 +1,6 @@
 #!/bin/bash
-# Usage: ./searxng.sh <query> [max_results] [engines]
-# Example: ./searxng.sh "python async" 10 "google,bing"
+# Usage: .\searxng.sh <query> [max_results] [engines]
+# Example: .\searxng.sh "python async" 10 "google,bing"
 
 QUERY="${1:-}"
 MAX="${2:-5}"

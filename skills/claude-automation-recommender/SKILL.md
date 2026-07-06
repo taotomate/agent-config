@@ -89,7 +89,7 @@ Based on analysis, generate recommendations across all categories:
 
 #### A. MCP Server Recommendations
 
-See [references/mcp-servers.md](references/mcp-servers.md) for detailed patterns.
+See [references\mcp-servers.md](references\mcp-servers.md) for detailed patterns.
 
 | Codebase Signal | Recommended MCP Server |
 |-----------------|------------------------|
@@ -108,7 +108,7 @@ See [references/mcp-servers.md](references/mcp-servers.md) for detailed patterns
 
 #### B. Skills Recommendations
 
-See [references/skills-reference.md](references/skills-reference.md) for details.
+See [references\skills-reference.md](references\skills-reference.md) for details.
 
 Create skills in `.claude/skills/<name>/SKILL.md`. Some are also available via plugins:
 
@@ -135,7 +135,7 @@ Create skills in `.claude/skills/<name>/SKILL.md`. Some are also available via p
 
 #### C. Hooks Recommendations
 
-See [references/hooks-patterns.md](references/hooks-patterns.md) for configurations.
+See [references\hooks-patterns.md](references\hooks-patterns.md) for configurations.
 
 | Codebase Signal | Recommended Hook |
 |-----------------|------------------|
@@ -149,7 +149,7 @@ See [references/hooks-patterns.md](references/hooks-patterns.md) for configurati
 
 #### D. Subagent Recommendations
 
-See [references/subagent-templates.md](references/subagent-templates.md) for templates.
+See [references\subagent-templates.md](references\subagent-templates.md) for templates.
 
 | Codebase Signal | Recommended Subagent |
 |-----------------|---------------------|
@@ -162,7 +162,7 @@ See [references/subagent-templates.md](references/subagent-templates.md) for tem
 
 #### E. Plugin Recommendations
 
-See [references/plugins-reference.md](references/plugins-reference.md) for available plugins.
+See [references\plugins-reference.md](references\plugins-reference.md) for available plugins.
 
 | Codebase Signal | Recommended Plugin |
 |-----------------|-------------------|

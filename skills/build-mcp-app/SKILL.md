@@ -77,7 +77,7 @@ Before building a widget, check if **elicitation** covers it. Elicitation is spe
 | Chart / map / diff view | ❌ | ✅ |
 | Live-updating progress | ❌ | ✅ |
 
-If elicitation covers it, use it. See `../build-mcp-server/references/elicitation.md`.
+If elicitation covers it, use it. See `..\build-mcp-server\references\elicitation.md`.
 
 ---
 

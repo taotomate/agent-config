@@ -42,7 +42,7 @@ var import_path = __toESM(require("path"));
 var import_traceModel = require("../../utils/isomorphic/trace/traceModel");
 var import_traceLoader = require("../../utils/isomorphic/trace/traceLoader");
 var import_protocolFormatter = require("../../utils/isomorphic/protocolFormatter");
-var import_traceParser = require("./traceParser");
+var import_traceParser = require("trace\traceParser.js");
 const traceDir = import_path.default.join(".playwright-cli", "trace");
 const cliOutputDir = ".playwright-cli";
 class LoadedTrace {

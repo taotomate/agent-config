@@ -296,7 +296,7 @@ A step-by-step workflow for interpreting gene set enrichment results:
 ## Reference
 
 For detailed API endpoint documentation, see
-[references/api_reference.md](references/api_reference.md).
+[references\api_reference.md](references\api_reference.md).
 
 
 ## Guardrails (Critical Rules)

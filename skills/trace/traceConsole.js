@@ -21,7 +21,7 @@ __export(traceConsole_exports, {
   traceConsole: () => traceConsole
 });
 module.exports = __toCommonJS(traceConsole_exports);
-var import_traceUtils = require("./traceUtils");
+var import_traceUtils = require("trace\traceUtils.js");
 async function traceConsole(options) {
   const trace = await (0, import_traceUtils.loadTrace)();
   const model = trace.model;

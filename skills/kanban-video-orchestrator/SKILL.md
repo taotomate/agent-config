@@ -85,7 +85,7 @@ time, listen, then proceed. Make reasonable assumptions whenever the user
 implies an answer.
 
 For complete intake patterns and per-style question banks, see
-**[references/intake.md](references/intake.md)**.
+**[references\intake.md](references\intake.md)**.
 
 ### Step 2 — Brief
 
@@ -109,10 +109,10 @@ clone.** Most videos need 4-7 profiles. The director is always present; the
 rest are picked by what the brief actually requires.
 
 For the role library and per-style team compositions, see
-**[references/role-archetypes.md](references/role-archetypes.md)**.
+**[references\role-archetypes.md](references\role-archetypes.md)**.
 
 For mapping role → which Hermes skills + toolsets it loads, see
-**[references/tool-matrix.md](references/tool-matrix.md)**.
+**[references\tool-matrix.md](references\tool-matrix.md)**.
 
 ### Step 4 — Setup
 
@@ -127,7 +127,7 @@ Generate a setup script (`setup.sh`) and run it. The script:
 7. Fires the initial `hermes kanban create` task assigned to the director
 
 Use `scripts/bootstrap_pipeline.py` to generate setup.sh from a brief +
-team-design JSON. See **[references/kanban-setup.md](references/kanban-setup.md)**
+team-design JSON. See **[references\kanban-setup.md](references\kanban-setup.md)**
 for the setup script structure, profile config patterns, and the critical
 "shared workspace" rule.
 
@@ -158,14 +158,14 @@ heartbeats. When a worker's output fails review, the standard interventions are:
 3. Adjust the brief's scope and let the director re-decompose
 
 For diagnostic patterns, intervention recipes, and the "task is stuck"
-playbook, see **[references/monitoring.md](references/monitoring.md)**.
+playbook, see **[references\monitoring.md](references\monitoring.md)**.
 
 ## Reference: worked examples
 
 Six concrete pipelines covering very different video styles — narrative film,
 product/marketing, music video, math/algorithm explainer, ASCII video, real-time
 installation — showing how the same workflow yields very different teams and
-task graphs. See **[references/examples.md](references/examples.md)**.
+task graphs. See **[references\examples.md](references\examples.md)**.
 
 ## Critical rules
 
@@ -176,7 +176,7 @@ task graphs. See **[references/examples.md](references/examples.md)**.
 2. **Match the team to the video.** Don't reuse the same 4-profile setup for
    every job. A music video that doesn't have a beat-analysis profile will
    misfire. A narrative film that doesn't have a writer profile will produce
-   incoherent scenes. See `references/role-archetypes.md`.
+   incoherent scenes. See `references\role-archetypes.md`.
 
 3. **One workspace per project.** All profiles for a given video share the same
    `dir:` workspace. Tasks pass artifacts via shared filesystem and structured

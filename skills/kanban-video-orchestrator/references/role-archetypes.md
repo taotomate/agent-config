@@ -8,7 +8,7 @@ Each role's profile name is by convention `kebab-case` (e.g. `creative-director`
 `image-generator`). Multiple instances of the same role get descriptive suffixes
 when they need different focus (e.g., `renderer-ascii`, `renderer-3d`).
 
-For toolset + skill mapping per role, see [tool-matrix.md](tool-matrix.md).
+For toolset + skill mapping per role, see [kanban-video-orchestrator\references\kanban-video-orchestrator\references\tool-matrix.md](tool-matrix.md).
 
 ## Always present
 

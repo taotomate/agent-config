@@ -53,7 +53,7 @@ Trigger this skill when the user asks to illustrate an article, add images to an
 
 Combine freely: `type=infographic, style=vector-illustration, palette=macaron`.
 
-Or use presets: `edu-visual` → type + style + palette in one shot. See [style-presets.md](references/style-presets.md).
+Or use presets: `edu-visual` → type + style + palette in one shot. See [baoyu-article-illustrator\references\baoyu-article-illustrator\references\baoyu-article-illustrator\references\style-presets.md](references\style-presets.md).
 
 ## Types
 
@@ -68,7 +68,7 @@ Or use presets: `edu-visual` → type + style + palette in one shot. See [style-
 
 ## Styles
 
-See [references/styles.md](references/styles.md) for Core Styles, the full gallery, and Type × Style compatibility.
+See [references\styles.md](references\styles.md) for Core Styles, the full gallery, and Type × Style compatibility.
 
 ## Output Structure
 
@@ -119,7 +119,7 @@ If the user supplies reference images (paths pasted inline, attachments, or a UR
 2. **Do not** try to copy the binary via `write_file` / `read_file` — those are text-only. If you want a local copy for the record, use `terminal` (`cp "$src" "{output-dir}/references/NN-ref-{slug}.{ext}"`). The skill itself never needs to read the binary; it works off the vision description.
 3. Since `image_generate` doesn't take image inputs, the vision description is what gets embedded in prompts during Step 5.
 
-Full procedures: [references/workflow.md](references/workflow.md#step-1-detect-reference-images).
+Full procedures: [references\workflow.md](references\workflow.md#step-1-detect-reference-images).
 
 ### Step 2: Analyze
 
@@ -132,7 +132,7 @@ Full procedures: [references/workflow.md](references/workflow.md#step-1-detect-r
 
 Read source (file path → `read_file`, or pasted text) and write the analysis to `{output-dir}/analysis.md` using `write_file`.
 
-Full procedures: [references/workflow.md](references/workflow.md#step-2-analyze).
+Full procedures: [references\workflow.md](references\workflow.md#step-2-analyze).
 
 ### Step 3: Confirm Settings
 
@@ -148,7 +148,7 @@ Use the `clarify` tool. Since `clarify` handles one question at a time, ask the 
 
 Don't ask more than 2-3 `clarify` questions in a row. If the user already specified these in their request, skip entirely.
 
-Full procedures: [references/workflow.md](references/workflow.md#step-3-confirm-settings).
+Full procedures: [references\workflow.md](references\workflow.md#step-3-confirm-settings).
 
 ### Step 4: Generate Outline → `outline.md`
 
@@ -162,7 +162,7 @@ Save `{output-dir}/outline.md` using `write_file` with frontmatter (type, densit
 **Filename**: 01-infographic-concept-name.png
 ```
 
-Full template: [references/workflow.md](references/workflow.md#step-4-generate-outline).
+Full template: [references\workflow.md](references\workflow.md#step-4-generate-outline).
 
 ### Step 5: Generate Prompts
 
@@ -170,7 +170,7 @@ Full template: [references/workflow.md](references/workflow.md#step-4-generate-o
 
 For each illustration:
 
-1. Create a prompt file per [references/prompt-construction.md](references/prompt-construction.md).
+1. Create a prompt file per [references\prompt-construction.md](references\prompt-construction.md).
 2. Save to `{output-dir}/prompts/NN-{type}-{slug}.md` using `write_file` with YAML frontmatter.
 3. Prompts MUST use type-specific templates with structured sections (ZONES / LABELS / COLORS / STYLE / ASPECT).
 4. LABELS MUST include article-specific data: actual numbers, terms, metrics, quotes.
@@ -211,11 +211,11 @@ Images: X/N generated
 
 | File | Content |
 |------|---------|
-| [references/workflow.md](references/workflow.md) | Detailed procedures |
-| [references/usage.md](references/usage.md) | Invocation examples |
-| [references/styles.md](references/styles.md) | Style gallery + Palette gallery |
-| [references/style-presets.md](references/style-presets.md) | Preset shortcuts (type + style + palette) |
-| [references/prompt-construction.md](references/prompt-construction.md) | Prompt templates |
+| [references\workflow.md](references\workflow.md) | Detailed procedures |
+| [references\usage.md](references\usage.md) | Invocation examples |
+| [references\styles.md](references\styles.md) | Style gallery + Palette gallery |
+| [references\style-presets.md](references\style-presets.md) | Preset shortcuts (type + style + palette) |
+| [references\prompt-construction.md](references\prompt-construction.md) | Prompt templates |
 
 ## Pitfalls
 

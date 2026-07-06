@@ -23,7 +23,7 @@ const client = require('../scripts/client');
 client.callLLM = (...args) => mockCallLLM(...args);
 
 // Now require local_runner, which will destructure the delegator functions
-const { runLocalAudit, ConvergenceError } = require('../scripts/local_runner');
+const { runLocalAudit, ConvergenceError } = require('local-auditor\scripts\local_runner.js');
 
 describe('Local Auditor Runner', () => {
   const scratchDir = 'd:/Engram_SDD/scratch';

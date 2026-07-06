@@ -69,7 +69,7 @@ Try in the following order until successful:
 - **Method 2**: Search upward for project root (up to 5 levels):
 
   ```bash
-  for dir in . .. ../.. ../../.. ../../../.. ../../../../..; do
+  for dir in . .. ..\.. ..\..\.. ..\..\..\.. ..\..\..\..\..; do
     if [ -f "$dir/skills/story-roleplay/scripts/parse-character-card.js" ]; then
       cp "$dir/skills/story-roleplay/scripts/parse-character-card.js" .
       cp "$dir/skills/story-roleplay/scripts/package.json" .

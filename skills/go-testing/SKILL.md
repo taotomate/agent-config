@@ -34,9 +34,9 @@ model_tier: fast
 
 ### 3. Verification Phase
 - Run testing commands in the terminal to validate the written code:
-  - `go test ./...` for global validation.
+  - `go test .\...` for global validation.
   - `go test -v ./path/...` for detailed debugging if a specific test fails.
-  - `go test -update ./...` if a Golden File was intentionally introduced or modified.
+  - `go test -update .\...` if a Golden File was intentionally introduced or modified.
 
 ## Guardrails (Critical Rules)
 - **DO NOT** modify the underlying business logic to make a failing test pass, unless the human explicitly asks you to or there is a clear documented bug.
@@ -141,14 +141,14 @@ internal/tui/
 
 ### Execution Commands
 ```bash
-go test ./...                           # Run all tests
+go test .\...                           # Run all tests
 go test -v ./internal/tui/...          # Verbose TUI tests
 go test -run TestNavigation             # Run specific test
-go test -cover ./...                    # With coverage
-go test -update ./...                   # Update golden files
+go test -cover .\...                    # With coverage
+go test -update .\...                   # Update golden files
 ```
 
 ## Troubleshooting
-- *If Data Race occurs:* The `go test` command will fail or be inconsistently random. Run `go test -race ./...` to locate the goroutine collision.
-- *If Golden Files fail (mismatch):* Verify the detected visual change was intentional in the code. If it was, regenerate by running `go test -update ./...`.
+- *If Data Race occurs:* The `go test` command will fail or be inconsistently random. Run `go test -race .\...` to locate the goroutine collision.
+- *If Golden Files fail (mismatch):* Verify the detected visual change was intentional in the code. If it was, regenerate by running `go test -update .\...`.
 - *If `teatest` hangs (timeout):* Verify the correct `tea.KeyMsg` is being sent to interrupt the internal loop, or ensure using `tm.WaitFinished(t, teatest.WithDuration(time.Second))`.

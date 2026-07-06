@@ -31,9 +31,9 @@ python -c "import json; d=json.load(open('hermes-data/auth.json')); [print(f'{p}
 If a provider shows `status=exhausted` with `last_error_code=429`, the daily free tier limit was hit. The key itself is still valid — it will reset at `last_error_reset_at`.
 
 ### 5. Skills backup
-Skills are preserved in `~/.hermes/skills/` across reinstalls. A backup exists at:
+Skills are preserved in `agent-customization\references\skills.md` across reinstalls. A backup exists at:
 ```
-~/.hermes/skills.bak_<timestamp>/
+agent-customization\references\skills.md<timestamp>/
 ```
 Newer installs may have additional skills not in the backup — this is expected.
 

@@ -20,7 +20,7 @@ model_tier: fast
 
 
 ### 1. Diagnosis Phase
-- Recursively scan for `SKILL.md` files in global locations (e.g. `~/.gemini/skills/`, `~/.claude/skills/`, `~/.config/opencode/skills/`) and local project locations (e.g. `{project-root}/.service/skills/`).
+- Recursively scan for `SKILL.md` files in global locations (e.g. `agent-customization\references\skills.md`, `agent-customization\references\skills.md`, `agent-customization\references\skills.md`) and local project locations (e.g. `{project-root}/.service/skills/`).
 - Scan the project root for convention files (e.g. `CONSTITUTION.md`, `CLAUDE.md`, `.cursorrules`).
 - If a conventions index file (`CONSTITUTION.md`) is found, read it to extract all referenced file paths.
 
@@ -74,7 +74,7 @@ The generated file should look like this:
 ## User Skills
 | Trigger | Skill | Path |
 |---------|-------|------|
-| "create PR" | branch-pr | ~/.gemini/skills/branch-pr/SKILL.md |
+| "create PR" | branch-pr | agent-customization\references\skills.mdbranch-pr/SKILL.md |
 
 ## Compact Rules
 

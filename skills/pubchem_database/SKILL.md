@@ -176,10 +176,10 @@ specific ions):
 ## Complex Queries and Multi-Step Tasks
 
 *   **Custom/Complex Queries**: For more details, read
-    [references/endpoints.md](references/endpoints.md) to construct raw PUG-REST
+    [references\endpoints.md](references\endpoints.md) to construct raw PUG-REST
     URLs.
 *   **Multi-Step Tasks**: For complex tasks like drug discovery pipelines,
-    follow the checklists in [references/workflows.md](references/workflows.md).
+    follow the checklists in [references\workflows.md](references\workflows.md).
 
 
 ## Guardrails (Critical Rules)

@@ -63,7 +63,7 @@ class MyAPIClient:
     """Makes an HTTP GET request with rate limiting and retry logic.
 
     Args:
-      path: URL path relative to BASE_URL (e.g., '/search').
+      path: URL path relative to BASE_URL (e.g., 'foldseek_structural_search\scripts\search.py').
       params: Optional dict of query parameters.
       retries: Number of retry attempts for transient server errors.
 
@@ -133,7 +133,7 @@ class MyAPIClient:
 
   def search(self, query, limit=100):
     """Example search method. Replace with your API's search endpoint."""
-    return self._request('/search', params={'q': query, 'limit': limit})
+    return self._request('foldseek_structural_search\scripts\search.py', params={'q': query, 'limit': limit})
 
   def get_details(self, item_id):
     """Example detail method. Replace with your API's detail endpoint."""

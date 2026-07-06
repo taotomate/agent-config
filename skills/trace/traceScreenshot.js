@@ -21,7 +21,7 @@ __export(traceScreenshot_exports, {
   traceScreenshot: () => traceScreenshot
 });
 module.exports = __toCommonJS(traceScreenshot_exports);
-var import_traceUtils = require("./traceUtils");
+var import_traceUtils = require("trace\traceUtils.js");
 async function traceScreenshot(actionId, options) {
   const trace = await (0, import_traceUtils.loadTrace)();
   const action = trace.resolveActionId(actionId);

@@ -124,7 +124,7 @@ For each skill, verify:
 
 3. **HTTP API result limits.** Everything returns ~32-100 results per query. Always paginate with `offset`.
 
-4. **User skills vs repo skills.** Hermes loads from multiple directories. `~/.hermes/skills/` is safe from updates; `<HERMES_HOME>/skills/` gets overwritten on `hermes update`.
+4. **User skills vs repo skills.** Hermes loads from multiple directories. `agent-customization\references\skills.md` is safe from updates; `<HERMES_HOME>/skills/` gets overwritten on `hermes update`.
 
 5. **When `skill_manage` says "not found", the skill may be in a non-standard location.** Use Everything or `search_files` to locate it.
 

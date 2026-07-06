@@ -410,7 +410,7 @@ For each changed file, use `read_file` to see full context around the changes â€
 ```bash
 # Run tests if there's a test suite
 python -m pytest 2>&1 | tail -20
-# or: npm test, cargo test, go test ./..., etc.
+# or: npm test, cargo test, go test .\..., etc.
 
 # Run linter if configured
 ruff check . 2>&1 | head -30

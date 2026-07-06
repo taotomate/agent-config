@@ -1,7 +1,7 @@
 # Skill Optimizer Batch Workflow — 2026-06
 
 ## Context
-Applied skill-optimizer v2.0.2 to 32 skills in `D:\todas-las-skills-llm\skills\` (TaoTomate + SDD skills).
+Applied skill-optimizer v2.0.2 to 32 skills in `agent-customization\references\skills.md` (TaoTomate + SDD skills).
 
 ## Workflow
 

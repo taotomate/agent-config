@@ -83,7 +83,7 @@ lazy pagination.
 Examples:
 
 ```bash
-uv run ./scripts/interpro_client.py fetch protein --source_db reviewed --limit 2 --query_params tax_id=9606 --output exploratory_results.jsonl
+uv run .\scripts\interpro_client.py fetch protein --source_db reviewed --limit 2 --query_params tax_id=9606 --output exploratory_results.jsonl
 ```
 
 ```python
@@ -107,17 +107,17 @@ for match in itertools.islice(results, 10):
 The arguments strictly map to the four common API path constructions. **Do not
 format your own `/` separated strings:**
 
-1.  **`/{endpoint}`** (e.g. `/entry`) `uv run ./scripts/interpro_client.py fetch
+1.  **`/{endpoint}`** (e.g. `/entry`) `uv run .\scripts\interpro_client.py fetch
     entry --limit 10 --output entries.jsonl`
 2.  **`/{endpoint}/{sourceDB}`** (e.g. `/entry/pfam`) `uv run
-    ./scripts/interpro_client.py fetch entry --source_db pfam --limit 10
+    .\scripts\interpro_client.py fetch entry --source_db pfam --limit 10
     --output pfam_entries.jsonl`
 3.  **`/{endpoint}/{sourceDB}/{accession}`** (e.g. `/entry/pfam/PF00001`) `uv
-    run ./scripts/interpro_client.py fetch entry --source_db pfam --accession
+    run .\scripts\interpro_client.py fetch entry --source_db pfam --accession
     PF00001 --limit 10 --output pf00001_entry.jsonl`
 4.  **`/{endpoint}/{sourceDB}/{linked_endpoint}/{sourceDB}/{accession}`** (e.g.
     `/entry/interpro/protein/uniprot/P04637`) `uv run
-    ./scripts/interpro_client.py fetch entry \ --source_db interpro \
+    .\scripts\interpro_client.py fetch entry \ --source_db interpro \
     --linked_endpoint protein \ --linked_source_db uniprot \ --linked_accession
     P04637 \ --limit 10 --output p04637_entries.jsonl`
 
@@ -158,7 +158,7 @@ query parameters available for each endpoint:
         coordinates).
     *   `group_by` / `sort_by`: Aggregate or sort results *(valid values depend
         on context, see [Full API Reference](references/api_reference.md))*.
-    *   *Example*: `uv run ./scripts/interpro_client.py count entry --source_db
+    *   *Example*: `uv run .\scripts\interpro_client.py count entry --source_db
         pfam --query_params type=domain --output count.jsonl`
 
 *   **`/protein`** (Protein records matching entries or domains)
@@ -174,7 +174,7 @@ query parameters available for each endpoint:
     *   `conservation` / `extra_features`: Append residue conservation flags or
         Mobidb/coil features *(only valid for
         `/protein/{source_db}/{accession}`)*.
-    *   *Example*: `uv run ./scripts/interpro_client.py fetch protein
+    *   *Example*: `uv run .\scripts\interpro_client.py fetch protein
         --source_db uniprot --limit 20 --query_params tax_id=9606 --output
         human_proteins.jsonl`
 
@@ -185,7 +185,7 @@ query parameters available for each endpoint:
     *   `resolution`: Filter by resolution limit.
     *   `extra_fields`: Include additional structural metadata.
     *   `group_by`: Aggregate results.
-    *   *Example*: `./scripts/interpro_client.py fetch structure --source_db pdb
+    *   *Example*: `.\scripts\interpro_client.py fetch structure --source_db pdb
         --accession 1ATP --limit 10 --output 1atp_structures.jsonl`
 
 *   **`/taxonomy`** (Taxonomy distribution nodes)
@@ -195,13 +195,13 @@ query parameters available for each endpoint:
     *   `filter_by_entry` / `filter_by_entry_db`: Filter intersection with
         specific entries.
     *   `extra_fields`: Additional taxonomic metadata.
-    *   *Example*: `./scripts/interpro_client.py fetch taxonomy --source_db
+    *   *Example*: `.\scripts\interpro_client.py fetch taxonomy --source_db
         uniprot --accession 9606 --limit 10 --output human_taxonomy.jsonl`
 
 *   **`/proteome`** (Complete proteomes linked to InterPro)
 
     *   `extra_fields`: General query expansion.
-    *   *Example*: `uv run ./scripts/interpro_client.py fetch proteome
+    *   *Example*: `uv run .\scripts\interpro_client.py fetch proteome
         --source_db uniprot --accession UP000005640 --limit 10 --output
         proteome.jsonl`
 
@@ -209,7 +209,7 @@ query parameters available for each endpoint:
 
     *   `extra_fields`: Additional metadata *(only valid for
         `/set/{sourceDB}`)*.
-    *   *Example*: `uv run ./scripts/interpro_client.py fetch set --source_db
+    *   *Example*: `uv run .\scripts\interpro_client.py fetch set --source_db
         pfam --accession CL0001 --limit 10 --output pfam_clan.jsonl`
 
 ## InterPro Domain Architecture (IDA) Search
@@ -345,7 +345,7 @@ InterPro-N predictions are accessed by passing the `interpro_n` flag to the
 **Via CLI:**
 
 ```bash
-uv run ./scripts/interpro_client.py fetch protein
+uv run .\scripts\interpro_client.py fetch protein
     --source_db uniprot
     --accession A0A096LNN2
     --flags interpro_n
@@ -382,7 +382,7 @@ results = fetch_interpro_data(
     **Via CLI:**
 
     ```bash
-    uv run ./scripts/interpro_client.py count entry
+    uv run .\scripts\interpro_client.py count entry
         --source_db interpro
         --query_params type=domain
         --output count.json
@@ -403,7 +403,7 @@ results = fetch_interpro_data(
 
     ```bash
     # NEVER DO THIS:
-    uv run ./scripts/interpro_client.py fetch entry
+    uv run .\scripts\interpro_client.py fetch entry
         --source_db interpro
         --query_params type=domain
         --output output.jsonl
@@ -423,7 +423,7 @@ payload structures.
 ```bash
 # Fetches InterPro Entries within UniProt protein P04637
 # URL equivalent: /entry/interpro/protein/uniprot/P04637
-uv run ./scripts/interpro_client.py fetch entry
+uv run .\scripts\interpro_client.py fetch entry
     --source_db interpro
     --linked_endpoint protein
     --linked_source_db uniprot
@@ -436,7 +436,7 @@ uv run ./scripts/interpro_client.py fetch entry
 ```bash
 # URL equivalent: /structure/pdb/entry/interpro/IPR011615
 # Only fetch the first 5 structures
-uv run ./scripts/interpro_client.py fetch structure
+uv run .\scripts\interpro_client.py fetch structure
     --source_db pdb
     --linked_endpoint entry
     --linked_source_db interpro

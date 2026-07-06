@@ -231,7 +231,7 @@ Scaffold new components from a template:
 ```
 .claude/skills/new-component/
 ├── SKILL.md
-└── templates/
+└── claude-md-improver\references\templates.md
     ├── component.tsx.template
     ├── component.test.tsx.template
     └── component.stories.tsx.template
@@ -247,7 +247,7 @@ disable-model-invocation: true
 
 Create component: $ARGUMENTS
 
-Use templates in [templates/](templates/) directory:
+Use templates in [claude-md-improver\references\templates.md](templates/) directory:
 1. Generate component from component.tsx.template
 2. Generate tests from component.test.tsx.template
 3. Generate Storybook story from component.stories.tsx.template

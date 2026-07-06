@@ -430,7 +430,7 @@ dist.init_process_group(..., timeout=timedelta(minutes=30))
 **Solutions**:
 ```python
 # Use safe saving pattern
-checkpoint_path = "/lambda/nfs/storage/checkpoint.pt"
+checkpoint_path = "torchtitan\references\checkpoint.md"
 temp_path = checkpoint_path + ".tmp"
 
 # Save to temp first

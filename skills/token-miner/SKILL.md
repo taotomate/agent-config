@@ -1,8 +1,8 @@
 ---
-name: sdd-token-miner
+name: token-miner
 description: Guides the user through obtaining and managing free LLM credits from various providers. Ensures the "LLM Proxy Service Arsenal" is always stocked with low-cost or free tokens. Trigger: "find credits", "token miner", "renew tokens", "free tokens", "mine tokens".
 version: "1.2"
-author: gentleman-programming
+author: TaoTomate
 license: MIT
 model_tier: fast
 ---
@@ -29,7 +29,7 @@ model_tier: fast
 
 ### 3. Verification Phase
 - Ask the user to store the key in an environment variable or secure config.
-- Recommend running `sdd-telemetry` to track usage.
+- Recommend running `telemetry` to track usage.
 
 ## Guardrails (Critical Rules)
 - **ALWAYS** prioritize providers with generous free tiers (Google, Groq) for volume tasks.
@@ -69,5 +69,5 @@ model_tier: fast
 
 ## Troubleshooting
 - *Key not working*: Verify the env var name matches what the provider expects. Restart the terminal after setting.
-- *Quota exceeded*: Check the provider's free tier limits. Use sdd-telemetry to monitor consumption.
-- *Provider down*: Use `sdd-token-miner` to find an alternative provider from the table above.
+- *Quota exceeded*: Check the provider's free tier limits. Use telemetry to monitor consumption.
+- *Provider down*: Use `token-miner` to find an alternative provider from the table above.

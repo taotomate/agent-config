@@ -74,7 +74,7 @@ unzip -p '/ruta/archivo.ods' content.xml 2>/dev/null | sed 's/></>\n</g' | grep 
 
 Para archivos `.json`:
 ```bash
-cat -v '/ruta/auth.json' 2>/dev/null
+cat -v 'build-mcp-server\references\auth.md' 2>/dev/null
 ```
 
 ### 3. Organización

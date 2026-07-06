@@ -33,12 +33,12 @@ __export(traceSnapshot_exports, {
 module.exports = __toCommonJS(traceSnapshot_exports);
 var import_browserBackend = require("../backend/browserBackend");
 var import_tools = require("../backend/tools");
-var playwright = __toESM(require("../../.."));
+var playwright = __toESM(require("..\..\.."));
 var import_utils = require("../../utils");
 var import_command = require("../cli-daemon/command");
 var import_minimist = require("../cli-client/minimist");
 var import_commands = require("../cli-daemon/commands");
-var import_traceUtils = require("./traceUtils");
+var import_traceUtils = require("trace\traceUtils.js");
 async function traceSnapshot(actionId, options) {
   const trace = await (0, import_traceUtils.loadTrace)();
   const action = trace.resolveActionId(actionId);

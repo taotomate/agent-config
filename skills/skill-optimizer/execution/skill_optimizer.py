@@ -797,8 +797,8 @@ def main():
         help="Script candidate threshold (default: 0.6)",
     )
     parser.add_argument(
-        "--output-dir", type=str, default=".atl",
-        help="Directory for output files (default: .atl)",
+        "--output-dir", type=str, default=".config",
+        help="Directory for output files (default: .config)",
     )
     parser.add_argument(
         "--execution-dir", type=str, default=None,

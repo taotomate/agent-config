@@ -3,7 +3,7 @@
 Bootstrap a video production kanban from a structured plan JSON.
 
 Reads a plan.json describing the team + brief, expands templates from
-../assets/, and writes a setup.sh that creates Hermes profiles and fires the
+..\assets\, and writes a setup.sh that creates Hermes profiles and fires the
 initial kanban task.
 
 Profile-config patching, SOUL.md-per-profile, TEAM.md task-graph convention,

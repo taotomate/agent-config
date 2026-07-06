@@ -25,7 +25,7 @@ Results are saved to a specified JSON file.
 #   "scienceskillscommon",
 # ]
 # [tool.uv.sources]
-# scienceskillscommon = { path = "../../scienceskillscommon" }
+# scienceskillscommon = { path = "..\..\scienceskillscommon" }
 # ///
 
 import argparse
@@ -43,7 +43,7 @@ def make_request(path: str, params: dict[str, Any] | None = None) -> Any:
   """Makes a GET request to the QuickGO API.
 
   Args:
-      path: The API endpoint path (e.g., "/ontology/go/search").
+      path: The API endpoint path (e.g., "foldseek_structural_search\scripts\search.py").
       params: Optional dictionary of query parameters.
 
   Returns:
@@ -64,7 +64,7 @@ def save_output(data: Any, filename: str):
 def go_search(args: argparse.Namespace):
   limit = min(args.limit, 100) if args.limit else 25
   data = make_request(
-      "/ontology/go/search",
+      "foldseek_structural_search\scripts\search.py",
       params={"query": args.query, "limit": limit, "page": args.page},
   )
   save_output(data, args.output)
@@ -93,7 +93,7 @@ def go_slim(args: argparse.Namespace):
 def eco_search(args: argparse.Namespace):
   limit = min(args.limit, 100) if args.limit else 25
   data = make_request(
-      "/ontology/eco/search",
+      "foldseek_structural_search\scripts\search.py",
       params={"query": args.query, "limit": limit, "page": args.page},
   )
   save_output(data, args.output)
@@ -140,7 +140,7 @@ def annotation_search(args: argparse.Namespace):
   if args.page:
     params["page"] = args.page
 
-  data = make_request("/annotation/search", params=params)
+  data = make_request("foldseek_structural_search\scripts\search.py", params=params)
   save_output(data, args.output)
 
 
@@ -161,7 +161,7 @@ def geneproduct_search(args: argparse.Namespace):
   if args.page:
     params["page"] = args.page
 
-  data = make_request("/geneproduct/search", params=params)
+  data = make_request("foldseek_structural_search\scripts\search.py", params=params)
   save_output(data, args.output)
 
 

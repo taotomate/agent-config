@@ -19,9 +19,9 @@ Folders of instructions, scripts, and resources that agents load on-demand for s
 | `.github/skills/<name>/` | Project |
 | `.agents/skills/<name>/` | Project |
 | `.claude/skills/<name>/` | Project |
-| `~/.copilot/skills/<name>/` | Personal |
-| `~/.agents/skills/<name>/` | Personal |
-| `~/.claude/skills/<name>/` | Personal |
+| `agent-customization\references\skills.md<name>/` | Personal |
+| `agent-customization\references\skills.md<name>/` | Personal |
+| `agent-customization\references\skills.md<name>/` | Personal |
 
 ## SKILL.md Format
 

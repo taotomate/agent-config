@@ -130,7 +130,7 @@ Command prompt content with:
 ### Locations
 
 - **Project**: `.claude/commands/` (shared with team)
-- **Personal**: `~/.claude/commands/` (your commands)
+- **Personal**: `core\references\commands.md` (your commands)
 - **Plugin**: `plugin-name/commands/` (plugin-specific)
 
 ### Key Features

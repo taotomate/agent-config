@@ -24,40 +24,40 @@ module.exports = __toCommonJS(traceCli_exports);
 function addTraceCommands(program, logErrorAndExit) {
   const traceCommand = program.command("trace").description("inspect trace files from the command line");
   traceCommand.command("open <trace>").description("extract trace file for inspection").action(async (trace) => {
-    const { traceOpen } = require("./traceOpen");
+    const { traceOpen } = require("trace\traceOpen.js");
     traceOpen(trace).catch(logErrorAndExit);
   });
   traceCommand.command("close").description("remove extracted trace data").action(async () => {
-    const { closeTrace } = require("./traceUtils");
+    const { closeTrace } = require("trace\traceUtils.js");
     closeTrace().catch(logErrorAndExit);
   });
   traceCommand.command("actions").description("list actions in the trace").option("--grep <pattern>", "filter actions by title pattern").option("--errors-only", "only show failed actions").action(async (options) => {
-    const { traceActions } = require("./traceActions");
+    const { traceActions } = require("trace\traceActions.js");
     traceActions(options).catch(logErrorAndExit);
   });
   traceCommand.command("action <action-id>").description("show details of a specific action").action(async (actionId) => {
-    const { traceAction } = require("./traceActions");
+    const { traceAction } = require("trace\traceActions.js");
     traceAction(actionId).catch(logErrorAndExit);
   });
   traceCommand.command("requests").description("show network requests").option("--grep <pattern>", "filter by URL pattern").option("--method <method>", "filter by HTTP method").option("--status <code>", "filter by status code").option("--failed", "only show failed requests (status >= 400)").action(async (options) => {
-    const { traceRequests } = require("./traceRequests");
+    const { traceRequests } = require("trace\traceRequests.js");
     traceRequests(options).catch(logErrorAndExit);
   });
   traceCommand.command("request <request-id>").description("show details of a specific network request").action(async (requestId) => {
-    const { traceRequest } = require("./traceRequests");
+    const { traceRequest } = require("trace\traceRequests.js");
     traceRequest(requestId).catch(logErrorAndExit);
   });
   traceCommand.command("console").description("show console messages").option("--errors-only", "only show errors").option("--warnings", "show errors and warnings").option("--browser", "only browser console messages").option("--stdio", "only stdout/stderr").action(async (options) => {
-    const { traceConsole } = require("./traceConsole");
+    const { traceConsole } = require("trace\traceConsole.js");
     traceConsole(options).catch(logErrorAndExit);
   });
   traceCommand.command("errors").description("show errors with stack traces").action(async () => {
-    const { traceErrors } = require("./traceErrors");
+    const { traceErrors } = require("trace\traceErrors.js");
     traceErrors().catch(logErrorAndExit);
   });
   traceCommand.command("snapshot <action-id>").description("run a playwright-cli command against a DOM snapshot").option("--name <name>", "snapshot phase: before, input, or after").option("--serve", "serve snapshot on localhost and keep running").allowUnknownOption(true).allowExcessArguments(true).action(async (actionId, options, cmd) => {
     try {
-      const { traceSnapshot } = require("./traceSnapshot");
+      const { traceSnapshot } = require("trace\traceSnapshot.js");
       const browserArgs = cmd.args.slice(1);
       await traceSnapshot(actionId, { ...options, browserArgs });
     } catch (e) {
@@ -65,19 +65,19 @@ function addTraceCommands(program, logErrorAndExit) {
     }
   });
   traceCommand.command("screenshot <action-id>").description("save screencast screenshot for an action").option("-o, --output <path>", "output file path").action(async (actionId, options) => {
-    const { traceScreenshot } = require("./traceScreenshot");
+    const { traceScreenshot } = require("trace\traceScreenshot.js");
     traceScreenshot(actionId, options).catch(logErrorAndExit);
   });
   traceCommand.command("attachments").description("list trace attachments").action(async () => {
-    const { traceAttachments } = require("./traceAttachments");
+    const { traceAttachments } = require("trace\traceAttachments.js");
     traceAttachments().catch(logErrorAndExit);
   });
   traceCommand.command("attachment <attachment-id>").description("extract a trace attachment by its number").option("-o, --output <path>", "output file path").action(async (attachmentId, options) => {
-    const { traceAttachment } = require("./traceAttachments");
+    const { traceAttachment } = require("trace\traceAttachments.js");
     traceAttachment(attachmentId, options).catch(logErrorAndExit);
   });
   traceCommand.command("install-skill").description("install SKILL.md for LLM integration").action(async () => {
-    const { installSkill } = require("./installSkill");
+    const { installSkill } = require("trace\installSkill.js");
     installSkill().catch(logErrorAndExit);
   });
 }

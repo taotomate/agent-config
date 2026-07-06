@@ -28,4 +28,4 @@ See [architecture.md](architecture.md) for the full picture.
 
 ## Getting Started
 
-See [getting-started.md](getting-started.md).
+See [code-wiki\templates\code-wiki\templates\getting-started.md](getting-started.md).

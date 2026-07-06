@@ -211,7 +211,7 @@ Tags for plugin discovery and categorization.
 #### commands
 
 **Type**: String or Array of strings
-**Default**: `["./commands"]`
+**Default**: `["core\references\commands.md"]`
 **Example**: `"./cli-commands"`
 
 Additional directories or files containing command definitions.
@@ -227,7 +227,7 @@ Additional directories or files containing command definitions.
 ```json
 {
   "commands": [
-    "./commands",
+    "core\references\commands.md",
     "./admin-commands",
     "./experimental-commands"
   ]
@@ -244,7 +244,7 @@ Additional directories or files containing command definitions.
 #### agents
 
 **Type**: String or Array of strings
-**Default**: `["./agents"]`
+**Default**: `["agent-customization\references\agents.md"]`
 **Example**: `"./specialized-agents"`
 
 Additional directories or files containing agent definitions.
@@ -259,14 +259,14 @@ Additional directories or files containing agent definitions.
 #### hooks
 
 **Type**: String (path to JSON file) or Object (inline configuration)
-**Default**: `"./hooks/hooks.json"`
+**Default**: `"agent-customization\references\hooks.md"`
 
 Hook configuration location or inline definition.
 
 **File path**:
 ```json
 {
-  "hooks": "./config/hooks.json"
+  "hooks": "agent-customization\references\hooks.md"
 }
 ```
 
@@ -341,12 +341,12 @@ All paths in component fields must follow these rules:
 4. **Forward slashes only**: Even on Windows
 
 **Examples**:
-- ✅ `"./commands"`
-- ✅ `"./src/commands"`
-- ✅ `"./configs/hooks.json"`
-- ❌ `"/Users/name/plugin/commands"`
+- ✅ `"core\references\commands.md"`
+- ✅ `"core\references\commands.md"`
+- ✅ `"agent-customization\references\hooks.md"`
+- ❌ `"core\references\commands.md"`
 - ❌ `"commands"` (missing `./`)
-- ❌ `"../shared/commands"`
+- ❌ `"core\references\commands.md"`
 - ❌ `".\\commands"` (backslash)
 
 ### Resolution Order
@@ -354,10 +354,10 @@ All paths in component fields must follow these rules:
 When Claude Code loads components:
 
 1. **Default directories**: Scans standard locations first
-   - `./commands/`
-   - `./agents/`
-   - `./skills/`
-   - `./hooks/hooks.json`
+   - `core\references\commands.md`
+   - `agent-customization\references\agents.md`
+   - `agent-customization\references\skills.md`
+   - `agent-customization\references\hooks.md`
    - `./.mcp.json`
 
 2. **Custom paths**: Scans paths specified in manifest
@@ -410,13 +410,13 @@ Fix: Use kebab-case
 **Absolute path**:
 ```json
 {
-  "commands": "/Users/name/commands"  // ❌ Absolute path
+  "commands": "core\references\commands.md"  // ❌ Absolute path
 }
 ```
 Fix: Use relative path
 ```json
 {
-  "commands": "./commands"  // ✅
+  "commands": "core\references\commands.md"  // ✅
 }
 ```
 
@@ -429,7 +429,7 @@ Fix: Use relative path
 Fix: Add ./ prefix
 ```json
 {
-  "hooks": "./hooks/hooks.json"  // ✅
+  "hooks": "agent-customization\references\hooks.md"  // ✅
 }
 ```
 
@@ -509,11 +509,11 @@ Full configuration with all features:
     "deployment"
   ],
   "commands": [
-    "./commands",
+    "core\references\commands.md",
     "./admin-commands"
   ],
   "agents": "./specialized-agents",
-  "hooks": "./config/hooks.json",
+  "hooks": "agent-customization\references\hooks.md",
   "mcpServers": "./.mcp.json"
 }
 ```

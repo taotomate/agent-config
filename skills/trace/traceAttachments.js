@@ -22,7 +22,7 @@ __export(traceAttachments_exports, {
   traceAttachments: () => traceAttachments
 });
 module.exports = __toCommonJS(traceAttachments_exports);
-var import_traceUtils = require("./traceUtils");
+var import_traceUtils = require("trace\traceUtils.js");
 async function traceAttachments() {
   const trace = await (0, import_traceUtils.loadTrace)();
   if (!trace.model.attachments.length) {

@@ -111,8 +111,8 @@ Specify custom paths for components (supplements default directories):
 {
   "name": "plugin-name",
   "commands": "./custom-commands",
-  "agents": ["./agents", "./specialized-agents"],
-  "hooks": "./config/hooks.json",
+  "agents": ["agent-customization\references\agents.md", "./specialized-agents"],
+  "hooks": "agent-customization\references\hooks.md",
   "mcpServers": "./.mcp.json"
 }
 ```

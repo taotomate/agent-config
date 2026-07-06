@@ -2,7 +2,7 @@
 
 Capture Chrome DevTools performance profiles during browser automation for performance analysis.
 
-**Related**: [commands.md](commands.md) for full command reference, [SKILL.md](../SKILL.md) for quick start.
+**Related**: [core\references\core\references\commands.md](commands.md) for full command reference, [SKILL.md](..\SKILL.md) for quick start.
 
 ## Contents
 

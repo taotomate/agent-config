@@ -14,3 +14,7 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Runtime artifacts (skill-optimizer, audit scripts)
+.config/*.json
+.config/*-report.md

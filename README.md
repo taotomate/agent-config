@@ -17,16 +17,20 @@ Source of truth for AI agent configuration. One system, many platforms.
 # 1. Clone this repo
 git clone <your-repo-url> agent-config
 
-# 2. For MiMoCode — done. It reads AGENTS.md automatically.
+# 2. For OpenCode — read the README and follow install instructions
+#    Tell OpenCode: "Read https://github.com/taotomate/agent-config/blob/main/README.md
+#    and follow the install instructions for my platform"
+
+# 3. For MiMoCode — done. It reads AGENTS.md automatically.
 #    Just open a project inside or symlink AGENTS.md to the project root.
 
-# 3. For Claude Code — symlink or copy CLAUDE.md to your project root
+# 4. For Claude Code — symlink or copy CLAUDE.md to your project root
 cp agent-config/CLAUDE.md /path/to/your/project/CLAUDE.md
 
-# 4. For Gemini CLI — symlink or copy GEMINI.md to your project root
+# 5. For Gemini CLI — symlink or copy GEMINI.md to your project root
 cp agent-config/GEMINI.md /path/to/your/project/GEMINI.md
 
-# 5. For Antigravity — copy agents/antigravity.md to your antigravity config dir
+# 6. For Antigravity — copy agents/antigravity.md to your antigravity config dir
 #    (check your Antigravity docs for the expected path)
 ```
 
@@ -34,6 +38,7 @@ cp agent-config/GEMINI.md /path/to/your/project/GEMINI.md
 
 | Agent | Reads | Then loads |
 |-------|-------|------------|
+| OpenCode | `AGENTS.md` (root) | `agents/base.md` |
 | MiMoCode | `AGENTS.md` (root) | `agents/base.md` |
 | Claude Code | `CLAUDE.md` (root) | `agents/base.md` + `agents/claude-code.md` |
 | Gemini CLI | `GEMINI.md` (root) | `agents/base.md` + `agents/gemini-cli.md` |
@@ -51,10 +56,10 @@ cp agent-config/GEMINI.md /path/to/your/project/GEMINI.md
 
 | File | Loaded by | Purpose |
 |------|-----------|---------|
-| `AGENTS.md` | MiMoCode | Entry point |
+| `AGENTS.md` | OpenCode, MiMoCode | Entry point |
 | `CLAUDE.md` | Claude Code | Entry point |
 | `GEMINI.md` | Gemini CLI | Entry point |
-| `agents/base.md` | All agents | Universal rules, behavior, engram, SDD |
+| `agents/base.md` | All agents | Universal rules, behavior, SDD |
 
 ### By platform
 
@@ -99,7 +104,7 @@ cp agent-config/GEMINI.md /path/to/your/project/GEMINI.md
 
 ```
 agent-config/
-  AGENTS.md                  MiMoCode entry point (thin)
+  AGENTS.md                  OpenCode/MiMoCode entry point (thin)
   CLAUDE.md                  Claude Code entry point (thin)
   GEMINI.md                  Gemini CLI entry point (thin)
   README.md                  This file
@@ -147,7 +152,7 @@ agent-config/
 | agents/claude-code.md | 5.0.0 | 2026-07-04 |
 | agents/gemini-cli.md | 5.1.0 | 2026-07-04 |
 | agents/antigravity.md | 5.1.0 | 2026-07-04 |
-| Entry points (CLAUDE/GEMINI/AGENTS) | 5.0.0 | 2026-07-04 |
+| Entry points (CLAUDE/GEMINI/AGENTS) | 5.0.0 | 2026-07-06 |
 | GOVERNANCE_PROTOCOL | 3.0.0 | 2026-07-04 |
 | skill-registry | 2.1.0 | 2026-07-04 |
 | shared/VISION.md | 3.2 | 2026-06-03 |

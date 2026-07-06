@@ -28,3 +28,6 @@ __pycache__/
 
 # Node
 node_modules/
+
+# Hermes profiles logs
+hermes-profiles/*/logs/

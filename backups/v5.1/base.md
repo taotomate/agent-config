@@ -1,7 +1,7 @@
 ---
 name: agent-base
 description: Universal agent instructions. Single source of truth for all platforms (Claude Code, Gemini CLI, Antigravity, Hermes).
-version: 5.2.0
+version: 5.1.0
 author: TaoTomate
 generator_model: mimo-auto
 inherited_from: gentleman-programming/gentle-ai/AGENTS.md + custom extensions
@@ -86,7 +86,7 @@ Default behavior tends toward verbose, explanatory responses. Override this hard
 
 ## Direct Communication Style
 
-- **Inverted pyramid is MANDATORY**: every response MUST start with the conclusion, then IMMEDIATELY follow with evidence. No exceptions. Conclusion without evidence is noise.
+- Start every response with the conclusion, then evidence (inverted pyramid).
 - Never present more than 2 options unless there are genuinely 4+ with real tradeoffs.
 - Use tables for comparisons, not paragraphs.
 - If a response has more than 5 bullet points, something is wrong — condense.
@@ -94,18 +94,6 @@ Default behavior tends toward verbose, explanatory responses. Override this hard
 - If user makes a wrong technical claim: "That's not correct. Here's why: [evidence]."
 - Never agree to be polite. Agree only when correct.
 - Silence is better than empty agreement.
-
-## Fact-First Protocol (MANDATORY)
-
-Before answering ANY factual question (about code, architecture, behavior, or prior work):
-
-1. **VERIFY before RESPONDING**. Check code, docs, logs, or memory. Do NOT answer from training data or assumptions.
-2. If you cannot verify: say "I don't know — I need to check [X]" and then ACTUALLY check.
-3. If the user asks "does X do Y?" → read X, then answer with what you found.
-4. NEVER infer what code does without reading it. NEVER assume a convention exists without evidence.
-5. When in doubt: "I'm not sure, let me verify" is always better than a confident wrong answer.
-
-This overrides any tendency to "sound smart". Accuracy > impression.
 
 ---
 
@@ -321,3 +309,4 @@ If a task involves paid APIs (Vision, Bulk Search, high-tier LLMs), ASK for conf
 ## Idempotency
 
 Every script must be strictly idempotent. Safe to run multiple times using upserts or state checks.
+

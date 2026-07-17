@@ -2,6 +2,81 @@
 
 All notable changes to agent-config are documented here.
 
+## [5.4.0] — 2026-07-17
+
+### Fable 5 Implementation (Hooks + MCP + Skills)
+
+**Implemented Fable 5 working style enforcement** across three layers: behavioral instructions (base.md v5.3.0), mechanical enforcement (hooks + MCP), and on-demand skills.
+
+#### What was added
+
+**1. Fable Plugin** (`plugins/fable-profile/index.ts`)
+- Turn discipline hook — detects promise endings ("I'll...", "Let me know...")
+- Operating cadence tracker — tracks tool call count per session, nudges at complexity thresholds
+- Session start reminder — injects Fable principles at session creation
+- Pre-compact hook — reminds to save decisions before compaction
+
+**2. Fable MCP Server** (`tools/fable-mcp/server.js`)
+- Zero-dependency Node.js MCP server (HTTP transport)
+- `fable_lint` — checks text against 7 Fable rules (arrow-chains, permission-asking, intent-without-action, scope-creep, over-formatting, filler-phrases, promise-endings)
+- `fable_status` — reports if Fable profile is active and current settings
+- `get_fable_profile` — returns the Fable steering profile (core/compact/full variants)
+
+**3. Fable Skills** (5 new skills)
+- `fable-scope-guard` — prevents scope creep, ensures only task-required work
+- `fable-delivery-gate` — acceptance check before delivering (outcome-first, evidence-grounded, scope-correct, no promises, no filler)
+- `fable-evidence-done` — verifies claims against tool results, marks unverified claims
+- `fable-review` — adversarial review with 4 lenses (readability, reliability, resilience, risk)
+- `fable-seed` — initializes Fable working style, configures cost mode and reviewer preset
+
+#### What was removed
+
+- `tools/backup-mcp/` — obsolete MCP server, replaced by Auto-Backup plugin hooks
+
+#### What was fixed
+
+- Auto-Backup plugin activated — added `"./plugin"` to `opencode.jsonc` plugin list
+- `.backup/` files removed from repo (were committed by mistake)
+
+#### Architecture
+
+```
+Fable Enforcement Layers
+├── Behavioral (base.md v5.3.0)
+│   ├── Task Discipline
+│   ├── Turn Discipline
+│   ├── Operating Cadence
+│   ├── Ground Every Claim
+│   └── Behavior improvements
+│
+├── Mechanical (plugins/fable-profile)
+│   ├── Turn discipline hook
+│   ├── Operating cadence tracker
+│   ├── Session start reminder
+│   └── Pre-compact hook
+│
+├── Verification (tools/fable-mcp)
+│   ├── fable_lint (7 rules)
+│   ├── fable_status
+│   └── get_fable_profile
+│
+└── On-demand (skills/)
+    ├── fable-scope-guard
+    ├── fable-delivery-gate
+    ├── fable-evidence-done
+    ├── fable-review
+    └── fable-seed
+```
+
+#### Key decisions
+
+1. **Three-layer enforcement** — behavioral instructions + mechanical hooks + on-demand skills. Each layer catches what the others miss.
+2. **Zero-dependency MCP** — fable-mcp uses only Node.js built-ins (http, crypto). No npm install needed.
+3. **Plugin over hooks** — OpenCode uses plugins, not .json hook files. Fable plugin follows the same pattern as Auto-Backup.
+4. **Optional activation** — Fable MCP is not registered in opencode.jsonc by default. User decides when to activate.
+
+---
+
 ## [5.3.0] — 2026-07-17
 
 ### Fable 5 Behavioral Upgrades

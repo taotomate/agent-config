@@ -51,6 +51,23 @@ Hash SHA256: `FD513CE11F41E362B71D2D6FE3C121AC0DD77E965DB5E1E2C11C71343638C8E4`
 - `C:\Users\user\.config\opencode\AGENTS.md` (Activo en OpenCode)
 - `backups/v5.0/AGENTS.md` (Backup oficial)
 
+## v5.4 (Fable 5 Implementation - Hooks + MCP + Skills)
+Hash SHA256: (pending commit)
+- `plugins/fable-profile/index.ts` (Fable plugin with 4 hooks)
+- `tools/fable-mcp/server.js` (Fable MCP server with 3 tools)
+- `skills/fable-scope-guard/SKILL.md` (prevents scope creep)
+- `skills/fable-delivery-gate/SKILL.md` (acceptance check)
+- `skills/fable-evidence-done/SKILL.md` (verify claims)
+- `skills/fable-review/SKILL.md` (adversarial review)
+- `skills/fable-seed/SKILL.md` (initialize Fable mode)
+
+**Cambios desde v5.3:**
+- Fable plugin: turn discipline, operating cadence, session start, pre-compact
+- Fable MCP: fable_lint (7 rules), fable_status, get_fable_profile
+- 5 Fable skills: scope-guard, delivery-gate, evidence-done, review, seed
+- Eliminado: tools/backup-mcp/ (obsoleto)
+- Activado: Auto-Backup plugin en opencode.jsonc
+
 ## v5.3 (Base Instructions - Fable Upgrades)
 Hash SHA256: `9599451983423DD2B961F718AA79FFD49A8BF2C1263E6A9103444A675FD18817`
 - `agents/base.md` (Activo en agent-config)

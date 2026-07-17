@@ -1,0 +1,10 @@
+{
+  "name": "fable-profile",
+  "version": "1.0.0",
+  "description": "Fable 5 working style enforcement for OpenCode",
+  "type": "module",
+  "main": "index.ts",
+  "keywords": ["opencode", "plugin", "fable", "behavioral", "enforcement"],
+  "author": "TaoTomate",
+  "license": "MIT"
+}

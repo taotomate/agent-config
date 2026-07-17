@@ -31,3 +31,7 @@ node_modules/
 
 # Hermes profiles logs
 hermes-profiles/*/logs/
+
+# Auto-generated backups (Auto-Backup plugin)
+.backup/
+.doctor-backups/

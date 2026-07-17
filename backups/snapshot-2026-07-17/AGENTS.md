@@ -1,7 +1,7 @@
 ---
 name: agents-entry
 description: Entry point for OpenCode, MiMoCode, and other agents that load AGENTS.md. Thin pointer to base instructions.
-version: 5.3.0
+version: 5.1.0
 author: TaoTomate
 generator_model: mimo-auto
 inherited_from: agents/base.md

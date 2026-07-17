@@ -78,16 +78,16 @@ Snapshot preventivo de todos los archivos vivos del repo antes de modificaciones
 
 | Archivo | Versión | Hash SHA256 |
 |---|---|---|
-| `AGENTS.md` | v5.3.0 | `874C88B2...` |
-| `CLAUDE.md` | v5.3.0 | `AD8C9BA4...` |
-| `GEMINI.md` | v5.3.0 | `5DC616F8...` |
-| `CHANGELOG.md` | v5.3.0 | `90E3D74A...` |
+| `AGENTS.md` | v5.1.0 | `EEBB5DC9...` |
+| `CLAUDE.md` | v5.0.0 | `88086B3B...` |
+| `GEMINI.md` | v5.0.0 | `B01B85C5...` |
+| `CHANGELOG.md` | — | `F680623C...` |
 | `README.md` | — | `4297A39E...` |
 | `skills-report.md` | — | `6E2504C7...` |
-| `agents/antigravity.md` | v5.3.0 | `FD2889A3...` |
-| `agents/base.md` | v5.3.0 | `95994519...` |
-| `agents/claude-code.md` | v5.3.0 | `BD0D26E5...` |
-| `agents/gemini-cli.md` | v5.3.0 | `CB90E414...` |
+| `agents/antigravity.md` | v5.1.0 | `76A51A79...` |
+| `agents/base.md` | v5.3.0 | `B29902AB...` |
+| `agents/claude-code.md` | v5.0.0 | `137611CD...` |
+| `agents/gemini-cli.md` | v5.1.0 | `FF06EA57...` |
 
 ## Archivos Ignorados (Librerías de Terceros)
 Los siguientes archivos no fueron respaldados ya que pertenecen a paquetes de terceros y contienen instrucciones exclusivas para modificar sus propios proyectos:

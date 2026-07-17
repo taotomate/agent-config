@@ -1,7 +1,7 @@
 ---
 name: gemini-cli-entry
 description: Entry point for Gemini CLI. Loads base instructions from agents/base.md.
-version: 5.3.0
+version: 5.0.0
 author: TaoTomate
 generator_model: mimo-auto
 inherited_from: agents/base.md + agents/gemini-cli.md

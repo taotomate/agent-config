@@ -1,7 +1,7 @@
 ---
 name: claude-code-wrapper
 description: Claude Code agent wrapper. Loads base.md for universal rules, adds Claude-specific behavior.
-version: 5.3.0
+version: 5.0.0
 author: TaoTomate
 generator_model: mimo-auto
 inherited_from: agents/base.md

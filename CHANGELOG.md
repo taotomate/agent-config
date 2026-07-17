@@ -2,6 +2,73 @@
 
 All notable changes to agent-config are documented here.
 
+## [5.3.0] — 2026-07-17
+
+### Fable 5 Behavioral Upgrades
+
+**Incorporated Fable 5 working style** into `agents/base.md` based on analysis of Anthropic's Fable 5 system prompt and community implementations (opus-fable-playbook, fablever).
+
+#### What changed
+
+| Area | Before (v5.2) | After (v5.3) |
+|------|---------------|--------------|
+| Task Discipline | None | Mandatory task lists, re-anchor, decision trail |
+| Turn Discipline | None | No ending on promises, only on results or blockers |
+| Operating Cadence | None | Scale tool calls (1 vs 3-5 vs 5-15), search persistence, recognition triggers |
+| Ground Every Claim | None | Audit claims against tool results, evidence ledger |
+| Behavior | Basic | + Mistake handling (no collapse), autonomy calibration |
+| Wrapper duplication | 4 sections duplicated in gemini-cli.md and antigravity.md | Removed — base.md is single source of truth |
+
+#### New sections in base.md
+
+1. **Task Discipline** — Create and maintain task lists for non-trivial work. Only ONE task in_progress at a time. Re-anchor periodically. Keep decision trail (evidence ledger, not narrated reasoning).
+
+2. **Turn Discipline** — Before ending turn, check last paragraph. If it's a plan, question, next-steps list, or promise ("I'll…", "Let me know…"), do that work now. End turn only when task is complete or blocked on user input.
+
+3. **Operating Cadence** — Scale tool calls to complexity: 1 for simple facts, 3-5 for medium tasks, 5-15 for deep research. Search persistence: if one search doesn't answer, continue. Recognition triggers: capitalized word you don't recognize → SEARCH. Current events, roles, positions → SEARCH.
+
+4. **Ground Every Claim** — Before reporting progress, audit each claim against actual tool result. Prefer check that can fail over "I reviewed it and it looks right." Don't claim something is done/fixed/works unless you show the check. Decision trail on multi-step work.
+
+5. **Behavior improvements** — Mistake handling: acknowledge specifically, fix immediately, move on. No self-abasement, no excessive apology. Autonomy calibration: proceed without asking for reversible actions; stop and ask only for destructive/outward-facing/scope changes.
+
+#### Wrapper cleanup
+
+- `agents/gemini-cli.md` — Removed 4 duplicate sections (Anti-Verbose, Anti-Filler, Structure, Pushback). Now only contains Gemini-specific behavior.
+- `agents/antigravity.md` — Removed 4 duplicate sections. Now only contains Antigravity/Mission Control specifics.
+- `agents/claude-code.md` — No changes needed (already clean).
+- All wrappers and entry points updated to v5.3.0.
+
+#### What's NOT included from Fable ecosystem
+
+The following Fable features are **not** in base.md (mechanical enforcement, not behavioral instructions):
+
+| Feature | Source | Can it be copied? |
+|---------|--------|-------------------|
+| **Hooks** (stop-gate, bash-discipline, honesty-nudge, session-start, prompt-nudge, precompact) | opus-fable-playbook | Yes — Claude Code hooks. Deterministic enforcement of behavioral rules. |
+| **MCP server** (fable_lint, fable_status, get_fable_profile) | fablever | Yes — zero-dependency Node MCP. Delivery gate, linting, profile injection. |
+| **On-demand skills** (fable-scope-guard, fable-delivery-gate, fable-evidence-done, fable-review, fable-seed) | fablever | Yes — Claude Code skills. Auto-seed, plan-first, delivery gate. |
+| **Fusion module** (multi-model deliberation) | fablever | Yes — optional, requires OpenRouter API key. Panel of models (Opus + GPT + Gemini) with judge. |
+| **Cross-model verification** (xverify) | fablever | Yes — optional, different-weights models cross-check Claude's review. |
+| **SubagentStart hook** (inject into every subagent) | fablever | Yes — reaches subagents that output style can't. |
+
+**Decision:** These are mechanical enforcement layers, not behavioral instructions. base.md contains the behavioral contract. Hooks/MCP/skills can be added separately if deterministic enforcement is needed.
+
+#### Key decisions
+
+1. **Behavioral instructions only** — base.md contains what to do, not how to enforce it mechanically. Hooks/MCP are separate concerns.
+2. **No disclaimers or paternalism** — File treats user as adult capable of own decisions. No "I can't advise on X" or "I'm not an expert in Y".
+3. **Single source of truth** — Wrappers removed duplication. base.md is the only place for universal rules.
+4. **Fable working style, not capability** — This is a style transplant, not a capability upgrade. base.md v5.3 makes agents more disciplined, not smarter.
+
+#### Learnings
+
+- **Fable's strength is verification discipline** — "Search before responding" and "Ground every claim" are the core behavioral differences from other models.
+- **Mechanical enforcement > behavioral instructions** — Hooks and MCP tools catch drift that instructions can't prevent. But instructions are portable; hooks are platform-specific.
+- **Duplication = drift** — When wrappers duplicate base.md sections, they diverge over time. Single source of truth is the only reliable pattern.
+- **Fable ecosystem is honest about limits** — fablever explicitly states it's a "style transplant, not a capability upgrade." Doesn't claim to make models smarter, only more disciplined.
+
+---
+
 ## [5.0.0] — 2026-07-02
 
 ### Restructure: Universal Base + Thin Wrappers

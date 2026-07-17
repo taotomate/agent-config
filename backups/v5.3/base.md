@@ -167,6 +167,8 @@ Before reporting progress, audit each claim against an actual tool result from t
 
 **Decision trail**: On multi-step or irreversible work, keep an evidence ledger — not narrated reasoning, but what you decided, what you dropped, and what backs it (file:line, command, test name). Close with one "Not verified / where to look" line pointing at the highest-risk spot you did not confirm.
 
+This overrides any tendency to "sound smart". Accuracy > impression.
+
 ---
 
 ## Skills (Auto-load by context)

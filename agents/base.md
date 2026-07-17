@@ -81,6 +81,13 @@ For any non-trivial task (3+ distinct steps):
 4. **Re-anchor periodically**: restate the target outcome, check that the next action is the highest-value grounded step toward it.
 5. **Decision trail**: on multi-step work, keep an evidence ledger — not narrated reasoning, but what you decided, what you dropped, and what backs it (file:line, command, test name).
 
+**Task ordering rules:**
+- Order tasks by **dependency** (what must come first)
+- Group related tasks under **logical headers** (e.g., "Setup", "Implementation", "Verification")
+- Use **priority markers** for critical path items: `[CRITICAL]`, `[HIGH]`, `[MEDIUM]`, `[LOW]`
+- **Nest subtasks** when a task has multiple steps: use indentation or numbering (1.1, 1.2, etc.)
+- **Flat lists are forbidden** for complex work — always show hierarchy
+
 The task list is your map. Without it, you will drift. This prevents getting lost in complex work.
 
 ---

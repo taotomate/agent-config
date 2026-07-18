@@ -15,7 +15,7 @@ Source of truth for AI agent configuration. One system, many platforms.
 
 ```bash
 # 1. Clone this repo
-git clone <your-repo-url> agent-config
+git clone https://github.com/taotomate/agent-config.git agent-config
 
 # 2. For OpenCode — read the README and follow install instructions
 #    Tell OpenCode: "Read https://github.com/taotomate/agent-config/blob/main/README.md
@@ -69,7 +69,7 @@ All references resolve from: ``
 
 | File | Path | Purpose |
 |------|------|---------|
-| Skill registry | `.config/skill-registry.md` | Maps triggers → skill paths (375 skills) |
+| Skill registry | `.config/skill-registry.md` | Maps triggers → skill paths (389 skills) |
 | Skills directory | `skills/*/SKILL.md` | Individual skill definitions |
 
 ### On-demand files
@@ -116,24 +116,42 @@ All references resolve from: ``
 │   ├── sdd-phase-common.md      # SDD protocol
 │   └── skill-resolver.md        # Skill injection protocol
 │
-├── skills/                      # 375 skills — load on trigger
-│   └── */SKILL.md
+├── skills/                      # 389 skills — load on trigger
+│   ├── fable-*/                 # Fable enforcement skills (5)
+│   ├── sdd-*/                   # SDD pipeline skills (10)
+│   └── */SKILL.md               # All other skills
 │
 ├── .config/
 │   ├── skill-registry.md        # Skill index — load once per session
-│   ├── GOVERNANCE_PROTOCOL.md   # Failure handling — load on error
-│   └── error_log.md             # Runtime errors
+│   └── GOVERNANCE_PROTOCOL.md   # Failure handling — load on error
+│
+├── plugins/
+│   └── fable-profile/           # Fable enforcement hooks (4 hooks)
 │
 ├── tools/
+│   ├── fable-mcp/               # Fable MCP server (3 tools)
 │   └── skill_catalog.py         # Registry generator
 │
 ├── docs/                        # Human reference only
 │   ├── architecture.md
 │   ├── components.md
 │   ├── load-flow.md
-│   └── contributing.md
+│   ├── contributing.md
+│   ├── trigger-rules.md
+│   ├── persistence-contract.md
+│   ├── engram-convention.md
+│   ├── openspec-convention.md
+│   ├── validation-framework.md
+│   ├── distillation-protocol.md
+│   └── template_skill.md
 │
 ├── hermes-profiles/             # Hermes worker profiles
+│   ├── chat-fast
+│   ├── chat-general
+│   ├── coder
+│   ├── ollama
+│   ├── research
+│   └── vision
 │
 └── backups/                     # Config snapshots
 ```
@@ -228,6 +246,59 @@ Versions read from actual file frontmatters on the `main` branch.
 | shared/sdd-phase-common.md | unversioned | 2026-07-04 |
 | shared/skill-style-guide.md | unversioned | 2026-07-04 |
 
+
+## Plugins
+
+| Plugin | Purpose | Status |
+|--------|---------|--------|
+| `thoth-agents@latest` | Multi-harness orchestration (7 agents, SDD pipeline, thoth-mem) | ✅ Active |
+| `./plugins/fable-profile` | Fable enforcement hooks (auto-backup, turn discipline, operating cadence) | ✅ Active |
+| `./plugins/opencode-doctor-plugin` | Audit and fix plugin | ✅ Active |
+| `./plugin` | Auto-Backup plugin (pre-write backup, post-write verification, rollback) | ✅ Active |
+| `opencode-skill-creator` | Skill creation workflow | ✅ Active |
+| `opencode-subagent-statusline` | Subagent status display | ✅ Active |
+| `@cortexkit/opencode-magic-context@latest` | Historian, dreamer, sidekick | ✅ Active |
+| `opencode-supermemory-max` | Advanced memory system | ✅ Active |
+
+## MCP Servers
+
+| Server | Purpose | Status |
+|--------|---------|--------|
+| `engram` | Persistent memory (cross-session) | ✅ Active |
+| `context7` | Library documentation (Context7) | ✅ Active |
+| `playwright` | Browser automation | ✅ Active |
+| `sequential-thinking` | Structured reasoning | ✅ Active |
+| `notebooklm` | NotebookLM integration | ✅ Active |
+| `github` | GitHub API | ✅ Active |
+| `bitwarden` | Credential management | ✅ Active |
+| `fable-profile` | Fable enforcement (fable_lint, fable_status, get_fable_profile) | ✅ Active |
+
+## Fable Implementation
+
+Fable 5 behavioral upgrades are fully integrated:
+
+### Behavioral (base.md v5.3.0)
+- Task Discipline (ordered task lists, dependency tracking, priority markers)
+- Turn Discipline (no ending on promises, only on results or blockers)
+- Operating Cadence (scale tool calls to complexity: 1 vs 3-5 vs 5-15)
+- Ground Every Claim (audit claims against tool results)
+- Mistake Handling (acknowledge without collapse)
+- Autonomy Calibration (proceed on reversible actions, ask on destructive)
+
+### Mechanical (plugins/fable-profile)
+- 4 hooks: auto-backup, operating cadence tracking, turn discipline check, session start reminder
+- Pre-write backup + post-write verification + rollback on failure
+
+### Verification (tools/fable-mcp)
+- 3 tools: `fable_lint` (7 rules), `fable_status`, `get_fable_profile`
+- HTTP server on port 3456
+
+### On-demand (skills/fable-*)
+- `fable-scope-guard` — Prevent scope creep
+- `fable-delivery-gate` — Acceptance check before delivering
+- `fable-evidence-done` — Verify claims against tool results
+- `fable-review` — Adversarial review with 4 lenses
+- `fable-seed` — Initialize Fable working style
 ## How to audit and maintain
 
 When something changes, the self-audit triggers in `agents/base.md` fire automatically.

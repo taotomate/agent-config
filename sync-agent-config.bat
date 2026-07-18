@@ -1,7 +1,8 @@
 @echo off
 REM sync-agent-config.bat — Synchronize project with agent-config
 
-set AGENT_CONFIG=D:\TaoTomate.Dots\agent-config
+set AGENT_CONFIG=%~dp0
+REM Update this path if agent-config is not in the same directory as this script
 
 echo === agent-config sync ===
 

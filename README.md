@@ -56,7 +56,7 @@ When an agent reads this README, it should configure itself to use the full agen
 
 ### Base path
 
-All references resolve from: `D:\TaoTomate.Dots\agent-config\`
+All references resolve from: ``
 
 ### Required files (always loaded)
 
@@ -93,7 +93,7 @@ All references resolve from: `D:\TaoTomate.Dots\agent-config\`
 ### Full directory tree
 
 ```
-D:\TaoTomate.Dots\agent-config\
+
 ├── AGENTS.md                    # MiMoCode/OpenCode entry point
 ├── CLAUDE.md                    # Claude Code entry point
 ├── GEMINI.md                    # Gemini CLI entry point
@@ -145,7 +145,7 @@ For agents that support configuration files:
 ```yaml
 # opencode.json / .claude/config.yaml / etc.
 agent_config:
-  base_path: "D:\TaoTomate.Dots\agent-config"
+  base_path: "<path-to-your-agent-config-clone>"
   source_of_truth: "agents/base.md"
   skill_registry: ".config/skill-registry.md"
   governance: ".config/GOVERNANCE_PROTOCOL.md"
@@ -156,7 +156,7 @@ agent_config:
 
 ### Verification
 
-Ask the agent: "What is your configuration source?" — it should reference `agents/base.md` from `D:\TaoTomate.Dots\agent-config`.
+Ask the agent: "What is your configuration source?" — it should reference `agents/base.md` from your local clone.
 
 ## Load Map
 

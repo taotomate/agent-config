@@ -1,7 +1,7 @@
 ---
 name: agent-config-readme
 description: Load map, structure guide, and installation instructions for the agent configuration system.
-version: 5.1.0
+version: 5.2.0
 author: TaoTomate
 generator_model: mimo-auto
 inherited_from: custom
@@ -210,18 +210,23 @@ Ask the agent: "What is your configuration source?" — it should reference `age
 
 ## Versioning
 
+Versions read from actual file frontmatters on the `main` branch.
+
 | Component | Version | Last updated |
 |-----------|---------|-------------|
-| agents/base.md | 5.1.0 | 2026-07-04 |
-| agents/claude-code.md | 5.0.0 | 2026-07-04 |
-| agents/gemini-cli.md | 5.1.0 | 2026-07-04 |
-| agents/antigravity.md | 5.1.0 | 2026-07-04 |
-| Entry points (CLAUDE/GEMINI/AGENTS) | 5.0.0 | 2026-07-06 |
+| agents/base.md | 5.3.0 | 2026-07-17 |
+| agents/claude-code.md | 5.3.0 | 2026-07-17 |
+| agents/gemini-cli.md | 5.3.0 | 2026-07-17 |
+| agents/antigravity.md | 5.3.0 | 2026-07-17 |
+| Entry points (CLAUDE/GEMINI/AGENTS) | 5.3.0 | 2026-07-17 |
 | GOVERNANCE_PROTOCOL | 3.0.0 | 2026-07-04 |
-| skill-registry | 2.1.0 | 2026-07-04 |
+| skill-registry | 2.1.0 | 2026-07-06 |
 | shared/VISION.md | 3.2 | 2026-06-03 |
 | shared/routing.md | 2.1 | 2026-06-23 |
 | shared/skill-resolver.md | 1.0.0 | 2026-07-04 |
+| shared/audit-framework.md | 1.0.0 | 2026-07-04 |
+| shared/sdd-phase-common.md | unversioned | 2026-07-04 |
+| shared/skill-style-guide.md | unversioned | 2026-07-04 |
 
 ## How to audit and maintain
 

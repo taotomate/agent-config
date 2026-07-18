@@ -208,7 +208,7 @@ This is self-healing: if the system drifts, the next change triggers detection.
 After adding or removing a skill from `skills/`, regenerate the registry:
 
 ```bash
-python D:\TaoTomate.Dots\agent-config\tools\skill_catalog.py --scan D:\TaoTomate.Dots\agent-config\skills --active-agent-config D:\TaoTomate.Dots\agent-config\skills --update-registry D:\TaoTomate.Dots\agent-config\.config\skill-registry.md
+python tools/skill_catalog.py --scan skills/ --active-agent-config skills/ --update-registry .config/skill-registry.md
 ```
 
 This is mandatory — the registry must stay in sync with the skills directory. Do not skip this step.

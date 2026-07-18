@@ -1,7 +1,7 @@
 ---
 name: agent-config-readme
 description: Load map, structure guide, and installation instructions for the agent configuration system.
-version: 5.2.0
+version: 5.3.0
 author: TaoTomate
 generator_model: mimo-auto
 inherited_from: custom
